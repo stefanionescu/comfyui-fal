@@ -104,6 +104,23 @@ MEDIA_FIELD_TOKENS = {
     "image": ("image", "images", "img", "frame", "cover"),
 }
 
+# Result fields that hold a model's text; the first of them in fal's order is the text output.
+TEXT_FIELD_NAMES = (
+    "output",
+    "text",
+    "transcript",
+    "transcription",
+    "caption",
+    "description",
+    "answer",
+    "response",
+    "results",
+    "content",
+)
+
+# Result fields that hold text that is never the model's answer, such as why it stopped or the language it heard.
+NON_TEXT_FIELD_NAMES = ("finish_reason", "stop_reason", "language", "language_code", "error", "status", "request_id")
+
 # The listing call's expand value, which adds each model's OpenAPI document.
 OPENAPI_EXPAND = "openapi-3.0"
 
@@ -123,8 +140,10 @@ __all__ = [
     "MEDIA_FIELD_TOKENS",
     "MODEL_PAGE_URL",
     "NON_MEDIA_FIELD_TOKENS",
+    "NON_TEXT_FIELD_NAMES",
     "OPENAPI_EXPAND",
     "OUTPUT_FILE_KINDS",
     "OUTPUT_KIND_TOKENS",
     "PLATFORM_SPACING_SECONDS",
+    "TEXT_FIELD_NAMES",
 ]

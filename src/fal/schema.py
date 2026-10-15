@@ -14,10 +14,12 @@ from ..config.models import (
     CATEGORY_KINDS,
     MODEL_PAGE_URL,
     FIELD_HINT_KINDS,
+    TEXT_FIELD_NAMES,
     OUTPUT_FILE_KINDS,
     MEDIA_FIELD_TOKENS,
     OUTPUT_KIND_TOKENS,
     LEFT_OUT_CATEGORIES,
+    NON_TEXT_FIELD_NAMES,
     NON_MEDIA_FIELD_TOKENS,
 )
 
@@ -263,15 +265,21 @@ def _build_output(name: str, raw: Json, components: Mapping[str, Json]) -> Model
 
 
 def _choose_text_field(schema: dict[str, Json], inputs: set[str], components: Mapping[str, Json]) -> str | None:
-    """Choose the result's first text field that does not echo an input, such as text or output."""
+    """Choose the result field that holds the model's text, such as output or text, and never an input's echo.
+
+    Among the string fields in fal's order, a field named like text comes first; else the first that is not a status
+    or a language, since fal lists Moondream's finish_reason ahead of its output.
+    """
+    names: list[str] = []
     for name, raw in _list_properties(schema):
         resolved = _read_property(raw, components)[0]
         options = resolved.get("anyOf")
         branches = options if isinstance(options, list) else []
         types = [resolved.get("type"), *(_find_value(branch, "type") for branch in branches)]
         if "string" in types and name not in inputs:
-            return name
-    return None
+            names.append(name)
+    named = next((name for name in names if name in TEXT_FIELD_NAMES), None)
+    return named or next((name for name in names if name not in NON_TEXT_FIELD_NAMES), None)
 
 
 def _read_model(
