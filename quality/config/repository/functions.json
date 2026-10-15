@@ -77,6 +77,11 @@
                 "path": "src/fal/outputs.py",
                 "names": ["choose_output_text", "decode_inline_file", "list_output_files"],
                 "reason": "The queue operation reads a result with these from the Media and requests milestone."
+            },
+            {
+                "path": "src/fal/options.py",
+                "names": ["build_request_headers"],
+                "reason": "The queue operation in plan 08 calls it; it removes this entry with its first call."
             }
         ]
     },

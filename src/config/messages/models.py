@@ -20,6 +20,12 @@ MODEL_LISTING_UNREADABLE = (
     "The fal model listing sent a reply this extension cannot read. Update the extension, or try again later."
 )
 
+MODEL_REPORT_EMPTY = (
+    "Type a model ID into model, such as alibaba/wan-3.0/reference-to-video. Each model's page on fal.ai shows its ID."
+)
+
+MODEL_REPORT_UNKNOWN = "No fal model has the ID {model}. Copy the model ID from the model's page on fal.ai."
+
 MODEL_UNKNOWN = "The model {model} is not on fal. Copy its endpoint ID from the model's page on fal.ai."
 
 # What each kind of model makes, as the refusals name it.
@@ -41,5 +47,7 @@ __all__ = [
     "MODEL_LEFT_OUT",
     "MODEL_LISTING_BUSY",
     "MODEL_LISTING_UNREADABLE",
+    "MODEL_REPORT_EMPTY",
+    "MODEL_REPORT_UNKNOWN",
     "MODEL_UNKNOWN",
 ]
