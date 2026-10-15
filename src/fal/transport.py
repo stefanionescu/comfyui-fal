@@ -192,7 +192,7 @@ async def send_cancel(url: str, configuration: Configuration) -> bool:
 
 async def create_upload_token(configuration: Configuration) -> Json:
     """Ask fal for a storage token, the one credential an upload carries."""
-    url = URL(STORAGE_URLS["TOKEN"]).with_query({"storage_type": STORAGE_TYPE})
+    url = URL(STORAGE_URLS["AUTHORIZE"]).with_query({"storage_type": STORAGE_TYPE})
     headers = _build_headers(url, configuration.credential, {**_JSON_HEADERS, "Content-Type": "application/json"})
     async with _send_free_request("POST", url, configuration.settings, headers, b"{}") as response:
         await _validate_reply(response)

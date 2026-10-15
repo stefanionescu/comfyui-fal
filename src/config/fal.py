@@ -13,7 +13,7 @@ PLATFORM_URLS = {
 
 # The storage token for uploads, and the upload itself, which takes the token and never the key.
 STORAGE_URLS = {
-    "TOKEN": "https://rest.fal.ai/storage/auth/token",
+    "AUTHORIZE": "https://rest.fal.ai/storage/auth/token",
     "UPLOAD": "https://v3.fal.media/files/upload",
 }
 
