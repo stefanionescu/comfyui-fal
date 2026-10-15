@@ -37,6 +37,21 @@
                 "path": "__init__.py",
                 "names": ["comfy_entrypoint", "Extension.on_load", "Extension.get_node_list"],
                 "reason": "ComfyUI calls these extension hooks itself."
+            },
+            {
+                "path": "src/types/credentials.py",
+                "names": ["Credential.reveal"],
+                "reason": "Revealing the key is an explicit call at the fal boundary, so no caller reads it by accident."
+            },
+            {
+                "path": "src/settings/routes.py",
+                "names": ["ConfigurationRoutes.read_status"],
+                "reason": "aiohttp calls this route handler itself."
+            },
+            {
+                "path": "src/types/parsing.py",
+                "names": ["parse_fields"],
+                "reason": "The paid nodes' arguments check calls it from the Media and requests milestone."
             }
         ]
     },
