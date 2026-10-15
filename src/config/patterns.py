@@ -12,10 +12,11 @@ REQUEST_ID_PATTERN = r"^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]
 # A file field's name ends in _url (one link) or _urls (a list).
 FILE_FIELD_PATTERN = r"_(url|urls)$"
 
-# A field description is shown as plain text: a Markdown link keeps its text, and HTML tags and emphasis marks go.
+# A field description is shown as plain text: a Markdown link keeps its text, HTML tags and emphasis marks go, and a
+# star between two words, as in max_images*num_images, stays.
 DESCRIPTION_PATTERNS = {
     "LINK": r"\[([^\]]*)\]\([^)]*\)",
-    "MARK": r"<[^>]+>|[*`]",
+    "MARK": r"<[^>]+>|`|(?<!\w)\*+(?=\S)|(?<=\S)\*+(?!\w)",
 }
 
 # A failed reply's reason is cleaned before a person sees it. fal's own documentation and dashboard links stay, without
