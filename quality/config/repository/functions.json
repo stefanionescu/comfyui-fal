@@ -52,6 +52,28 @@
                 "path": "src/types/parsing.py",
                 "names": ["parse_fields"],
                 "reason": "The paid nodes' arguments check calls it from the Media and requests milestone."
+            },
+            {
+                "path": "src/fal/failures.py",
+                "names": ["build_failure"],
+                "reason": "The queue operation reads a failed request with it from the Media and requests milestone."
+            },
+            {
+                "path": "src/fal/transport.py",
+                "names": [
+                    "create_upload_token",
+                    "download_output",
+                    "read_status_stream",
+                    "send_cancel",
+                    "send_json",
+                    "send_upload"
+                ],
+                "reason": "Uploads and the queue operation call these from the Media and requests milestone."
+            },
+            {
+                "path": "src/fal/models.py",
+                "names": ["read_fal_model"],
+                "reason": "Model: Info and the paid nodes read models here; 08 removes this entry with QueueOperation."
             }
         ]
     },

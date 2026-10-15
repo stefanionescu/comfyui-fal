@@ -139,6 +139,8 @@ per_rule_ignores.DEP001 = [
   "server",
   "torch"
 ]
+# yarl comes with ComfyUI's aiohttp. Output downloads pass a yarl URL so aiohttp sends a signed address unchanged.
+per_rule_ignores.DEP003 = [ "yarl" ]
 # ComfyUI supplies these libraries; the dev group installs them only for checks and scripts.
 per_rule_ignores.DEP004 = [ "aiohttp", "av", "numpy", "PIL", "tomli", "packaging", "yaml" ]
 known_first_party = [ "quality", "scripts", "src" ]

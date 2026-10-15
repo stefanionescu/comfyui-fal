@@ -30,4 +30,18 @@ class FalError(RuntimeError):
         self.code = code
 
 
-__all__ = ["ErrorCode", "FalError"]
+class RetryLaterError(FalError):
+    """A refusal that names how long to wait before reading again; only free reads wait for it.
+
+    Attributes:
+        seconds: The wait fal asked for in its Retry-After header.
+
+    """
+
+    def __init__(self, code: ErrorCode, message: str, seconds: float) -> None:
+        """Store the message, its category, and the wait."""
+        super().__init__(code, message)
+        self.seconds = seconds
+
+
+__all__ = ["ErrorCode", "FalError", "RetryLaterError"]
