@@ -49,39 +49,19 @@
                 "reason": "aiohttp calls this route handler itself."
             },
             {
-                "path": "src/types/parsing.py",
-                "names": ["parse_fields"],
-                "reason": "The paid nodes' arguments check calls it from the Media and requests milestone."
+                "path": "src/fal/queue/operation.py",
+                "names": ["QueueOperation.validate", "CollectOperation.validate"],
+                "reason": "The run wrapper calls it through the Operation protocol."
             },
             {
-                "path": "src/fal/failures.py",
-                "names": ["build_failure"],
-                "reason": "The queue operation reads a failed request with it from the Media and requests milestone."
+                "path": "src/comfy/execution.py",
+                "names": ["wait_for_request"],
+                "reason": "Called by a node built in a later milestone."
             },
             {
-                "path": "src/fal/transport.py",
-                "names": ["download_output", "read_status_stream", "send_cancel", "send_json"],
-                "reason": "The queue operation calls these from the Media and requests milestone."
-            },
-            {
-                "path": "src/fal/models.py",
-                "names": ["read_fal_model"],
-                "reason": "Model: Info and the paid nodes read models here; 08 removes this entry with QueueOperation."
-            },
-            {
-                "path": "src/comfy/media.py",
-                "names": ["decode_audio", "decode_images", "decode_mesh", "decode_video", "encode_local_file"],
-                "reason": "The paid node encodes its local files and decodes its outputs with these from the Media and requests milestone."
-            },
-            {
-                "path": "src/fal/outputs.py",
-                "names": ["choose_output_text", "decode_inline_file", "list_output_files"],
-                "reason": "The queue operation reads a result with these from the Media and requests milestone."
-            },
-            {
-                "path": "src/fal/options.py",
-                "names": ["build_request_headers"],
-                "reason": "The queue operation in plan 08 calls it; it removes this entry with its first call."
+                "path": "src/fal/queue/records.py",
+                "names": ["list_request_labels"],
+                "reason": "Called by a node built in a later milestone."
             }
         ]
     },

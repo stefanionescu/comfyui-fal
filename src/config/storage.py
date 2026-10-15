@@ -25,9 +25,16 @@ FILE_NAMES = {
     "CREDENTIAL": "credential",
 }
 
-# The largest settings file the extension reads.
+# The largest settings file and request record the extension reads.
 MAX_FILE_BYTES = {
     "SETTINGS": 65_536,
+    "REQUEST": 16_384,
+}
+
+# The request records: one file per request ID, in this folder of the state folder.
+REQUEST_FILES = {
+    "FOLDER": "requests",
+    "SUFFIX": ".json",
 }
 
 __all__ = [
@@ -35,6 +42,7 @@ __all__ = [
     "FILE_NAMES",
     "MAX_FILE_BYTES",
     "PRIVATE_FOLDER_MODE",
+    "REQUEST_FILES",
     "STATE_FOLDER_NAMES",
     "TEMPORARY_PREFIX",
 ]

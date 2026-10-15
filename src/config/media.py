@@ -97,7 +97,7 @@ MESH_FORMATS = {
 }
 
 # The node outputs that hold decoded files, and the kind of file each decodes; masks come from the images.
-OUTPUT_FILE_KINDS = {
+OUTPUT_ID_KINDS = {
     "images": "image",
     "masks": "image",
     "video": "video",
@@ -115,7 +115,7 @@ __all__ = [
     "INLINE_PREFIX",
     "MASK_TENSOR",
     "MESH_FORMATS",
-    "OUTPUT_FILE_KINDS",
+    "OUTPUT_ID_KINDS",
     "OUTPUT_KINDS",
     "WAV",
 ]

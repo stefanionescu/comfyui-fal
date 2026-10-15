@@ -67,6 +67,24 @@ class ConfigurationStore:
                 raise FalError(ErrorCode.CONFIGURATION, SETTINGS_UNREADABLE) from None
             return self._build_snapshot(settings, credential)
 
+    def read_listing_access(self) -> tuple[Settings, Credential | None]:
+        """Read the settings and, when one is set, the key, for the free model reads that need no key.
+
+        A missing key is no refusal here: the listing is free, and the key only raises fal's rate limit.
+        """
+        with self.lock:
+            try:
+                settings = self.read_settings()
+            except (OSError, UnicodeError):
+                raise FalError(ErrorCode.CONFIGURATION, SETTINGS_UNREADABLE) from None
+            try:
+                credential = read_credential(self.directory)
+            except FalError as error:
+                if error.code is not ErrorCode.AUTHENTICATION:
+                    raise
+                credential = None
+        return settings, credential
+
     def read_status(self) -> dict[str, Json]:
         """Describe effective settings and API key presence without returning the key."""
         with self.lock:

@@ -6,6 +6,9 @@ REVISION_PATTERN = r"^[a-f0-9]{64}$"
 # A fal endpoint ID, two to eight slash-separated segments.
 ENDPOINT_ID_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}(?:/[A-Za-z0-9._-]{1,128}){1,7}$"
 
+# A fal request ID; also safe as a record's file name and in a URL path.
+REQUEST_ID_PATTERN = r"^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$"
+
 # A file field's name ends in _url (one link) or _urls (a list).
 FILE_FIELD_PATTERN = r"_(url|urls)$"
 
@@ -34,5 +37,6 @@ __all__ = [
     "ENDPOINT_ID_PATTERN",
     "FILE_FIELD_PATTERN",
     "REASON_PATTERNS",
+    "REQUEST_ID_PATTERN",
     "REVISION_PATTERN",
 ]

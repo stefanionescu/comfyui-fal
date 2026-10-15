@@ -35,8 +35,8 @@ if TYPE_CHECKING:
     from ..types import Json
     from ..types.credentials import Credential
     from ..types.replies import StorageTokenReply
+    from collections.abc import Mapping, AsyncGenerator
     from ..types.settings import Settings, Configuration
-    from collections.abc import Mapping, AsyncIterator, AsyncGenerator
 
 # Every JSON request and reply names its media type.
 _JSON_HEADERS = {"Accept": "application/json"}
@@ -160,7 +160,7 @@ async def send_lookup(url: str, settings: Settings, credential: Credential | Non
     return _parse_reply(content, ErrorCode.TRANSPORT, REPLY_UNREADABLE)
 
 
-async def read_status_stream(url: str, configuration: Configuration, seconds: float) -> AsyncIterator[Json]:
+async def read_status_stream(url: str, configuration: Configuration, seconds: float) -> AsyncGenerator[Json]:
     """Yield each status of fal's status stream until it closes or what is left of the wait passes.
 
     The caller closes the stream once it has the status it needs, which closes the session at once.

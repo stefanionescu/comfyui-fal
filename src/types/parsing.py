@@ -51,20 +51,6 @@ def parse_json(
         raise FalError(ErrorCode.INVALID_INPUT, JSON_SYNTAX) from error
 
 
-def parse_fields(text: str, message: str) -> dict[str, Json] | None:
-    """Parse a JSON object a person typed into a node, or None for empty text.
-
-    JSON that does not parse is refused with parse_json's own message. A value that is not an object is refused with
-    the given message.
-    """
-    if not text.strip():
-        return None
-    value = parse_json(text)
-    if not isinstance(value, dict):
-        raise FalError(ErrorCode.INVALID_INPUT, message)
-    return value
-
-
 def validate_fields(value: Json) -> dict[str, Json]:
     """Require an object at a public JSON boundary."""
     if not isinstance(value, dict):
@@ -72,4 +58,4 @@ def validate_fields(value: Json) -> dict[str, Json]:
     return value
 
 
-__all__ = ["parse_fields", "parse_json", "validate_fields"]
+__all__ = ["parse_json", "validate_fields"]

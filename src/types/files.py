@@ -50,6 +50,8 @@ class EncodedFile:
     digest: str
 
 
+# One field of a request input as the checks build it: a JSON value, one file for a *_url field, or files for *_urls.
+type FieldValue = Json | FalFile | tuple[FalFile, ...]
 type FileItem = str | EncodedFile
 type ArgumentValue = Json | FileItem | tuple[FileItem, ...]
 
