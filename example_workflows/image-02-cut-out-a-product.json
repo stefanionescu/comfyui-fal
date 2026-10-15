@@ -132,7 +132,7 @@
         "Node name for S&R": "MarkdownNote"
       },
       "widgets_values": [
-        "Bria Extract Object cuts out the object **Item** names. It returns two images: the cut-out and a black-and-white mask. **Get Item From List** takes the cut-out, and **Join Image with Alpha** gives it back its transparency from `masks`, so the saved PNG has a clear background."
+        "Bria Extract Object cuts out the object **Item** names. It returns two images: the cut-out and a black-and-white mask. **Get Item From List** takes the cut-out and its mask from `masks`, and **Join Image with Alpha** gives the cut-out back its transparency, so the saved PNG has a clear background."
       ],
       "title": "Note"
     },
@@ -349,7 +349,7 @@
         "previewExposures": [
           {
             "name": "$$canvas-image-preview",
-            "sourceNodeId": "305",
+            "sourceNodeId": "306",
             "sourcePreviewName": "$$canvas-image-preview"
           }
         ]
@@ -990,8 +990,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 0,
-          "lastNodeId": 305,
-          "lastLinkId": 7,
+          "lastNodeId": 306,
+          "lastLinkId": 8,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -1009,7 +1009,7 @@
         "outputNode": {
           "id": -20,
           "bounding": [
-            1770,
+            2150,
             140,
             120,
             20
@@ -1021,7 +1021,7 @@
             "name": "files",
             "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
             "linkIds": [
-              6
+              7
             ],
             "pos": [
               110,
@@ -1033,7 +1033,7 @@
             "name": "item",
             "type": "STRING",
             "linkIds": [
-              7
+              8
             ],
             "pos": [
               110,
@@ -1076,7 +1076,7 @@
               {
                 "name": "file",
                 "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
-                "link": 6,
+                "link": 7,
                 "widget": {
                   "name": "file"
                 }
@@ -1145,7 +1145,7 @@
               {
                 "name": "prompt",
                 "type": "STRING",
-                "link": 7,
+                "link": 8,
                 "widget": {
                   "name": "prompt"
                 }
@@ -1173,7 +1173,7 @@
                 "type": "MASK",
                 "shape": 6,
                 "links": [
-                  4
+                  3
                 ]
               },
               {
@@ -1233,7 +1233,7 @@
                 "name": "*",
                 "type": "*",
                 "links": [
-                  3
+                  4
                 ]
               }
             ],
@@ -1246,28 +1246,73 @@
           },
           {
             "id": 304,
-            "type": "JoinImageWithAlpha",
+            "type": "GetItemFromList",
             "pos": [
               960,
               262
             ],
             "size": [
               340,
-              46
+              58
             ],
             "flags": {},
             "order": 303,
             "mode": 0,
             "inputs": [
               {
+                "name": "list",
+                "type": "*",
+                "link": 3
+              },
+              {
+                "name": "index",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "index"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "*",
+                "type": "*",
+                "links": [
+                  5
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "GetItemFromList"
+            },
+            "widgets_values": [
+              0
+            ]
+          },
+          {
+            "id": 305,
+            "type": "JoinImageWithAlpha",
+            "pos": [
+              1340,
+              140
+            ],
+            "size": [
+              340,
+              46
+            ],
+            "flags": {},
+            "order": 304,
+            "mode": 0,
+            "inputs": [
+              {
                 "name": "image",
                 "type": "IMAGE",
-                "link": 3
+                "link": 4
               },
               {
                 "name": "alpha",
                 "type": "MASK",
-                "link": 4
+                "link": 5
               }
             ],
             "outputs": [
@@ -1275,7 +1320,7 @@
                 "name": "IMAGE",
                 "type": "IMAGE",
                 "links": [
-                  5
+                  6
                 ]
               }
             ],
@@ -1285,10 +1330,10 @@
             "widgets_values": []
           },
           {
-            "id": 305,
+            "id": 306,
             "type": "SaveImage",
             "pos": [
-              1340,
+              1720,
               140
             ],
             "size": [
@@ -1296,13 +1341,13 @@
               58
             ],
             "flags": {},
-            "order": 304,
+            "order": 305,
             "mode": 0,
             "inputs": [
               {
                 "name": "images",
                 "type": "IMAGE",
-                "link": 5
+                "link": 6
               },
               {
                 "name": "filename_prefix",
@@ -1348,30 +1393,38 @@
           },
           {
             "id": 3,
-            "origin_id": 303,
-            "origin_slot": 0,
-            "target_id": 304,
-            "target_slot": 0,
-            "type": "*"
-          },
-          {
-            "id": 4,
             "origin_id": 302,
             "origin_slot": 1,
             "target_id": 304,
-            "target_slot": 1,
+            "target_slot": 0,
             "type": "MASK"
+          },
+          {
+            "id": 4,
+            "origin_id": 303,
+            "origin_slot": 0,
+            "target_id": 305,
+            "target_slot": 0,
+            "type": "*"
           },
           {
             "id": 5,
             "origin_id": 304,
             "origin_slot": 0,
             "target_id": 305,
+            "target_slot": 1,
+            "type": "*"
+          },
+          {
+            "id": 6,
+            "origin_id": 305,
+            "origin_slot": 0,
+            "target_id": 306,
             "target_slot": 0,
             "type": "IMAGE"
           },
           {
-            "id": 6,
+            "id": 7,
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 301,
@@ -1379,7 +1432,7 @@
             "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES"
           },
           {
-            "id": 7,
+            "id": 8,
             "origin_id": -10,
             "origin_slot": 1,
             "target_id": 302,

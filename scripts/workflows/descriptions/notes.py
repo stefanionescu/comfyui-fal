@@ -44,8 +44,8 @@ WORKFLOW_TEXTS = {
         "upscale_description": "Enlarges the product photo and saves it.",
         "cut_out": (
             "Bria Extract Object cuts out the object **Item** names. It returns two images: the cut-out and a "
-            "black-and-white mask. **Get Item From List** takes the cut-out, and **Join Image with Alpha** gives it "
-            "back its transparency from `masks`, so the saved PNG has a clear background."
+            "black-and-white mask. **Get Item From List** takes the cut-out and its mask from `masks`, and **Join "
+            "Image with Alpha** gives the cut-out back its transparency, so the saved PNG has a clear background."
         ),
         "cut_out_description": "Cuts out the product and saves it with a clear background.",
     },
