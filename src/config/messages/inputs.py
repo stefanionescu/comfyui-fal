@@ -21,12 +21,24 @@ FIELD_TOO_MANY = "The {field} field takes at most {maximum} files on {model}, an
 
 FIELD_TWICE = "The {field} field is set in arguments and by File: Add. Remove it from one of them."
 
+FILE_EMPTY = "Connect an image, a mask, audio, a video, or a fal node's files to File: Add, or type a link into file."
+
+FILE_FIELD_EMPTY = "Type the model's file input into field, such as image_url. Model: Info lists a model's inputs."
+
 FILE_FIELD_MISSING = "Connect files through File: Add, which names the field each file goes to."
+
+FILE_FIELD_NAME = (
+    "Type a file input into field: its name ends in _url or _urls, such as image_url or reference_audio_urls."
+)
 
 FILE_FIELD_UNKNOWN = (
     "The model {model} has no field named {field}. Change field on that File: Add; Model: Info lists the fields the "
     "model takes."
 )
+
+FILE_LINK = "Type a public https:// link into file, such as a file on your own storage, or connect the file instead."
+
+FILE_LINK_LENGTH = "Use a link of at most {maximum} characters in file."
 
 FILE_REQUIRED = "Give the model {model} a file for {field}: connect it through File: Add, or put its link in arguments."
 
@@ -45,6 +57,8 @@ PROMPT_UNUSED = (
     "The model {model} takes no prompt. Leave prompt empty, and put the text in arguments under one of its text "
     "fields: {fields}."
 )
+
+SINGLE_VALUE = "Connect one value to {name}, not a list."
 
 # How a refusal names the media a file field takes and the media it was given.
 MEDIA_NAMES = {
@@ -74,8 +88,13 @@ __all__ = [
     "FIELD_REQUIRED",
     "FIELD_TOO_MANY",
     "FIELD_TWICE",
+    "FILE_EMPTY",
+    "FILE_FIELD_EMPTY",
     "FILE_FIELD_MISSING",
+    "FILE_FIELD_NAME",
     "FILE_FIELD_UNKNOWN",
+    "FILE_LINK",
+    "FILE_LINK_LENGTH",
     "FILE_REQUIRED",
     "FILE_SAMPLE",
     "JSON_SHAPES",
@@ -84,4 +103,5 @@ __all__ = [
     "PROMPT_REQUIRED",
     "PROMPT_TWICE",
     "PROMPT_UNUSED",
+    "SINGLE_VALUE",
 ]

@@ -6,6 +6,7 @@ import sys
 import json
 import uuid
 import argparse
+from src.config.namespace import MENUS
 from typing import cast, TYPE_CHECKING
 from scripts.nodes.check import read_schemas
 from scripts.workflows.page.palette import Palette
@@ -13,6 +14,7 @@ from scripts.workflows.page.config import NOTE, GUTTER
 from scripts.workflows.page.graph import Node, NAMESPACE
 from scripts.workflows.descriptions.texts import SHARED_TEXTS
 from scripts.workflows.page.sizes import measure, measure_note
+from scripts.workflows.descriptions.image import IMAGE_WORKFLOWS
 from scripts.workflows.page.layout import place_stacks, place_columns
 from scripts.paths import REPO_ROOT, README_PATH, EXAMPLES_DIR, SUBGRAPHS_DIR
 from scripts.workflows.page.serialize import (
@@ -30,8 +32,7 @@ if TYPE_CHECKING:
     from scripts.workflows.page.graph import Subgraph, Workflow
 
 # Each family's workflows, with the node menu their subgraph blueprints are listed in.
-# The cast keeps the empty tuple from narrowing to no type until the first family is added.
-FAMILIES = cast("tuple[tuple[tuple[Workflow, ...], str], ...]", ())
+FAMILIES = ((IMAGE_WORKFLOWS, MENUS["IMAGE"]),)
 WORKFLOWS = tuple(workflow for workflows, _menu in FAMILIES for workflow in workflows)
 
 

@@ -108,12 +108,20 @@ OUTPUT_ID_KINDS = {
 # A file fal returns inside its reply, when a request sets sync_mode, starts with this.
 INLINE_PREFIX = "data:"
 
+# The only scheme File: Add takes; fal reads public and presigned https links.
+LINK_SCHEME = "https"
+
+# A typical web address limit; longer text is a paste mistake.
+MAX_LINK_CHARACTERS = 2048
+
 __all__ = [
     "DIGEST_CHARACTERS",
     "ENCODED_FORMATS",
     "IMAGE_TENSOR",
     "INLINE_PREFIX",
+    "LINK_SCHEME",
     "MASK_TENSOR",
+    "MAX_LINK_CHARACTERS",
     "MESH_FORMATS",
     "OUTPUT_ID_KINDS",
     "OUTPUT_KINDS",
