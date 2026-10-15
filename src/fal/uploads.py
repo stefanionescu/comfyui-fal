@@ -1,6 +1,7 @@
-"""Upload local files to fal storage once each, and put each link where the request input needs it.
+"""Upload a request's local files to fal storage, and put each link where the request input needs it.
 
-The storage token and the links live in memory for the life of the ComfyUI process; nothing is written to disk.
+Each request uploads its own files; only the storage token is kept in memory between requests, and nothing is written
+to disk.
 """
 
 from __future__ import annotations
@@ -24,40 +25,14 @@ if TYPE_CHECKING:
 
 
 class UploadStore:
-    """Upload local files to fal storage once per content, and remember their links while ComfyUI runs."""
+    """Upload each request's local files to fal storage, reusing one storage token while ComfyUI runs."""
 
-    __slots__ = ("_links", "_lock", "_token")
+    __slots__ = ("_lock", "_token")
 
     def __init__(self) -> None:
-        """Start with no links and no token; one lock guards both, since several runs may upload at once."""
-        self._links: dict[str, str] = {}
+        """Start with no token; a lock guards it, since several runs may upload at once."""
         self._token: StorageTokenReply | None = None
         self._lock = threading.Lock()
-
-    async def _send_item(self, item: Json | FileItem, configuration: Configuration) -> Json:
-        """Upload an encoded file, or pass any other value on unchanged."""
-        if not isinstance(item, EncodedFile):
-            return item
-        with self._lock:
-            link = self._links.get(item.digest)
-        return link if link is not None else await self._send_file(item, configuration)
-
-    async def _send_file(self, file: EncodedFile, configuration: Configuration) -> str:
-        """Upload one file with the storage token, never the key, and keep its link under its digest.
-
-        The lock is not held across the upload; two runs uploading the same new bytes both upload, and both links work.
-        """
-        token = await self._read_token(configuration)
-        reply = await send_upload(file.content, file.content_type, file.file_name, token, configuration.settings)
-        try:
-            link = UploadReply.model_validate(reply).access_url
-        except ValidationError:
-            raise FalError(ErrorCode.TRANSPORT, UPLOAD_UNREADABLE) from None
-        if not link.startswith("https://"):
-            raise FalError(ErrorCode.TRANSPORT, UPLOAD_UNREADABLE)
-        with self._lock:
-            self._links[file.digest] = link
-        return link
 
     async def _read_token(self, configuration: Configuration) -> StorageTokenReply:
         """Reuse the token in memory until it is about to expire, then ask fal for a new one."""
@@ -75,18 +50,39 @@ class UploadStore:
             self._token = token
         return token
 
+    async def _send_file(self, file: EncodedFile, configuration: Configuration) -> str:
+        """Upload one file with the storage token, never the key, and return its link."""
+        token = await self._read_token(configuration)
+        reply = await send_upload(file.content, file.content_type, file.file_name, token, configuration.settings)
+        try:
+            link = UploadReply.model_validate(reply).access_url
+        except ValidationError:
+            raise FalError(ErrorCode.TRANSPORT, UPLOAD_UNREADABLE) from None
+        if not link.startswith("https://"):
+            raise FalError(ErrorCode.TRANSPORT, UPLOAD_UNREADABLE)
+        return link
+
+    async def _send_item(self, item: Json | FileItem, links: dict[str, str], configuration: Configuration) -> Json:
+        """Upload an encoded file once per request, or pass any other value on unchanged."""
+        if not isinstance(item, EncodedFile):
+            return item
+        if item.digest not in links:
+            links[item.digest] = await self._send_file(item, configuration)
+        return links[item.digest]
+
     async def send_files(self, arguments: Mapping[str, ArgumentValue], configuration: Configuration) -> dict[str, Json]:
         """Return the request input with every encoded file replaced by its link and every tuple turned into a list.
 
-        Fields keep their order, and links stay as they are. Each distinct content is uploaded once, one file after
-        another, so a rerun, or the same image in two fields, uploads nothing.
+        Fields keep their order, and links stay as they are. Files are uploaded one after another, and the same file in
+        two fields of one request is uploaded once; the next request uploads its files again.
         """
+        links: dict[str, str] = {}
         request: dict[str, Json] = {}
         for name, value in arguments.items():
             if isinstance(value, tuple):
-                request[name] = [await self._send_item(item, configuration) for item in value]
+                request[name] = [await self._send_item(item, links, configuration) for item in value]
             else:
-                request[name] = await self._send_item(value, configuration)
+                request[name] = await self._send_item(value, links, configuration)
         return request
 
 

@@ -23,7 +23,7 @@
   Generate**, and **3D: Generate** first read the model from fal's public list
   of models, free and once per model while ComfyUI runs. They upload your
   images and masks as PNG, your audio as WAV, and your video as MP4 to fal's
-  storage, once per file, and send `prompt`, the settings in `arguments`, and
+  storage with each request, and send `prompt`, the settings in `arguments`, and
   the files from **File: Add**, under fal's names. They send one request to
   fal's queue, record it as soon as fal accepts it, and wait for fal to say it
   is done. Then they download the output files and return them with each
@@ -152,7 +152,8 @@ and a half.
   request again after a server error and not to send it to a stand-in model.
   Turn off `no_retry` or `disable_fallback` in **Request Options** to let fal
   do either.
-- A file is uploaded once while ComfyUI runs; a rerun sends the same link.
+- Each request uploads its own local files, so a rerun uploads them again. A
+  fal link from another node's `files` is sent as it is, with no upload.
 - Cancelling also cancels the request at fal. A request still waiting in fal's
   queue never runs. One that has started may still finish and be billed.
 

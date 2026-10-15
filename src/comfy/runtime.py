@@ -14,7 +14,7 @@ class Runtime:
 
     Attributes:
         configuration: Private settings and the API key.
-        uploads: Links of files uploaded since ComfyUI started.
+        uploads: The storage token that uploads each request's local files.
         requests: Recorded queued requests.
 
     """
