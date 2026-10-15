@@ -12,6 +12,7 @@ from ..types.models import FalModel, ModelField, ModelOutput
 from ..config.patterns import FILE_FIELD_PATTERN, DESCRIPTION_PATTERNS
 from ..config.models import (
     CATEGORY_KINDS,
+    MODEL_PAGE_URL,
     FIELD_HINT_KINDS,
     OUTPUT_FILE_KINDS,
     MEDIA_FIELD_TOKENS,
@@ -170,6 +171,19 @@ def _read_bounds(schema: dict[str, Json]) -> tuple[float | None, float | None]:
     return bounds[0], bounds[1]
 
 
+def _describe_type(schema: dict[str, Json], components: Mapping[str, Json]) -> str | None:
+    """Write a type as fal's schema does: its type, or a union's types joined by " | " without null; None for none."""
+    kind = schema.get("type")
+    if isinstance(kind, str):
+        return kind
+    options = schema.get("anyOf")
+    branches = (
+        [_read_property(option, components)[0].get("type") for option in options] if isinstance(options, list) else []
+    )
+    names = [str(branch) for branch in branches if isinstance(branch, str) and branch != "null"]
+    return " | ".join(dict.fromkeys(names)) or None
+
+
 def _describe_field(schema: dict[str, Json]) -> str:
     """Read fal's description, or its title, as plain text: links keep their text, and markup goes."""
     text = schema.get("description") or schema.get("title")
@@ -197,6 +211,7 @@ def _build_field(name: str, raw: Json, required: Json, components: Mapping[str, 
     return ModelField(
         name,
         field_input,
+        _describe_type(schema, components),
         is_list,
         media,
         (isinstance(required, list) and name in required) or has_sample,
@@ -244,7 +259,7 @@ def _build_output(name: str, raw: Json, components: Mapping[str, Json]) -> Model
     words = set(name.split("_"))
     named = next((kind for kind, tokens in OUTPUT_KIND_TOKENS.items() if words & set(tokens)), None)
     kind = OUTPUT_FILE_KINDS.get(file_name or "", named) if carries else None
-    return ModelOutput(name, cast("Kind | None", kind), is_list)
+    return ModelOutput(name, _describe_type(schema, components), carries, cast("Kind | None", kind), is_list)
 
 
 def _choose_text_field(schema: dict[str, Json], inputs: set[str], components: Mapping[str, Json]) -> str | None:
@@ -311,6 +326,15 @@ def _find_schemas(document: Json) -> tuple[dict[str, Json], dict[str, Json], dic
     return request, result if isinstance(result, dict) else {}, components if isinstance(components, dict) else {}
 
 
+def _find_docs_url(entry: ListedModel) -> str:
+    """Find the model's page on fal: its API documentation, else its playground, else the model page by its ID."""
+    pages = _find_value(entry.openapi, "info", "x-fal-metadata")
+    links = [_find_value(pages, key) for key in ("documentationUrl", "playgroundUrl")]
+    return next((link for link in links if isinstance(link, str) and link.startswith("https://")), None) or (
+        MODEL_PAGE_URL.format(model_id=entry.endpoint_id)
+    )
+
+
 def parse_model(entry: ListedModel) -> FalModel:
     """Read one listing entry: a trainer, or a model without a request schema, is left out with its reason."""
     metadata = entry.metadata
@@ -323,6 +347,7 @@ def parse_model(entry: ListedModel) -> FalModel:
         left_out=None,
         status=metadata.status if metadata else "unlisted",
         updated_at=metadata.updated_at if metadata else None,
+        docs_url=_find_docs_url(entry),
         fields=(),
         outputs=(),
         text_field=None,

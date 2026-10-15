@@ -17,6 +17,7 @@ class ModelField:
     Attributes:
         name: fal's exact field name.
         input: The kind of value: a choice, a number, a boolean, text, JSON, a link, or a fixed value.
+        schema_type: The type as fal's schema writes it, a union's types joined by " | " without null; None for none.
         is_list: Whether the field takes a JSON array; for a file field, a list of links.
         media: For a file field, the ComfyUI media it takes; None when its name shows no media, and for other fields.
         required: Whether fal requires it, or it is a media file field whose default is a fal sample.
@@ -32,6 +33,7 @@ class ModelField:
 
     name: str
     input: FieldInput
+    schema_type: str | None
     is_list: bool
     media: MediaKind | None
     required: bool
@@ -50,12 +52,16 @@ class ModelOutput:
 
     Attributes:
         name: fal's exact field name.
-        kind: The kind of file the field carries; None for a field that carries no file.
+        schema_type: The type as fal's schema writes it, a union's types joined by " | " without null; None for none.
+        is_file: Whether the field carries a file object, one with a url.
+        kind: The kind of file the field carries; None for a field that carries no file, or a file of no known kind.
         is_list: Whether the field holds a list.
 
     """
 
     name: str
+    schema_type: str | None
+    is_file: bool
     kind: Kind | None
     is_list: bool
 
@@ -73,6 +79,7 @@ class FalModel:
         left_out: Why no node can run it; None when one can.
         status: Active, deprecated, or served without being listed.
         updated_at: When fal last changed the listing entry.
+        docs_url: The model's page on fal: its API documentation, else its playground, else its model page.
         fields: The input fields in fal's order.
         outputs: The result's top-level fields in fal's order.
         text_field: For a text model, the result field Text: Generate reads; None otherwise.
@@ -87,6 +94,7 @@ class FalModel:
     left_out: LeftOutReason | None
     status: ModelStatus
     updated_at: str | None
+    docs_url: str
     fields: tuple[ModelField, ...]
     outputs: tuple[ModelOutput, ...]
     text_field: str | None

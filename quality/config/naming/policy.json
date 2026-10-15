@@ -120,6 +120,14 @@
             "names": ["on_load"],
             "allowed_banned_terms": ["load"],
             "reason": "ComfyUI calls this extension hook by name."
+        },
+        {
+            "path_regexes": ["^src/nodes/model\\.py$"],
+            "languages": ["python"],
+            "categories": ["classes"],
+            "names": ["ModelInfo"],
+            "allowed_banned_terms": ["info"],
+            "reason": "Other extensions call Model: Info by its node ID, FalModelInfo, which ComfyUI builds from this class name."
         }
     ],
     "excluded_paths": [

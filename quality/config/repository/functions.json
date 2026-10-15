@@ -54,11 +54,6 @@
                 "reason": "The run wrapper calls it through the Operation protocol."
             },
             {
-                "path": "src/comfy/execution.py",
-                "names": ["wait_for_request"],
-                "reason": "Called by a node built in a later milestone."
-            },
-            {
                 "path": "src/fal/queue/records.py",
                 "names": ["list_request_labels"],
                 "reason": "Called by a node built in a later milestone."
