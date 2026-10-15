@@ -1,5 +1,8 @@
 import '#styles/interface.css';
+import { message } from '#web/text.ts';
 import { app } from '../../scripts/app.js';
+import { requestLocal } from '#web/http.ts';
+import { openSettings } from '#web/settings/dialog.ts';
 
 app.registerExtension({
   name: 'fal',
@@ -13,4 +16,17 @@ app.registerExtension({
     }
     if (!stylesheets.has(stylesheet.href)) document.head.append(stylesheet);
   },
+  commands: [
+    {
+      id: 'fal.OpenSettings',
+      label: message('settings.menu'),
+      function: openSettings.bind(null, requestLocal),
+    },
+  ],
+  menuCommands: [
+    {
+      path: ['Extensions', 'fal'],
+      commands: ['fal.OpenSettings'],
+    },
+  ],
 });
