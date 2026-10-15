@@ -6,7 +6,7 @@
   "nodes": [
     {
       "id": 1,
-      "type": "ffeef53f-e2c5-54c2-8b79-e3a82411c5a0",
+      "type": "81ae6814-dbe8-5b66-9c33-49f751fef059",
       "pos": [
         0,
         0
@@ -58,7 +58,7 @@
   "definitions": {
     "subgraphs": [
       {
-        "id": "ffeef53f-e2c5-54c2-8b79-e3a82411c5a0",
+        "id": "81ae6814-dbe8-5b66-9c33-49f751fef059",
         "version": 1,
         "state": {
           "lastGroupId": 0,
@@ -89,7 +89,7 @@
         },
         "inputs": [
           {
-            "id": "c6e57a4b-5105-502d-9141-6475546e5bbb",
+            "id": "07d86e51-d6ad-51bc-8012-a8da174347e4",
             "name": "product",
             "type": "STRING",
             "linkIds": [
@@ -103,7 +103,7 @@
         ],
         "outputs": [
           {
-            "id": "dfd0fbd7-cc20-56bb-8360-b6b0a3507b09",
+            "id": "a9df4c32-2ea4-56ad-9546-be95b40f66a1",
             "name": "files",
             "type": "FAL_FILES",
             "linkIds": [
@@ -281,7 +281,7 @@
         "extra": {
           "description": "Draws the product photo."
         },
-        "category": "fal/Image",
+        "category": "fal/Text",
         "description": "Draws the product photo."
       }
     ]

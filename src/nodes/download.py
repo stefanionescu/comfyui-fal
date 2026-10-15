@@ -20,8 +20,8 @@ from ..comfy.execution import send_request, wait_for_request
 from ..config.namespace import MENUS, NODE_PREFIX, SOCKET_TYPES
 
 if TYPE_CHECKING:
-    from ..types.models import MediaKind
     from ..types.queue import RequestRecord
+    from ..types.models import FalModel, MediaKind
 
 _REQUEST_ID = re.compile(REQUEST_ID_PATTERN)
 # Every output of every kind node, in the order the nodes list them; Request: Download fills whichever the request made.
@@ -37,26 +37,25 @@ _OUTPUTS = (
 )
 
 
-async def _read_input_names(record: RequestRecord) -> frozenset[str]:
-    """Read the model's input names from fal's free listing, so the text output skips a prompt the result echoes.
+async def _read_model(record: RequestRecord) -> FalModel | None:
+    """Read the request's model from fal's free listing, so the text output reads the model's own text field.
 
-    A model fal no longer lists, or a failed read, gives no names: collecting the request must not depend on it.
+    A model fal no longer lists, or a failed read, gives None: collecting the request must not depend on it.
     """
     settings, credential = await asyncio.to_thread(get_runtime().configuration.read_listing_access)
     try:
-        model = await read_fal_model(record.endpoint_id, None, settings, credential)
+        return await read_fal_model(record.endpoint_id, None, settings, credential)
     except FalError:
-        return frozenset()
-    return frozenset(field.name for field in model.fields)
+        return None
 
 
 async def _download_request(request_id: str, node_id: str | None) -> io.NodeOutput:
     """Read the request's record, wait for it, and download every file any output can show."""
     requests = get_runtime().requests
     record = await asyncio.to_thread(requests.read, request_id)
-    names = await _read_input_names(record)
+    model = await _read_model(record)
     kinds = cast("frozenset[MediaKind]", frozenset(OUTPUT_ID_KINDS.values()))
-    operation = CollectOperation(record, requests, names, kinds)
+    operation = CollectOperation(record, requests, model, kinds)
     output_ids = tuple(output.id for output in _OUTPUTS)
     return await send_request(operation, partial(build_node_outputs, output_ids=output_ids), node_id)
 

@@ -218,6 +218,34 @@ WORKFLOW_TEXTS = {
             "time, and the node says so when it is gone."
         ),
     },
+    "text-01-transcribe-a-voice-note": {
+        "input": (
+            KEY_STEP + "2. Upload a voice note in **Voice Note**.\n"
+            "3. Press **Run**. The transcript is saved under `text/fal`."
+        ),
+        "transcribe": (
+            "**File: Add** gives ElevenLabs Scribe v2, the text node's default model, the voice note as `audio_url`. "
+            "The pack uploads the note to fal storage first, so the model can read it. Scribe writes down what is "
+            "said and tells speakers apart.\n\n"
+            "**Words** shows the full result: each word with its start and end time and its speaker."
+        ),
+        "transcribe_description": "Transcribes the voice note and saves the transcript.",
+    },
+    "text-02-describe-a-product-photo": {
+        "input": (
+            KEY_STEP + "2. Describe the product in **Product**.\n"
+            "3. Press **Run**. The description is saved under `text/fal`."
+        ),
+        "photo": (
+            "FLUX.2 klein draws the product photo. To describe your own photo, connect **Load Image** to "
+            "**Describe**'s `files` input instead."
+        ),
+        "describe": (
+            "**File: Add** gives Moondream 3 the photo as `image_url`. Moondream looks at it and answers the question "
+            "in `prompt` with a two-sentence description. Change `prompt` to ask anything else about the photo."
+        ),
+        "describe_description": "Describes the photo and saves the text.",
+    },
 }
 
 __all__ = ["WORKFLOW_TEXTS"]

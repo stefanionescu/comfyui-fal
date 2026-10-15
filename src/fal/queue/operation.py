@@ -46,9 +46,9 @@ if TYPE_CHECKING:
     from ..operation import Progress
     from ..uploads import UploadStore
     from .records import RequestStore
-    from ...types.models import MediaKind
     from ...types.queue import QueuedRequest
     from collections.abc import Mapping, Callable
+    from ...types.models import FalModel, MediaKind
     from ...types.files import FieldValue, ArgumentValue
     from ...types.settings import Settings, Configuration
 
@@ -136,18 +136,18 @@ class CollectOperation:
         self,
         record: RequestRecord,
         requests: RequestStore,
-        input_names: frozenset[str],
+        model: FalModel | None,
         download_kinds: frozenset[MediaKind],
         last_status: str | None = None,
     ) -> None:
-        """Keep the record, the store that deletes it, what the result is read for, and the last status seen.
+        """Keep the record, the store that deletes it, the model the text is read by, and the last status seen.
 
         Only a request this run sent starts with a known status, queued, and only that one is cancelled when the run is;
         one Request: Download collects runs on whatever the person does.
         """
         self.record = record
         self.requests = requests
-        self.input_names = input_names
+        self.model = model
         self.download_kinds = download_kinds
         self.is_cancellable = last_status is not None
         self.last_status = last_status
@@ -271,7 +271,7 @@ class CollectOperation:
         if progress is not None:
             await progress(PROGRESS_STEPS["DOWNLOADED"])
         await asyncio.to_thread(self.requests.delete, record.request_id)
-        return RequestResult(record, result, files, choose_output_text(result, self.input_names))
+        return RequestResult(record, result, files, choose_output_text(result, self.model))
 
 
 class QueueOperation:
@@ -354,10 +354,8 @@ class QueueOperation:
             raise asyncio.CancelledError
         if progress is not None:
             await progress(PROGRESS_STEPS["QUEUED"])
-        names = frozenset(field.name for field in model.fields)
-        return await CollectOperation(record, self.requests, names, request.download_kinds, CANCELLABLE_STATUS).send(
-            configuration, progress
-        )
+        collect = CollectOperation(record, self.requests, model, request.download_kinds, CANCELLABLE_STATUS)
+        return await collect.send(configuration, progress)
 
 
 __all__ = ["CollectOperation", "QueueOperation"]

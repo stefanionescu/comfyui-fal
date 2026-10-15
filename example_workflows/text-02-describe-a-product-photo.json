@@ -1,0 +1,810 @@
+{
+  "id": "99e7e5ab-1389-51a2-a462-e3f202140fa1",
+  "revision": 0,
+  "last_node_id": 6,
+  "last_link_id": 2,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [
+        0,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "1. Set your key in **ComfyUI menu → Extensions → fal → fal Settings**.\n2. Describe the product in **Product**.\n3. Press **Run**. The description is saved under `text/fal`."
+      ],
+      "title": "Start Here"
+    },
+    {
+      "id": 2,
+      "type": "MarkdownNote",
+      "pos": [
+        430,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "FLUX.2 klein draws the product photo. To describe your own photo, connect **Load Image** to **Describe**'s `files` input instead."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 3,
+      "type": "MarkdownNote",
+      "pos": [
+        860,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "**File: Add** gives Moondream 3 the photo as `image_url`. Moondream looks at it and answers the question in `prompt` with a two-sentence description. Change `prompt` to ask anything else about the photo."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 4,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        30,
+        288
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "A stainless steel insulated water bottle, 750 ml, matte sage green with a bamboo lid, on a plain white background, soft studio light."
+      ],
+      "title": "Product"
+    },
+    {
+      "id": 5,
+      "type": "81ae6814-dbe8-5b66-9c33-49f751fef059",
+      "pos": [
+        460,
+        288
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "product",
+          "type": "STRING",
+          "link": 1,
+          "widget": {
+            "name": "product"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "$$canvas-image-preview",
+            "sourceNodeId": "102",
+            "sourcePreviewName": "$$canvas-image-preview"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Photo"
+    },
+    {
+      "id": 6,
+      "type": "9fd1c591-d172-5581-a7f2-3f43618322a2",
+      "pos": [
+        890,
+        288
+      ],
+      "size": [
+        340,
+        58
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": 2,
+          "widget": {
+            "name": "files"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "preview_text",
+            "sourceNodeId": "203",
+            "sourcePreviewName": "preview_text"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Describe"
+    }
+  ],
+  "links": [
+    [
+      1,
+      4,
+      0,
+      5,
+      0,
+      "STRING"
+    ],
+    [
+      2,
+      5,
+      0,
+      6,
+      0,
+      "FAL_FILES"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Input",
+      "bounding": [
+        0,
+        178,
+        400,
+        228
+      ],
+      "color": "#55746b",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Photo",
+      "bounding": [
+        430,
+        178,
+        400,
+        228
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Describe",
+      "bounding": [
+        860,
+        178,
+        400,
+        198
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5,
+      "offset": [
+        30,
+        30
+      ]
+    }
+  },
+  "version": 0.4,
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "81ae6814-dbe8-5b66-9c33-49f751fef059",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 102,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Photo",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "07d86e51-d6ad-51bc-8012-a8da174347e4",
+            "name": "product",
+            "type": "STRING",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "a9df4c32-2ea4-56ad-9546-be95b40f66a1",
+            "name": "files",
+            "type": "FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              1010,
+              140
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 101,
+            "type": "FalImageGenerate",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              250
+            ],
+            "flags": {},
+            "order": 100,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": 2,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "shape": 6,
+                "links": [
+                  1
+                ]
+              },
+              {
+                "name": "masks",
+                "type": "MASK",
+                "shape": 6,
+                "links": []
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  3
+                ]
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalImageGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/flux-2/klein/4b",
+              0,
+              "",
+              ""
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 102,
+            "type": "PreviewImage",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              26
+            ],
+            "flags": {},
+            "order": 101,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "link": 1
+              }
+            ],
+            "outputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "PreviewImage"
+            },
+            "widgets_values": []
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 101,
+            "origin_slot": 0,
+            "target_id": 102,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 101,
+            "target_slot": 4,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": 101,
+            "origin_slot": 2,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Draws the product photo."
+        }
+      },
+      {
+        "id": "9fd1c591-d172-5581-a7f2-3f43618322a2",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 203,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Describe",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1390,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "a0f62626-96fe-5b52-88ea-2ced9947c9ef",
+            "name": "files",
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 201,
+            "type": "FalFileAdd",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              82
+            ],
+            "flags": {},
+            "order": 200,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "field",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "field"
+                }
+              },
+              {
+                "name": "file",
+                "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+                "link": 3,
+                "widget": {
+                  "name": "file"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  1
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalFileAdd"
+            },
+            "widgets_values": [
+              "image_url",
+              ""
+            ]
+          },
+          {
+            "id": 202,
+            "type": "FalTextGenerate",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 201,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": 1,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "text",
+                "type": "STRING",
+                "links": [
+                  2
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": []
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalTextGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/moondream3-preview/query",
+              0,
+              "Describe this product for a marketplace listing in two sentences. Mention its color and material.",
+              "{\n  \"reasoning\": false\n}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 203,
+            "type": "SaveText",
+            "pos": [
+              960,
+              140
+            ],
+            "size": [
+              340,
+              170
+            ],
+            "flags": {},
+            "order": 202,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "text",
+                "type": "STRING",
+                "link": 2
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMBO",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "text",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveText"
+            },
+            "widgets_values": [
+              "text/fal/product-description",
+              "txt"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 201,
+            "origin_slot": 0,
+            "target_id": 202,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          },
+          {
+            "id": 2,
+            "origin_id": 202,
+            "origin_slot": 0,
+            "target_id": 203,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 201,
+            "target_slot": 2,
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Describes the photo and saves the text."
+        }
+      }
+    ]
+  }
+}

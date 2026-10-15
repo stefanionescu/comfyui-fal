@@ -1,0 +1,335 @@
+{
+  "id": "a7885115-db17-5510-b036-7a8126fc0667",
+  "revision": 0,
+  "last_node_id": 1,
+  "last_link_id": 0,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "9fd1c591-d172-5581-a7f2-3f43618322a2",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        340,
+        58
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": null,
+          "widget": {
+            "name": "files"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "preview_text",
+            "sourceNodeId": "103",
+            "sourcePreviewName": "preview_text"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Describe"
+    }
+  ],
+  "links": [],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4,
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "9fd1c591-d172-5581-a7f2-3f43618322a2",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 103,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Describe",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1390,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "a0f62626-96fe-5b52-88ea-2ced9947c9ef",
+            "name": "files",
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 101,
+            "type": "FalFileAdd",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              82
+            ],
+            "flags": {},
+            "order": 100,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "field",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "field"
+                }
+              },
+              {
+                "name": "file",
+                "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+                "link": 3,
+                "widget": {
+                  "name": "file"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  1
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalFileAdd"
+            },
+            "widgets_values": [
+              "image_url",
+              ""
+            ]
+          },
+          {
+            "id": 102,
+            "type": "FalTextGenerate",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 101,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": 1,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "text",
+                "type": "STRING",
+                "links": [
+                  2
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": []
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalTextGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/moondream3-preview/query",
+              0,
+              "Describe this product for a marketplace listing in two sentences. Mention its color and material.",
+              "{\n  \"reasoning\": false\n}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 103,
+            "type": "SaveText",
+            "pos": [
+              960,
+              140
+            ],
+            "size": [
+              340,
+              170
+            ],
+            "flags": {},
+            "order": 102,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "text",
+                "type": "STRING",
+                "link": 2
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMBO",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "text",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveText"
+            },
+            "widgets_values": [
+              "text/fal/product-description",
+              "txt"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 101,
+            "origin_slot": 0,
+            "target_id": 102,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          },
+          {
+            "id": 2,
+            "origin_id": 102,
+            "origin_slot": 0,
+            "target_id": 103,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 101,
+            "target_slot": 2,
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Describes the photo and saves the text."
+        },
+        "category": "fal/Text",
+        "description": "Describes the photo and saves the text."
+      }
+    ]
+  }
+}

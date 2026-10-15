@@ -82,6 +82,8 @@ From the folder that holds `ComfyUI` and `python_embeded`, in PowerShell:
 | [Video: Make a Talking Avatar](example_workflows/video-03-make-a-talking-avatar.json)     | A person and a line to say    |
 | [Video: Upscale a Clip](example_workflows/video-04-upscale-a-clip.json)                   | A shot                        |
 | [Video: Recover a Video](example_workflows/video-05-recover-a-video.json)                 | A request left running        |
+| [Text: Transcribe a Voice Note](example_workflows/text-01-transcribe-a-voice-note.json)   | A voice note                  |
+| [Text: Describe a Product Photo](example_workflows/text-02-describe-a-product-photo.json) | A product description         |
 
 They are in **Browse Templates → fal-ai**. Start with each workflow's
 **Start Here** note. Most steps are subgraphs. Media inputs start empty, and
@@ -98,6 +100,7 @@ The nodes are under **fal** in the node menu, and each has a help page.
 | [Image: Generate](web/docs/FalImageGenerate.md)     | Makes, edits, upscales, or cuts out images with any fal image model.                 | Yes  |
 | [Video: Generate](web/docs/FalVideoGenerate.md)     | Makes, extends, upscales, or lip-syncs video with any fal video model.               | Yes  |
 | [Audio: Generate](web/docs/FalAudioGenerate.md)     | Makes voices, music, and sound effects, or changes audio, with any fal audio model.  | Yes  |
+| [Text: Generate](web/docs/FalTextGenerate.md)       | Transcribes speech, or describes images and video, with any fal text model.          | Yes  |
 | [File: Add](web/docs/FalFileAdd.md)                 | Sends a link, image, mask, audio, or video to a model's file input, by its fal name. | No   |
 | [Request: Download](web/docs/FalRequestDownload.md) | Downloads the outputs of a request fal kept running after a run stopped.             | No   |
 | [Request Options](web/docs/FalRequestOptions.md)    | Sets fal's request options, such as queue priority and retries, for paid nodes.      | No   |

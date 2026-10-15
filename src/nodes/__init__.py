@@ -2,6 +2,7 @@
 
 from .files import FileAdd
 from .model import ModelInfo
+from .text import TextGenerate
 from comfy_api.latest import io
 from .audio import AudioGenerate
 from .image import ImageGenerate
@@ -13,6 +14,7 @@ NODE_TYPES: tuple[type[io.ComfyNode], ...] = (
     ImageGenerate,
     VideoGenerate,
     AudioGenerate,
+    TextGenerate,
     FileAdd,
     RequestDownload,
     RequestOptions,

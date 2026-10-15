@@ -17,8 +17,9 @@ from ..config.media import OUTPUT_KINDS, INLINE_PREFIX
 if TYPE_CHECKING:
     from ..types import Json
     from ..types.files import FileKind
+    from ..types.models import FalModel
+    from collections.abc import Mapping
     from ..types.settings import Settings
-    from collections.abc import Mapping, Collection
 
 # The kind of an output file by its exact content type, by the start of it, and by its link's extension.
 _TYPE_KINDS = cast("Mapping[str, FileKind]", OUTPUT_KINDS["TYPES"])
@@ -82,12 +83,23 @@ def list_output_files(result: Mapping[str, Json]) -> tuple[FalFile, ...]:
     return tuple(files)
 
 
-def choose_output_text(result: Mapping[str, Json], input_names: Collection[str]) -> str | None:
-    """Choose the result's text: its first top-level non-empty string that is not an input's echo and not a link."""
+def choose_output_text(result: Mapping[str, Json], model: FalModel | None) -> str | None:
+    """Choose the result's text: a text model's own text field, else the first top-level non-empty string.
+
+    A text model's field is read even when it is empty, so a result that reports its own error has no text. For any
+    other model, a string that echoes one of its inputs, or that is a link, is skipped.
+    """
+    if model is not None and model.text_field is not None:
+        value = result.get(model.text_field)
+        return value if isinstance(value, str) and value.strip() else None
+    input_names: set[str] = {field.name for field in model.fields} if model is not None else set()
     for name, value in result.items():
-        if name in input_names or not isinstance(value, str) or not value.strip():
-            continue
-        if not value.startswith(_LINK_PREFIXES):
+        if (
+            name not in input_names
+            and isinstance(value, str)
+            and value.strip()
+            and not value.startswith(_LINK_PREFIXES)
+        ):
             return value
     return None
 

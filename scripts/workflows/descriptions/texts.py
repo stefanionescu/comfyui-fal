@@ -41,6 +41,10 @@ SHARED_TEXTS = {
     "clip": "Clip",
     "enlarge": "Enlarge",
     "recover": "Recover",
+    "voice_note": "Voice Note",
+    "transcribe": "Transcribe",
+    "words": "Words",
+    "describe": "Describe",
 }
 
 __all__ = ["SHARED_TEXTS"]
