@@ -1,0 +1,1127 @@
+{
+  "id": "cba212f6-c612-5d2c-a07b-182f36a89f41",
+  "revision": 0,
+  "last_node_id": 9,
+  "last_link_id": 4,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [
+        0,
+        60
+      ],
+      "size": [
+        400,
+        98
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "1. Set your key in **ComfyUI menu → Extensions → fal → fal Settings**.\n2. In **Script**, write what the host says after `\"text\":`, inside the quotation marks.\n3. In **Sound**, describe the background sound the same way.\n4. Press **Run**. The voice, the background, and the two mixed are saved under `audio/fal`."
+      ],
+      "title": "Start Here"
+    },
+    {
+      "id": 2,
+      "type": "MarkdownNote",
+      "pos": [
+        430,
+        60
+      ],
+      "size": [
+        400,
+        98
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "ElevenLabs v4 reads the script aloud. **Script** holds its `arguments`, the model's own settings by fal's names: ElevenLabs takes its words as `text`, not `prompt`. Add `\"voice\"` with another ElevenLabs voice name to change the voice; **Model: Info** lists every setting it takes."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 3,
+      "type": "MarkdownNote",
+      "pos": [
+        860,
+        60
+      ],
+      "size": [
+        400,
+        98
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "ElevenLabs sound effects makes eight seconds of background sound from **Sound**. Change `duration_seconds` there for up to 22 seconds."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 4,
+      "type": "MarkdownNote",
+      "pos": [
+        1290,
+        60
+      ],
+      "size": [
+        400,
+        98
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "**Merge Audio**, one of ComfyUI's own nodes, lays the voice over the background and cuts the background to the voice's length."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 5,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        30,
+        298
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "{\n  \"text\": \"Welcome back to the show. Today we have three new sneakers, and the first pair is already selling fast.\"\n}"
+      ],
+      "title": "Script"
+    },
+    {
+      "id": 6,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        30,
+        450
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "{\n  \"text\": \"Busy shopping street ambience, light chatter and footsteps, distant traffic.\",\n  \"duration_seconds\": 8\n}"
+      ],
+      "title": "Sound"
+    },
+    {
+      "id": 7,
+      "type": "50491a43-56d5-5ad3-a5a3-4e4ce56a3b7c",
+      "pos": [
+        460,
+        298
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "script",
+          "type": "STRING",
+          "link": 1,
+          "widget": {
+            "name": "script"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "shape": 6,
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "audioUI",
+            "sourceNodeId": "102",
+            "sourcePreviewName": "audioUI"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Voice"
+    },
+    {
+      "id": 8,
+      "type": "19e54221-ccd9-52e3-8279-742a78544f19",
+      "pos": [
+        890,
+        298
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "sound",
+          "type": "STRING",
+          "link": 2,
+          "widget": {
+            "name": "sound"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "shape": 6,
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "audioUI",
+            "sourceNodeId": "202",
+            "sourcePreviewName": "audioUI"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Ambience"
+    },
+    {
+      "id": 9,
+      "type": "b14bf8f4-a2ca-5bef-a6cd-97989facc6b8",
+      "pos": [
+        1320,
+        298
+      ],
+      "size": [
+        340,
+        46
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "voice",
+          "type": "AUDIO",
+          "link": 3
+        },
+        {
+          "name": "ambience",
+          "type": "AUDIO",
+          "link": 4
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "audioUI",
+            "sourceNodeId": "302",
+            "sourcePreviewName": "audioUI"
+          }
+        ]
+      },
+      "widgets_values": [],
+      "title": "Mix"
+    }
+  ],
+  "links": [
+    [
+      1,
+      5,
+      0,
+      7,
+      0,
+      "STRING"
+    ],
+    [
+      2,
+      6,
+      0,
+      8,
+      0,
+      "STRING"
+    ],
+    [
+      3,
+      7,
+      0,
+      9,
+      0,
+      "AUDIO"
+    ],
+    [
+      4,
+      8,
+      0,
+      9,
+      1,
+      "AUDIO"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Input",
+      "bounding": [
+        0,
+        188,
+        400,
+        380
+      ],
+      "color": "#55746b",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Voice",
+      "bounding": [
+        430,
+        188,
+        400,
+        228
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Ambience",
+      "bounding": [
+        860,
+        188,
+        400,
+        228
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "Mix",
+      "bounding": [
+        1290,
+        188,
+        400,
+        186
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5,
+      "offset": [
+        30,
+        30
+      ]
+    }
+  },
+  "version": 0.4,
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "50491a43-56d5-5ad3-a5a3-4e4ce56a3b7c",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 102,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Voice",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "639445dd-5aeb-5bea-8c11-9a59906c671a",
+            "name": "script",
+            "type": "STRING",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "949bace3-e5dd-52ec-97d6-1f63bbe306af",
+            "name": "audio",
+            "type": "AUDIO",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              1010,
+              140
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 101,
+            "type": "FalAudioGenerate",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 100,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": 2,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "shape": 6,
+                "links": [
+                  1,
+                  3
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": []
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalAudioGenerate"
+            },
+            "widgets_values": [
+              "elevenlabs/tts/eleven-v4",
+              0,
+              "",
+              ""
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 102,
+            "type": "SaveAudioAdvanced",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              136
+            ],
+            "flags": {},
+            "order": 101,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "link": 1
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveAudioAdvanced"
+            },
+            "widgets_values": [
+              "audio/fal/script-voice",
+              "flac"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 101,
+            "origin_slot": 0,
+            "target_id": 102,
+            "target_slot": 0,
+            "type": "AUDIO"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 101,
+            "target_slot": 5,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": 101,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "AUDIO"
+          }
+        ],
+        "extra": {
+          "description": "Reads the script aloud and saves the voice."
+        }
+      },
+      {
+        "id": "19e54221-ccd9-52e3-8279-742a78544f19",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 202,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Ambience",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "d7af9ef6-d07e-5fac-acf8-6e642a51c541",
+            "name": "sound",
+            "type": "STRING",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "1f3ef20e-2dff-54ce-9b32-0e4a9ac5c401",
+            "name": "audio",
+            "type": "AUDIO",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              1010,
+              140
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 201,
+            "type": "FalAudioGenerate",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 200,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": 2,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "shape": 6,
+                "links": [
+                  1,
+                  3
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": []
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalAudioGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/elevenlabs/sound-effects/v2",
+              0,
+              "",
+              ""
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 202,
+            "type": "SaveAudioAdvanced",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              136
+            ],
+            "flags": {},
+            "order": 201,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "link": 1
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveAudioAdvanced"
+            },
+            "widgets_values": [
+              "audio/fal/ambience",
+              "flac"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 201,
+            "origin_slot": 0,
+            "target_id": 202,
+            "target_slot": 0,
+            "type": "AUDIO"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 201,
+            "target_slot": 5,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": 201,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "AUDIO"
+          }
+        ],
+        "extra": {
+          "description": "Makes the background sound and saves it."
+        }
+      },
+      {
+        "id": "b14bf8f4-a2ca-5bef-a6cd-97989facc6b8",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 302,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Mix",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            40
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "4d977538-3fb8-5e25-80e8-e3805624922a",
+            "name": "voice",
+            "type": "AUDIO",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          },
+          {
+            "id": "91bc2aa9-a8c6-5828-9da3-4a5d02d0aeb1",
+            "name": "ambience",
+            "type": "AUDIO",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              110,
+              160
+            ]
+          }
+        ],
+        "outputs": [],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 301,
+            "type": "AudioMerge",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              78
+            ],
+            "flags": {},
+            "order": 300,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "audio1",
+                "type": "AUDIO",
+                "link": 2
+              },
+              {
+                "name": "audio2",
+                "type": "AUDIO",
+                "link": 3
+              },
+              {
+                "name": "merge_method",
+                "type": "COMBO",
+                "link": null,
+                "widget": {
+                  "name": "merge_method"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "AUDIO",
+                "type": "AUDIO",
+                "links": [
+                  1
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "AudioMerge"
+            },
+            "widgets_values": [
+              "add"
+            ]
+          },
+          {
+            "id": 302,
+            "type": "SaveAudioAdvanced",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              136
+            ],
+            "flags": {},
+            "order": 301,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "link": 1
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveAudioAdvanced"
+            },
+            "widgets_values": [
+              "audio/fal/script-mixed",
+              "flac"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 301,
+            "origin_slot": 0,
+            "target_id": 302,
+            "target_slot": 0,
+            "type": "AUDIO"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 301,
+            "target_slot": 0,
+            "type": "AUDIO"
+          },
+          {
+            "id": 3,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 301,
+            "target_slot": 1,
+            "type": "AUDIO"
+          }
+        ],
+        "extra": {
+          "description": "Mixes the voice over the background and saves it."
+        }
+      }
+    ]
+  }
+}

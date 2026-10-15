@@ -69,6 +69,48 @@ WORKFLOW_TEXTS = {
         ),
         "series_description": "Draws the poster series and saves it.",
     },
+    "audio-01-voice-a-script": {
+        "input": (
+            KEY_STEP + '2. In **Script**, write what the host says after `"text":`, inside the quotation marks.\n'
+            "3. In **Sound**, describe the background sound the same way.\n"
+            "4. Press **Run**. The voice, the background, and the two mixed are saved under `audio/fal`."
+        ),
+        "voice": (
+            "ElevenLabs v4 reads the script aloud. **Script** holds its `arguments`, the model's own settings by "
+            'fal\'s names: ElevenLabs takes its words as `text`, not `prompt`. Add `"voice"` with another '
+            "ElevenLabs voice name to change the voice; **Model: Info** lists every setting it takes."
+        ),
+        "voice_description": "Reads the script aloud and saves the voice.",
+        "ambience": (
+            "ElevenLabs sound effects makes eight seconds of background sound from **Sound**. Change "
+            "`duration_seconds` there for up to 22 seconds."
+        ),
+        "ambience_description": "Makes the background sound and saves it.",
+        "mix": (
+            "**Merge Audio**, one of ComfyUI's own nodes, lays the voice over the background and cuts the background "
+            "to the voice's length."
+        ),
+        "mix_description": "Mixes the voice over the background and saves it.",
+    },
+    "audio-02-split-a-song-into-stems": {
+        "input": (
+            KEY_STEP + "2. Describe the music in **Song**: its style, its instruments, and its speed.\n"
+            "3. Press **Run**. The song and one clip per instrument are saved under `audio/fal`."
+        ),
+        "compose": (
+            "Stable Audio 3 small makes a 20-second instrumental from **Song**. `duration` in `arguments`, the "
+            "model's own settings, sets the length. Its `files` output passes the song's fal link, its address on "
+            "fal storage, on to **Split**, so it is not uploaded again."
+        ),
+        "compose_description": "Makes the song and saves it.",
+        "split": (
+            "**File: Add** gives Demucs the song as `audio_url`. Demucs splits it into one clip per instrument (a "
+            "stem): vocals, drums, bass, guitar, piano, and everything else. `audio` holds the six clips, and **Save "
+            "Audio (Advanced)** saves each. To get fewer, put `stems` in `arguments`, such as "
+            '`{"stems": ["vocals", "drums"]}`.'
+        ),
+        "split_description": "Splits the song into one clip per instrument and saves each.",
+    },
 }
 
 __all__ = ["WORKFLOW_TEXTS"]

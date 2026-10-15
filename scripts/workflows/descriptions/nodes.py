@@ -3,6 +3,8 @@
 from src.config.namespace import NODE_PREFIX
 
 IMAGE_GENERATE = f"{NODE_PREFIX}ImageGenerate"
+AUDIO_GENERATE = f"{NODE_PREFIX}AudioGenerate"
 FILE_ADD = f"{NODE_PREFIX}FileAdd"
+ELEVEN_V4 = "elevenlabs/tts/eleven-v4"
 
-__all__ = ["FILE_ADD", "IMAGE_GENERATE"]
+__all__ = ["AUDIO_GENERATE", "ELEVEN_V4", "FILE_ADD", "IMAGE_GENERATE"]

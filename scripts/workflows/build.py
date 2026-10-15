@@ -14,6 +14,7 @@ from scripts.workflows.page.config import NOTE, GUTTER
 from scripts.workflows.page.graph import Node, NAMESPACE
 from scripts.workflows.descriptions.texts import SHARED_TEXTS
 from scripts.workflows.page.sizes import measure, measure_note
+from scripts.workflows.descriptions.audio import AUDIO_WORKFLOWS
 from scripts.workflows.descriptions.image import IMAGE_WORKFLOWS
 from scripts.workflows.page.layout import place_stacks, place_columns
 from scripts.paths import REPO_ROOT, README_PATH, EXAMPLES_DIR, SUBGRAPHS_DIR
@@ -32,7 +33,10 @@ if TYPE_CHECKING:
     from scripts.workflows.page.graph import Subgraph, Workflow
 
 # Each family's workflows, with the node menu their subgraph blueprints are listed in.
-FAMILIES = ((IMAGE_WORKFLOWS, MENUS["IMAGE"]),)
+FAMILIES = (
+    (IMAGE_WORKFLOWS, MENUS["IMAGE"]),
+    (AUDIO_WORKFLOWS, MENUS["AUDIO"]),
+)
 WORKFLOWS = tuple(workflow for workflows, _menu in FAMILIES for workflow in workflows)
 
 

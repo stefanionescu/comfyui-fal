@@ -16,6 +16,14 @@ SHARED_TEXTS = {
     "model": "Model",
     "info": "Info",
     "series": "Series",
+    "script": "Script",
+    "sound": "Sound",
+    "voice": "Voice",
+    "ambience": "Ambience",
+    "mix": "Mix",
+    "song": "Song",
+    "compose": "Compose",
+    "split": "Split",
 }
 
 __all__ = ["SHARED_TEXTS"]

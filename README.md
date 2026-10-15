@@ -70,11 +70,13 @@ From the folder that holds `ComfyUI` and `python_embeded`, in PowerShell:
 
 ## Example workflows
 
-| Workflow                                                                            | Input                 |
-| ----------------------------------------------------------------------------------- | --------------------- |
-| [Image: Design a Host](example_workflows/image-01-design-a-host.json)               | A host description    |
-| [Image: Cut Out a Product](example_workflows/image-02-cut-out-a-product.json)       | A product description |
-| [Image: Make a Poster Series](example_workflows/image-03-make-a-poster-series.json) | A brief               |
+| Workflow                                                                                  | Input                 |
+| ----------------------------------------------------------------------------------------- | --------------------- |
+| [Image: Design a Host](example_workflows/image-01-design-a-host.json)                     | A host description    |
+| [Image: Cut Out a Product](example_workflows/image-02-cut-out-a-product.json)             | A product description |
+| [Image: Make a Poster Series](example_workflows/image-03-make-a-poster-series.json)       | A brief               |
+| [Audio: Voice a Script](example_workflows/audio-01-voice-a-script.json)                   | A script and a sound  |
+| [Audio: Split a Song into Stems](example_workflows/audio-02-split-a-song-into-stems.json) | A song description    |
 
 They are in **Browse Templates → fal-ai**. Start with each workflow's
 **Start Here** note. Most steps are subgraphs. Media inputs start empty, and
@@ -89,6 +91,7 @@ The nodes are under **fal** in the node menu, and each has a help page.
 | Node                                            | What it does                                                                         | Paid |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------ | ---- |
 | [Image: Generate](web/docs/FalImageGenerate.md) | Makes, edits, upscales, or cuts out images with any fal image model.                 | Yes  |
+| [Audio: Generate](web/docs/FalAudioGenerate.md) | Makes voices, music, and sound effects, or changes audio, with any fal audio model.  | Yes  |
 | [File: Add](web/docs/FalFileAdd.md)             | Sends a link, image, mask, audio, or video to a model's file input, by its fal name. | No   |
 | [Model: Info](web/docs/FalModelInfo.md)         | Shows every setting a fal model takes and what it makes, as JSON.                    | No   |
 

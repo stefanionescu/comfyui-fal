@@ -1,0 +1,824 @@
+{
+  "id": "2f3f1051-11ad-57fa-99f1-a97d5d16f2b4",
+  "revision": 0,
+  "last_node_id": 6,
+  "last_link_id": 2,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [
+        0,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "1. Set your key in **ComfyUI menu → Extensions → fal → fal Settings**.\n2. Describe the music in **Song**: its style, its instruments, and its speed.\n3. Press **Run**. The song and one clip per instrument are saved under `audio/fal`."
+      ],
+      "title": "Start Here"
+    },
+    {
+      "id": 2,
+      "type": "MarkdownNote",
+      "pos": [
+        430,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "Stable Audio 3 small makes a 20-second instrumental from **Song**. `duration` in `arguments`, the model's own settings, sets the length. Its `files` output passes the song's fal link, its address on fal storage, on to **Split**, so it is not uploaded again."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 3,
+      "type": "MarkdownNote",
+      "pos": [
+        860,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "**File: Add** gives Demucs the song as `audio_url`. Demucs splits it into one clip per instrument (a stem): vocals, drums, bass, guitar, piano, and everything else. `audio` holds the six clips, and **Save Audio (Advanced)** saves each. To get fewer, put `stems` in `arguments`, such as `{\"stems\": [\"vocals\", \"drums\"]}`."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 4,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        30,
+        288
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "Upbeat funk instrumental with slap bass, tight drums, rhythm guitar, and electric piano, 110 BPM."
+      ],
+      "title": "Song"
+    },
+    {
+      "id": 5,
+      "type": "11638b47-3755-5cd3-85f6-ce08d67c1546",
+      "pos": [
+        460,
+        288
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "song",
+          "type": "STRING",
+          "link": 1,
+          "widget": {
+            "name": "song"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "audioUI",
+            "sourceNodeId": "102",
+            "sourcePreviewName": "audioUI"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Compose"
+    },
+    {
+      "id": 6,
+      "type": "ebbe90fa-d90e-5870-9faa-357112e7826f",
+      "pos": [
+        890,
+        288
+      ],
+      "size": [
+        340,
+        58
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": 2,
+          "widget": {
+            "name": "files"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "audioUI",
+            "sourceNodeId": "203",
+            "sourcePreviewName": "audioUI"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Split"
+    }
+  ],
+  "links": [
+    [
+      1,
+      4,
+      0,
+      5,
+      0,
+      "STRING"
+    ],
+    [
+      2,
+      5,
+      0,
+      6,
+      0,
+      "FAL_FILES"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Input",
+      "bounding": [
+        0,
+        178,
+        400,
+        228
+      ],
+      "color": "#55746b",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Compose",
+      "bounding": [
+        430,
+        178,
+        400,
+        228
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Split",
+      "bounding": [
+        860,
+        178,
+        400,
+        198
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5,
+      "offset": [
+        30,
+        30
+      ]
+    }
+  },
+  "version": 0.4,
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "11638b47-3755-5cd3-85f6-ce08d67c1546",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 102,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Compose",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "0819fb3c-90dc-5281-9d6f-4bc99c64cc1f",
+            "name": "song",
+            "type": "STRING",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "c2eb699a-e0c5-5aa9-bf8b-c4235017e6cc",
+            "name": "files",
+            "type": "FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              1010,
+              140
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 101,
+            "type": "FalAudioGenerate",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 100,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": 2,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "shape": 6,
+                "links": [
+                  1
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  3
+                ]
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalAudioGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/stable-audio-3/small/music/text-to-audio",
+              0,
+              "",
+              "{\n  \"duration\": 20\n}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 102,
+            "type": "SaveAudioAdvanced",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              136
+            ],
+            "flags": {},
+            "order": 101,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "link": 1
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveAudioAdvanced"
+            },
+            "widgets_values": [
+              "audio/fal/song",
+              "flac"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 101,
+            "origin_slot": 0,
+            "target_id": 102,
+            "target_slot": 0,
+            "type": "AUDIO"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 101,
+            "target_slot": 4,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": 101,
+            "origin_slot": 1,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Makes the song and saves it."
+        }
+      },
+      {
+        "id": "ebbe90fa-d90e-5870-9faa-357112e7826f",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 203,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Split",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1390,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "5719777a-2bc3-5ea7-b3d8-768c033d3cfc",
+            "name": "files",
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 201,
+            "type": "FalFileAdd",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              82
+            ],
+            "flags": {},
+            "order": 200,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "field",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "field"
+                }
+              },
+              {
+                "name": "file",
+                "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+                "link": 3,
+                "widget": {
+                  "name": "file"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  1
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalFileAdd"
+            },
+            "widgets_values": [
+              "audio_url",
+              ""
+            ]
+          },
+          {
+            "id": 202,
+            "type": "FalAudioGenerate",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 201,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": 1,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "shape": 6,
+                "links": [
+                  2
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": []
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalAudioGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/demucs",
+              0,
+              "",
+              ""
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 203,
+            "type": "SaveAudioAdvanced",
+            "pos": [
+              960,
+              140
+            ],
+            "size": [
+              340,
+              136
+            ],
+            "flags": {},
+            "order": 202,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "link": 2
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveAudioAdvanced"
+            },
+            "widgets_values": [
+              "audio/fal/song-stem",
+              "flac"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 201,
+            "origin_slot": 0,
+            "target_id": 202,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          },
+          {
+            "id": 2,
+            "origin_id": 202,
+            "origin_slot": 0,
+            "target_id": 203,
+            "target_slot": 0,
+            "type": "AUDIO"
+          },
+          {
+            "id": 3,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 201,
+            "target_slot": 2,
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Splits the song into one clip per instrument and saves each."
+        }
+      }
+    ]
+  }
+}
