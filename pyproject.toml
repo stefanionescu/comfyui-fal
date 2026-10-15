@@ -156,6 +156,7 @@ exclude_dirs = [ ".artifacts", ".git", ".venv", "node_modules", "web" ]
 
 [tool.comfy]
 DisplayName = "fal"
+Icon = "https://raw.githubusercontent.com/stefanionescu/comfyui-fal/main/docs/images/brand/logo.png"
 requires-comfyui = ">=0.37.2"
 
 [tool.importlinter]

@@ -11,8 +11,13 @@ Run any fal model in ComfyUI with your own API key.
 
 - [Requirements](#requirements)
 - [Install](#install)
+- [First run](#first-run)
 - [Example workflows](#example-workflows)
 - [Nodes](#nodes)
+- [Models](#models)
+- [How a run works](#how-a-run-works)
+- [Development](#development)
+- [Common problems](#common-problems)
 - [License](#license)
 
 ## Requirements
@@ -68,6 +73,20 @@ From the folder that holds `ComfyUI` and `python_embeded`, in PowerShell:
 .\python_embeded\python.exe -m pip install -r .\ComfyUI\custom_nodes\fal-ai\requirements.txt
 ```
 
+To update or remove the extension, see the
+[advanced guide](ADVANCED.md#update-or-remove).
+
+## First run
+
+1. Save your fal API key in **ComfyUI menu → Extensions → fal → fal
+   Settings**.
+2. Open **Browse Templates → fal-ai → image-01-design-a-host** and select
+   **Run**.
+3. See your host, then the same host from another angle, in **Design** and
+   **Turn**.
+
+To send the same request again, change `run_number`.
+
 ## Example workflows
 
 | Workflow                                                                                          | Input                         |
@@ -90,11 +109,15 @@ They are in **Browse Templates → fal-ai**. Start with each workflow's
 **Start Here** note. Most steps are subgraphs. Media inputs start empty, and
 most workflows make their own inputs with fal models.
 
+![Screenshot of video-02: the Start Here note and the Cast note sit above two groups. Input holds the Host, Product, Voice, and Scene prompts, and Cast holds the subgraph that draws the host.](docs/images/screenshots/video-02-workflow.png)
+
 After an update, open the examples in a new tab to get the new versions.
 
 ## Nodes
 
 The nodes are under **fal** in the node menu, and each has a help page.
+
+![Node map: one card for each kind of node. Image: Generate, Video: Generate, Audio: Generate, Text: Generate, and 3D: Generate each run any fal model of their kind. File: Add feeds a file input of any paid node, and Request Options feeds any paid node. Request: Download collects requests left running, and Model: Info shows what a model takes. A violet square marks a node that sends a paid request, and a hollow square one that bills nothing.](docs/images/diagrams/node-map.svg)
 
 | Node                                                | What it does                                                                         | Paid |
 | --------------------------------------------------- | ------------------------------------------------------------------------------------ | ---- |
@@ -107,6 +130,73 @@ The nodes are under **fal** in the node menu, and each has a help page.
 | [Request: Download](web/docs/FalRequestDownload.md) | Downloads the outputs of a request fal kept running after a run stopped.             | No   |
 | [Request Options](web/docs/FalRequestOptions.md)    | Sets fal's request options, such as queue priority and retries, for paid nodes.      | No   |
 | [Model: Info](web/docs/FalModelInfo.md)             | Shows every setting a fal model takes and what it makes, as JSON.                    | No   |
+
+## Models
+
+Each paid node runs any fal model of its kind. Type the model ID in `model`:
+the model's name on fal, such as `alibaba/wan-3.0/reference-to-video`.
+[fal's model gallery](https://fal.ai/explore) shows it on each model's page,
+with the settings the model takes.
+
+![Video: Generate on the canvas: the files and options inputs; model set to alibaba/wan-3.0/reference-to-video; run_number; prompt about a host waving at the camera; and arguments holding resolution 480p, duration 5, and aspect_ratio 9:16.](docs/images/screenshots/video-generate-node.png)
+
+Write the model's other settings in `arguments` as JSON, under fal's names,
+such as `{"resolution": "480p", "duration": 5}`. Settings you leave out keep
+fal's defaults. **Model: Info** lists every setting a model takes, for free and
+without a key. Before anything is paid, the node reads the model from fal and
+stops if fal has no such model, the model makes another kind of output, or it
+does not take a setting you sent. The [advanced guide](ADVANCED.md#models)
+lists the checks.
+
+## How a run works
+
+1. The node reads the model from fal and checks your inputs against it, and
+   stops before anything is paid.
+2. The node uploads your images, audio, and video to fal, sends one request
+   with your key, records it, and waits. Nothing is sent twice.
+3. Outputs also carry fal's link to each file, so the next node sends that
+   link instead of uploading the file again. Nodes connected to an empty
+   output are skipped.
+
+The [advanced guide](ADVANCED.md#what-each-node-sends) lists what each node
+sends and returns.
+
+## Development
+
+Development needs mise. Point the checks at ComfyUI in `.mise.local.toml`:
+
+```toml
+[env]
+COMFYUI_PATH = "/path/to/ComfyUI"
+COMFYUI_PYTHON = "/path/to/ComfyUI/.venv/bin/python"
+```
+
+Install the tools, dependencies, and Git hooks, and run the full check:
+
+```shell
+mise trust
+mise run repo:setup
+mise run repo:check
+```
+
+Restart ComfyUI after changing Python. After changing the browser code, run
+`mise run comfy:frontend:build`; after changing a workflow description, run
+`mise run comfy:workflows:build`. The [advanced guide](ADVANCED.md#development)
+lists every task.
+
+## Common problems
+
+| Problem                               | Fix                                                                                                                        |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| No fal nodes in the menu              | Check that the folder is `ComfyUI/custom_nodes/fal-ai`, ComfyUI is 0.37.2 or later, and the console shows no import error. |
+| No **fal** entry under **Extensions** | Check that `web/extension.js` exists in the extension's folder, then reload the window.                                    |
+| The settings cannot be changed        | ComfyUI runs in multi-user mode or is open from another computer. Set `FAL_KEY` where ComfyUI starts instead.              |
+| `pydantic` cannot be imported         | Install `requirements.txt` with the Python that runs ComfyUI, then restart.                                                |
+| Node help is missing                  | Reinstall the whole extension, including `web/docs`.                                                                       |
+| The templates are missing             | Reinstall the whole extension, including `example_workflows`.                                                              |
+| Nodes or menus appear twice           | Keep one `fal-ai` folder in `custom_nodes`; move copies elsewhere.                                                         |
+
+More in the [advanced guide's troubleshooting](ADVANCED.md#troubleshooting).
 
 ## License
 
