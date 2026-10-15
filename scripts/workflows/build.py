@@ -13,6 +13,7 @@ from scripts.workflows.page.palette import Palette
 from scripts.workflows.page.config import NOTE, GUTTER
 from scripts.workflows.page.graph import Node, NAMESPACE
 from scripts.workflows.descriptions.texts import SHARED_TEXTS
+from scripts.workflows.descriptions.mesh import MESH_WORKFLOWS
 from scripts.workflows.descriptions.text import TEXT_WORKFLOWS
 from scripts.workflows.page.sizes import measure, measure_note
 from scripts.workflows.descriptions.audio import AUDIO_WORKFLOWS
@@ -42,6 +43,7 @@ FAMILIES = (
     (VIDEO_WORKFLOWS, MENUS["VIDEO"]),
     (VOICE_WORKFLOWS, MENUS["VIDEO"]),
     (TEXT_WORKFLOWS, MENUS["TEXT"]),
+    (MESH_WORKFLOWS, MENUS["MESH"]),
 )
 WORKFLOWS = tuple(workflow for workflows, _menu in FAMILIES for workflow in workflows)
 

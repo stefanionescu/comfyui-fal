@@ -1,0 +1,751 @@
+{
+  "id": "8aefe1c6-c6b8-5ec9-9578-b0b9fafc6d1f",
+  "revision": 0,
+  "last_node_id": 8,
+  "last_link_id": 4,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [
+        0,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "1. Set your key in **ComfyUI menu → Extensions → fal → fal Settings**.\n2. Describe the product in **Product**.\n3. Press **Run**. The 3D model is saved as a GLB file under `3d/fal`."
+      ],
+      "title": "Start Here"
+    },
+    {
+      "id": 2,
+      "type": "MarkdownNote",
+      "pos": [
+        430,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "FLUX.2 klein draws the product on a plain white background, the kind of image 3D models work best from."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 3,
+      "type": "MarkdownNote",
+      "pos": [
+        860,
+        60
+      ],
+      "size": [
+        1220,
+        88
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "**File: Add** gives TRELLIS 2, the 3D node's default model, the image as `image_url`. TRELLIS 2 turns it into a textured 3D model at its quickest setting, `resolution` 512 in `arguments`. **Save 3D Model** saves it and shows it.\n\nIf you cancel while the request still waits in fal's queue, fal drops it and bills nothing. A request fal has already started may still finish and be billed. Collect it with **Request: Download** and **Save 3D Model**."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 4,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        30,
+        288
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "A ceramic coffee mug with a speckled cream glaze and a wooden handle."
+      ],
+      "title": "Product"
+    },
+    {
+      "id": 5,
+      "type": "f6b0f961-e646-5be1-b64f-aff87c8d51c1",
+      "pos": [
+        460,
+        288
+      ],
+      "size": [
+        340,
+        26
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "product",
+          "type": "*",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "$$canvas-image-preview",
+            "sourceNodeId": "103",
+            "sourcePreviewName": "$$canvas-image-preview"
+          }
+        ]
+      },
+      "widgets_values": [],
+      "title": "Front View"
+    },
+    {
+      "id": 6,
+      "type": "FalFileAdd",
+      "pos": [
+        890,
+        288
+      ],
+      "size": [
+        340,
+        82
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "field",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "field"
+          }
+        },
+        {
+          "name": "file",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": 2,
+          "widget": {
+            "name": "file"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FalFileAdd"
+      },
+      "widgets_values": [
+        "image_url",
+        ""
+      ]
+    },
+    {
+      "id": 7,
+      "type": "FalMeshGenerate",
+      "pos": [
+        1270,
+        288
+      ],
+      "size": [
+        340,
+        230
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "link": 3,
+          "shape": 7
+        },
+        {
+          "name": "options",
+          "type": "FAL_OPTIONS",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "model",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "model"
+          }
+        },
+        {
+          "name": "run_number",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "run_number"
+          }
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "arguments",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "arguments"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model_3d",
+          "type": "FILE_3D",
+          "shape": 6,
+          "links": [
+            4
+          ]
+        },
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": []
+        },
+        {
+          "name": "result",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FalMeshGenerate"
+      },
+      "widgets_values": [
+        "fal-ai/trellis-2",
+        0,
+        "",
+        "{\n  \"resolution\": 512\n}"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 8,
+      "type": "SaveGLB",
+      "pos": [
+        1650,
+        288
+      ],
+      "size": [
+        400,
+        550
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mesh",
+          "type": "MESH,FILE_3D_GLB,FILE_3D_GLTF,FILE_3D_OBJ,FILE_3D_FBX,FILE_3D_STL,FILE_3D_USDZ,FILE_3D_PLY,FILE_3D_SPLAT,FILE_3D_SPZ,FILE_3D_KSPLAT,FILE_3D_SPLAT_ANY,FILE_3D_POINT_CLOUD_ANY,FILE_3D",
+          "link": 4
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "filename_prefix"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveGLB"
+      },
+      "widgets_values": [
+        "3d/fal/product"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      4,
+      0,
+      5,
+      0,
+      "STRING"
+    ],
+    [
+      2,
+      5,
+      0,
+      6,
+      2,
+      "FAL_FILES"
+    ],
+    [
+      3,
+      6,
+      0,
+      7,
+      0,
+      "FAL_FILES"
+    ],
+    [
+      4,
+      7,
+      0,
+      8,
+      0,
+      "FILE_3D"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Input",
+      "bounding": [
+        0,
+        178,
+        400,
+        228
+      ],
+      "color": "#55746b",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Front View",
+      "bounding": [
+        430,
+        178,
+        400,
+        166
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Build",
+      "bounding": [
+        860,
+        178,
+        1220,
+        690
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5,
+      "offset": [
+        30,
+        30
+      ]
+    }
+  },
+  "version": 0.4,
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "f6b0f961-e646-5be1-b64f-aff87c8d51c1",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 103,
+          "lastLinkId": 4,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Front View",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1390,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "4d2ab857-7bc5-5a95-9f13-14575acb060a",
+            "name": "product",
+            "type": "*",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "81c8f785-ec26-5e71-9502-7b8210243f84",
+            "name": "files",
+            "type": "FAL_FILES",
+            "linkIds": [
+              4
+            ],
+            "pos": [
+              1390,
+              140
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 101,
+            "type": "StringFormat",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              128
+            ],
+            "flags": {},
+            "order": 100,
+            "mode": 0,
+            "inputs": [
+              {
+                "label": "a",
+                "name": "values.a",
+                "type": "*",
+                "link": 3,
+                "shape": 7
+              },
+              {
+                "label": "b",
+                "name": "values.b",
+                "type": "*",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "f_string",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "f_string"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  1
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "StringFormat"
+            },
+            "widgets_values": [
+              "Product photo for a 3D model: {a} Three-quarter front view, the whole object in frame, plain white background, soft even light, no shadows."
+            ]
+          },
+          {
+            "id": 102,
+            "type": "FalImageGenerate",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              250
+            ],
+            "flags": {},
+            "order": 101,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": 1,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "shape": 6,
+                "links": [
+                  2
+                ]
+              },
+              {
+                "name": "masks",
+                "type": "MASK",
+                "shape": 6,
+                "links": []
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  4
+                ]
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalImageGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/flux-2/klein/4b",
+              0,
+              "",
+              "{\n  \"image_size\": \"square_hd\"\n}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 103,
+            "type": "PreviewImage",
+            "pos": [
+              960,
+              140
+            ],
+            "size": [
+              340,
+              26
+            ],
+            "flags": {},
+            "order": 102,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "link": 2
+              }
+            ],
+            "outputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "PreviewImage"
+            },
+            "widgets_values": []
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 101,
+            "origin_slot": 0,
+            "target_id": 102,
+            "target_slot": 4,
+            "type": "STRING"
+          },
+          {
+            "id": 2,
+            "origin_id": 102,
+            "origin_slot": 0,
+            "target_id": 103,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 3,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 101,
+            "target_slot": 0,
+            "type": "*"
+          },
+          {
+            "id": 4,
+            "origin_id": 102,
+            "origin_slot": 2,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Draws the product for the 3D model."
+        }
+      }
+    ]
+  }
+}

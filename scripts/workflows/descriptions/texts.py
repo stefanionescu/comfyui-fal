@@ -45,6 +45,8 @@ SHARED_TEXTS = {
     "transcribe": "Transcribe",
     "words": "Words",
     "describe": "Describe",
+    "front": "Front View",
+    "build": "Build",
 }
 
 __all__ = ["SHARED_TEXTS"]

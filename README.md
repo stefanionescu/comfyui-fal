@@ -70,20 +70,21 @@ From the folder that holds `ComfyUI` and `python_embeded`, in PowerShell:
 
 ## Example workflows
 
-| Workflow                                                                                  | Input                         |
-| ----------------------------------------------------------------------------------------- | ----------------------------- |
-| [Image: Design a Host](example_workflows/image-01-design-a-host.json)                     | A host description            |
-| [Image: Cut Out a Product](example_workflows/image-02-cut-out-a-product.json)             | A product description         |
-| [Image: Make a Poster Series](example_workflows/image-03-make-a-poster-series.json)       | A brief                       |
-| [Audio: Voice a Script](example_workflows/audio-01-voice-a-script.json)                   | A script and a sound          |
-| [Audio: Split a Song into Stems](example_workflows/audio-02-split-a-song-into-stems.json) | A song description            |
-| [Video: Animate a Host](example_workflows/video-01-animate-a-host.json)                   | A host and a scene            |
-| [Video: Give a Host a Voice](example_workflows/video-02-give-a-host-a-voice.json)         | A host, a product, and a line |
-| [Video: Make a Talking Avatar](example_workflows/video-03-make-a-talking-avatar.json)     | A person and a line to say    |
-| [Video: Upscale a Clip](example_workflows/video-04-upscale-a-clip.json)                   | A shot                        |
-| [Video: Recover a Video](example_workflows/video-05-recover-a-video.json)                 | A request left running        |
-| [Text: Transcribe a Voice Note](example_workflows/text-01-transcribe-a-voice-note.json)   | A voice note                  |
-| [Text: Describe a Product Photo](example_workflows/text-02-describe-a-product-photo.json) | A product description         |
+| Workflow                                                                                          | Input                         |
+| ------------------------------------------------------------------------------------------------- | ----------------------------- |
+| [Image: Design a Host](example_workflows/image-01-design-a-host.json)                             | A host description            |
+| [Image: Cut Out a Product](example_workflows/image-02-cut-out-a-product.json)                     | A product description         |
+| [Image: Make a Poster Series](example_workflows/image-03-make-a-poster-series.json)               | A brief                       |
+| [Audio: Voice a Script](example_workflows/audio-01-voice-a-script.json)                           | A script and a sound          |
+| [Audio: Split a Song into Stems](example_workflows/audio-02-split-a-song-into-stems.json)         | A song description            |
+| [Video: Animate a Host](example_workflows/video-01-animate-a-host.json)                           | A host and a scene            |
+| [Video: Give a Host a Voice](example_workflows/video-02-give-a-host-a-voice.json)                 | A host, a product, and a line |
+| [Video: Make a Talking Avatar](example_workflows/video-03-make-a-talking-avatar.json)             | A person and a line to say    |
+| [Video: Upscale a Clip](example_workflows/video-04-upscale-a-clip.json)                           | A shot                        |
+| [Video: Recover a Video](example_workflows/video-05-recover-a-video.json)                         | A request left running        |
+| [Text: Transcribe a Voice Note](example_workflows/text-01-transcribe-a-voice-note.json)           | A voice note                  |
+| [Text: Describe a Product Photo](example_workflows/text-02-describe-a-product-photo.json)         | A product description         |
+| [3D: Turn a Product into a 3D Model](example_workflows/3d-01-turn-a-product-into-a-3d-model.json) | A product description         |
 
 They are in **Browse Templates → fal-ai**. Start with each workflow's
 **Start Here** note. Most steps are subgraphs. Media inputs start empty, and
@@ -101,6 +102,7 @@ The nodes are under **fal** in the node menu, and each has a help page.
 | [Video: Generate](web/docs/FalVideoGenerate.md)     | Makes, extends, upscales, or lip-syncs video with any fal video model.               | Yes  |
 | [Audio: Generate](web/docs/FalAudioGenerate.md)     | Makes voices, music, and sound effects, or changes audio, with any fal audio model.  | Yes  |
 | [Text: Generate](web/docs/FalTextGenerate.md)       | Transcribes speech, or describes images and video, with any fal text model.          | Yes  |
+| [3D: Generate](web/docs/FalMeshGenerate.md)         | Makes a 3D model from images or a prompt with any fal 3D model.                      | Yes  |
 | [File: Add](web/docs/FalFileAdd.md)                 | Sends a link, image, mask, audio, or video to a model's file input, by its fal name. | No   |
 | [Request: Download](web/docs/FalRequestDownload.md) | Downloads the outputs of a request fal kept running after a run stopped.             | No   |
 | [Request Options](web/docs/FalRequestOptions.md)    | Sets fal's request options, such as queue priority and retries, for paid nodes.      | No   |

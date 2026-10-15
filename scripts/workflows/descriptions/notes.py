@@ -5,6 +5,10 @@ RECOVER_NOTE = (
     "If you cancel while the request still waits in fal's queue, fal drops it and bills nothing. A request fal has "
     "already started may still finish and be billed. Collect it with **video-05-recover-a-video**."
 )
+MODEL_RECOVER_NOTE = (
+    "If you cancel while the request still waits in fal's queue, fal drops it and bills nothing. A request fal has "
+    "already started may still finish and be billed. Collect it with **Request: Download** and **Save 3D Model**."
+)
 
 WORKFLOW_TEXTS = {
     "image-01-design-a-host": {
@@ -245,6 +249,21 @@ WORKFLOW_TEXTS = {
             "in `prompt` with a two-sentence description. Change `prompt` to ask anything else about the photo."
         ),
         "describe_description": "Describes the photo and saves the text.",
+    },
+    "3d-01-turn-a-product-into-a-3d-model": {
+        "input": (
+            KEY_STEP + "2. Describe the product in **Product**.\n"
+            "3. Press **Run**. The 3D model is saved as a GLB file under `3d/fal`."
+        ),
+        "front": (
+            "FLUX.2 klein draws the product on a plain white background, the kind of image 3D models work best from."
+        ),
+        "front_description": "Draws the product for the 3D model.",
+        "build": (
+            "**File: Add** gives TRELLIS 2, the 3D node's default model, the image as `image_url`. TRELLIS 2 turns it "
+            "into a textured 3D model at its quickest setting, `resolution` 512 in `arguments`. **Save 3D Model** "
+            "saves it and shows it.\n\n" + MODEL_RECOVER_NOTE
+        ),
     },
 }
 
