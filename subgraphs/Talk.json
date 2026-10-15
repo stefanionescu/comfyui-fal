@@ -1,0 +1,437 @@
+{
+  "id": "22b19b8a-3066-5c91-bd74-f56f5df0469e",
+  "revision": 0,
+  "last_node_id": 1,
+  "last_link_id": 0,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "d1295feb-eb37-5fdd-8c87-0414985cee5f",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        340,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "face",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": null,
+          "widget": {
+            "name": "face"
+          }
+        },
+        {
+          "name": "speech",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": null,
+          "widget": {
+            "name": "speech"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "video-preview",
+            "sourceNodeId": "104",
+            "sourcePreviewName": "video-preview"
+          }
+        ]
+      },
+      "widgets_values": [
+        "",
+        ""
+      ],
+      "title": "Talk"
+    }
+  ],
+  "links": [],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4,
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "d1295feb-eb37-5fdd-8c87-0414985cee5f",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 104,
+          "lastLinkId": 5,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Talk",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            40
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1390,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "7e3ae074-a6cb-55ed-8a7a-90a3b84358c8",
+            "name": "face",
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+            "linkIds": [
+              4
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          },
+          {
+            "id": "66f9a47a-dbf0-5db9-a72d-c6b728f2065b",
+            "name": "speech",
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+            "linkIds": [
+              5
+            ],
+            "pos": [
+              110,
+              160
+            ]
+          }
+        ],
+        "outputs": [],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 101,
+            "type": "FalFileAdd",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              82
+            ],
+            "flags": {},
+            "order": 100,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "field",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "field"
+                }
+              },
+              {
+                "name": "file",
+                "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+                "link": 4,
+                "widget": {
+                  "name": "file"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  1
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalFileAdd"
+            },
+            "widgets_values": [
+              "image_url",
+              ""
+            ]
+          },
+          {
+            "id": 102,
+            "type": "FalFileAdd",
+            "pos": [
+              200,
+              286
+            ],
+            "size": [
+              340,
+              82
+            ],
+            "flags": {},
+            "order": 101,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": 1,
+                "shape": 7
+              },
+              {
+                "name": "field",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "field"
+                }
+              },
+              {
+                "name": "file",
+                "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+                "link": 5,
+                "widget": {
+                  "name": "file"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  2
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalFileAdd"
+            },
+            "widgets_values": [
+              "audio_url",
+              ""
+            ]
+          },
+          {
+            "id": 103,
+            "type": "FalVideoGenerate",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 102,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": 2,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "shape": 6,
+                "links": [
+                  3
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": []
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalVideoGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/flashtalk",
+              0,
+              "",
+              ""
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 104,
+            "type": "SaveVideo",
+            "pos": [
+              960,
+              140
+            ],
+            "size": [
+              340,
+              106
+            ],
+            "flags": {},
+            "order": 103,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "link": 3
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              },
+              {
+                "name": "codec",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "codec"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveVideo"
+            },
+            "widgets_values": [
+              "video/fal/talking-avatar",
+              "auto",
+              "auto"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 101,
+            "origin_slot": 0,
+            "target_id": 102,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          },
+          {
+            "id": 2,
+            "origin_id": 102,
+            "origin_slot": 0,
+            "target_id": 103,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          },
+          {
+            "id": 3,
+            "origin_id": 103,
+            "origin_slot": 0,
+            "target_id": 104,
+            "target_slot": 0,
+            "type": "VIDEO"
+          },
+          {
+            "id": 4,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 101,
+            "target_slot": 2,
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES"
+          },
+          {
+            "id": 5,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 102,
+            "target_slot": 2,
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Makes the person speak the line and saves the video."
+        },
+        "category": "fal/Video",
+        "description": "Makes the person speak the line and saves the video."
+      }
+    ]
+  }
+}

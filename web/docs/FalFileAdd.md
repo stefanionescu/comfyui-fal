@@ -29,6 +29,7 @@ uploads local files when it runs.
 
 An input whose name ends in `_urls` takes a list, in order; one that ends in
 `_url` takes exactly one file. Some models read a list by position, such as
-"the person in Image 1". Example: **image-01-design-a-host**.
+"the person in Image 1". Examples: **image-01-design-a-host** and
+**video-02-give-a-host-a-voice**.
 
 [fal file inputs](https://fal.ai/docs/documentation/model-apis/fal-cdn)

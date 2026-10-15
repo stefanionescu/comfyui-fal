@@ -1,0 +1,1829 @@
+{
+  "id": "caaf8ee1-9df2-5446-bf1b-63516eadd7ee",
+  "revision": 0,
+  "last_node_id": 17,
+  "last_link_id": 10,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [
+        0,
+        60
+      ],
+      "size": [
+        780,
+        108
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "1. Set your key in **ComfyUI menu → Extensions → fal → fal Settings**.\n2. Describe the host in **Host** and the product in **Product**.\n3. In **Voice**, write any sentence after `\"text\":`, inside the quotation marks. The host will sound like this clip.\n4. In **Scene**, say what happens, and put the host's words in double quotation marks.\n5. Press **Run**. The voice clip and the video are saved under `audio/fal` and `video/fal`."
+      ],
+      "title": "Start Here"
+    },
+    {
+      "id": 2,
+      "type": "MarkdownNote",
+      "pos": [
+        810,
+        60
+      ],
+      "size": [
+        400,
+        108
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "FLUX.2 klein draws the host in a vertical frame. `files` passes the image's fal link, its address on fal storage, on to **References**."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 3,
+      "type": "MarkdownNote",
+      "pos": [
+        1240,
+        60
+      ],
+      "size": [
+        400,
+        108
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "FLUX.2 klein draws the product on a plain background."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 4,
+      "type": "MarkdownNote",
+      "pos": [
+        1670,
+        60
+      ],
+      "size": [
+        400,
+        108
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "ElevenLabs v4 reads the sentence in **Voice** aloud. **Voice** holds the model's `arguments`, its own settings by fal's names, and ElevenLabs takes its words as `text`. Wan copies the sound of this voice, not its words. To use a recording of a real voice, connect **Load Audio** to the last **File: Add**'s `file` instead."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 5,
+      "type": "MarkdownNote",
+      "pos": [
+        2100,
+        60
+      ],
+      "size": [
+        1160,
+        108
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "Three **File: Add** nodes hand Wan its files. Each names the field, the name Wan gives that input: the host, then the product, go to `reference_image_urls`, and the voice clip to `reference_audio_urls`. **Scene** calls them Image 1, Image 2, and Audio 1, in this order. Chain more **File: Add** nodes for up to 10 images and five clips."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 6,
+      "type": "MarkdownNote",
+      "pos": [
+        3290,
+        60
+      ],
+      "size": [
+        400,
+        108
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "Wan 3.0 films the host with the product, five seconds at 480p in a 9:16 frame, speaking the words in **Scene** in the voice from **Speak**. `reference_audio_urls` is a list on fal, so the one clip goes as a list of one.\n\nIf you cancel while the request still waits in fal's queue, fal drops it and bills nothing. A request fal has already started may still finish and be billed. Collect it with **video-05-recover-a-video**."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 7,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        30,
+        308
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "A cheerful woman in her late twenties with shoulder-length auburn hair and a mustard knit sweater, in a bright studio."
+      ],
+      "title": "Host"
+    },
+    {
+      "id": 8,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        30,
+        460
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "A pair of white canvas sneakers with red laces, on a plain white background, soft studio light."
+      ],
+      "title": "Product"
+    },
+    {
+      "id": 9,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        410,
+        308
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "{\n  \"text\": \"Hi everyone, it's so good to see you. I've got something special to show you today.\"\n}"
+      ],
+      "title": "Voice"
+    },
+    {
+      "id": 10,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        410,
+        460
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "The host from Image 1 holds up the sneakers from Image 2 and says: \"These just dropped, and they are going fast.\" She speaks in the voice from Audio 1. Bright studio, slow push-in."
+      ],
+      "title": "Scene"
+    },
+    {
+      "id": 11,
+      "type": "dd62d87b-d0aa-537a-af9e-7a76d406e548",
+      "pos": [
+        840,
+        308
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "host",
+          "type": "STRING",
+          "link": 1,
+          "widget": {
+            "name": "host"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "$$canvas-image-preview",
+            "sourceNodeId": "102",
+            "sourcePreviewName": "$$canvas-image-preview"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Cast"
+    },
+    {
+      "id": 12,
+      "type": "170f64b8-f79f-5389-a6ac-c3058106af5b",
+      "pos": [
+        1270,
+        308
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "product",
+          "type": "STRING",
+          "link": 2,
+          "widget": {
+            "name": "product"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "$$canvas-image-preview",
+            "sourceNodeId": "202",
+            "sourcePreviewName": "$$canvas-image-preview"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Packshot"
+    },
+    {
+      "id": 13,
+      "type": "69f4bf82-c20a-5a32-a7aa-c8cd42ba2ad9",
+      "pos": [
+        1700,
+        308
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "voice",
+          "type": "STRING",
+          "link": 3,
+          "widget": {
+            "name": "voice"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "audioUI",
+            "sourceNodeId": "302",
+            "sourcePreviewName": "audioUI"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Speak"
+    },
+    {
+      "id": 14,
+      "type": "FalFileAdd",
+      "pos": [
+        2130,
+        308
+      ],
+      "size": [
+        340,
+        82
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "field",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "field"
+          }
+        },
+        {
+          "name": "file",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": 4,
+          "widget": {
+            "name": "file"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FalFileAdd"
+      },
+      "widgets_values": [
+        "reference_image_urls",
+        ""
+      ]
+    },
+    {
+      "id": 15,
+      "type": "FalFileAdd",
+      "pos": [
+        2510,
+        308
+      ],
+      "size": [
+        340,
+        82
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "link": 6,
+          "shape": 7
+        },
+        {
+          "name": "field",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "field"
+          }
+        },
+        {
+          "name": "file",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": 5,
+          "widget": {
+            "name": "file"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FalFileAdd"
+      },
+      "widgets_values": [
+        "reference_image_urls",
+        ""
+      ]
+    },
+    {
+      "id": 16,
+      "type": "FalFileAdd",
+      "pos": [
+        2890,
+        308
+      ],
+      "size": [
+        340,
+        82
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "link": 8,
+          "shape": 7
+        },
+        {
+          "name": "field",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "field"
+          }
+        },
+        {
+          "name": "file",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": 7,
+          "widget": {
+            "name": "file"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FalFileAdd"
+      },
+      "widgets_values": [
+        "reference_audio_urls",
+        ""
+      ]
+    },
+    {
+      "id": 17,
+      "type": "642d10f2-030d-5b8b-ac3e-d53e7fa9fccb",
+      "pos": [
+        3320,
+        308
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "link": 9
+        },
+        {
+          "name": "scene",
+          "type": "STRING",
+          "link": 10,
+          "widget": {
+            "name": "scene"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "video-preview",
+            "sourceNodeId": "402",
+            "sourcePreviewName": "video-preview"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Film"
+    }
+  ],
+  "links": [
+    [
+      1,
+      7,
+      0,
+      11,
+      0,
+      "STRING"
+    ],
+    [
+      2,
+      8,
+      0,
+      12,
+      0,
+      "STRING"
+    ],
+    [
+      3,
+      9,
+      0,
+      13,
+      0,
+      "STRING"
+    ],
+    [
+      4,
+      11,
+      0,
+      14,
+      2,
+      "FAL_FILES"
+    ],
+    [
+      5,
+      12,
+      0,
+      15,
+      2,
+      "FAL_FILES"
+    ],
+    [
+      6,
+      14,
+      0,
+      15,
+      0,
+      "FAL_FILES"
+    ],
+    [
+      7,
+      13,
+      0,
+      16,
+      2,
+      "FAL_FILES"
+    ],
+    [
+      8,
+      15,
+      0,
+      16,
+      0,
+      "FAL_FILES"
+    ],
+    [
+      9,
+      16,
+      0,
+      17,
+      0,
+      "FAL_FILES"
+    ],
+    [
+      10,
+      10,
+      0,
+      17,
+      1,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Input",
+      "bounding": [
+        0,
+        198,
+        780,
+        380
+      ],
+      "color": "#55746b",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Cast",
+      "bounding": [
+        810,
+        198,
+        400,
+        228
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Packshot",
+      "bounding": [
+        1240,
+        198,
+        400,
+        228
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "Speak",
+      "bounding": [
+        1670,
+        198,
+        400,
+        228
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "References",
+      "bounding": [
+        2100,
+        198,
+        1160,
+        222
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 6,
+      "title": "Film",
+      "bounding": [
+        3290,
+        198,
+        400,
+        228
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5,
+      "offset": [
+        30,
+        30
+      ]
+    }
+  },
+  "version": 0.4,
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "dd62d87b-d0aa-537a-af9e-7a76d406e548",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 102,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Cast",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "e4be2e95-3252-5f5e-94b0-80b5ff7227a9",
+            "name": "host",
+            "type": "STRING",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "11efe0a0-7b8e-549d-a3c4-3929b0c33c22",
+            "name": "files",
+            "type": "FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              1010,
+              140
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 101,
+            "type": "FalImageGenerate",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              250
+            ],
+            "flags": {},
+            "order": 100,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": 2,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "shape": 6,
+                "links": [
+                  1
+                ]
+              },
+              {
+                "name": "masks",
+                "type": "MASK",
+                "shape": 6,
+                "links": []
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  3
+                ]
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalImageGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/flux-2/klein/4b",
+              0,
+              "",
+              "{\n  \"image_size\": \"portrait_16_9\"\n}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 102,
+            "type": "PreviewImage",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              26
+            ],
+            "flags": {},
+            "order": 101,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "link": 1
+              }
+            ],
+            "outputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "PreviewImage"
+            },
+            "widgets_values": []
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 101,
+            "origin_slot": 0,
+            "target_id": 102,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 101,
+            "target_slot": 4,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": 101,
+            "origin_slot": 2,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Draws the host."
+        }
+      },
+      {
+        "id": "170f64b8-f79f-5389-a6ac-c3058106af5b",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 202,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Packshot",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "131f7a49-45bd-5648-b31a-aa4ba69bdf7a",
+            "name": "product",
+            "type": "STRING",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "c79bf343-bc39-515c-9fb8-9d2e57328cc3",
+            "name": "files",
+            "type": "FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              1010,
+              140
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 201,
+            "type": "FalImageGenerate",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              250
+            ],
+            "flags": {},
+            "order": 200,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": 2,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "shape": 6,
+                "links": [
+                  1
+                ]
+              },
+              {
+                "name": "masks",
+                "type": "MASK",
+                "shape": 6,
+                "links": []
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  3
+                ]
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalImageGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/flux-2/klein/4b",
+              0,
+              "",
+              "{\n  \"image_size\": \"square_hd\"\n}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 202,
+            "type": "PreviewImage",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              26
+            ],
+            "flags": {},
+            "order": 201,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "link": 1
+              }
+            ],
+            "outputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "PreviewImage"
+            },
+            "widgets_values": []
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 201,
+            "origin_slot": 0,
+            "target_id": 202,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 201,
+            "target_slot": 4,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": 201,
+            "origin_slot": 2,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Draws the product."
+        }
+      },
+      {
+        "id": "69f4bf82-c20a-5a32-a7aa-c8cd42ba2ad9",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 302,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Speak",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "3e3da100-6a03-5812-a528-b3fab72bd4cf",
+            "name": "voice",
+            "type": "STRING",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "d02f1b90-449c-5318-bdeb-5d4a177c8a63",
+            "name": "files",
+            "type": "FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              1010,
+              140
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 301,
+            "type": "FalAudioGenerate",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 300,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": 2,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "shape": 6,
+                "links": [
+                  1
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  3
+                ]
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalAudioGenerate"
+            },
+            "widgets_values": [
+              "elevenlabs/tts/eleven-v4",
+              0,
+              "",
+              ""
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 302,
+            "type": "SaveAudioAdvanced",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              136
+            ],
+            "flags": {},
+            "order": 301,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "link": 1
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "audio",
+                "type": "AUDIO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveAudioAdvanced"
+            },
+            "widgets_values": [
+              "audio/fal/host-voice",
+              "flac"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 301,
+            "origin_slot": 0,
+            "target_id": 302,
+            "target_slot": 0,
+            "type": "AUDIO"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 301,
+            "target_slot": 5,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": 301,
+            "origin_slot": 1,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Reads the voice sample aloud and saves it."
+        }
+      },
+      {
+        "id": "642d10f2-030d-5b8b-ac3e-d53e7fa9fccb",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 402,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Film",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            40
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "3d189b57-47ad-57b0-bd93-6ebff1457ee9",
+            "name": "files",
+            "type": "FAL_FILES",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          },
+          {
+            "id": "1208cbbb-0d2d-58b7-8bb9-434606e4ab5d",
+            "name": "scene",
+            "type": "STRING",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              110,
+              160
+            ]
+          }
+        ],
+        "outputs": [],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 401,
+            "type": "FalVideoGenerate",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 400,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": 2,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": 3,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "shape": 6,
+                "links": [
+                  1
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": []
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalVideoGenerate"
+            },
+            "widgets_values": [
+              "alibaba/wan-3.0/reference-to-video",
+              0,
+              "",
+              "{\n  \"resolution\": \"480p\",\n  \"duration\": 5,\n  \"aspect_ratio\": \"9:16\"\n}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 402,
+            "type": "SaveVideo",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              106
+            ],
+            "flags": {},
+            "order": 401,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "link": 1
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              },
+              {
+                "name": "codec",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "codec"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveVideo"
+            },
+            "widgets_values": [
+              "video/fal/host-voice",
+              "auto",
+              "auto"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 401,
+            "origin_slot": 0,
+            "target_id": 402,
+            "target_slot": 0,
+            "type": "VIDEO"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 401,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          },
+          {
+            "id": 3,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 401,
+            "target_slot": 4,
+            "type": "STRING"
+          }
+        ],
+        "extra": {
+          "description": "Films the host with the product, in the host's voice, and saves the video."
+        }
+      }
+    ]
+  }
+}

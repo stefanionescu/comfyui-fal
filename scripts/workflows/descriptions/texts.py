@@ -24,6 +24,23 @@ SHARED_TEXTS = {
     "song": "Song",
     "compose": "Compose",
     "split": "Split",
+    "scene": "Scene",
+    "portrait": "Portrait",
+    "animate": "Animate",
+    "cast": "Cast",
+    "packshot": "Packshot",
+    "speak": "Speak",
+    "references": "References",
+    "film": "Film",
+    "person": "Person",
+    "line": "Line",
+    "face": "Face",
+    "speech": "Speech",
+    "talk": "Talk",
+    "shot": "Shot",
+    "clip": "Clip",
+    "enlarge": "Enlarge",
+    "recover": "Recover",
 }
 
 __all__ = ["SHARED_TEXTS"]

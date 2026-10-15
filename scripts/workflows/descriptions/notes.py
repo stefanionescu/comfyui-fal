@@ -1,6 +1,10 @@
 """The group notes and subgraph descriptions of the shipped workflows, in plain language."""
 
 KEY_STEP = "1. Set your key in **ComfyUI menu → Extensions → fal → fal Settings**.\n"
+RECOVER_NOTE = (
+    "If you cancel while the request still waits in fal's queue, fal drops it and bills nothing. A request fal has "
+    "already started may still finish and be billed. Collect it with **video-05-recover-a-video**."
+)
 
 WORKFLOW_TEXTS = {
     "image-01-design-a-host": {
@@ -110,6 +114,109 @@ WORKFLOW_TEXTS = {
             '`{"stems": ["vocals", "drums"]}`.'
         ),
         "split_description": "Splits the song into one clip per instrument and saves each.",
+    },
+    "video-01-animate-a-host": {
+        "input": (
+            KEY_STEP + "2. Describe your host in **Host**, and what they do in **Scene**.\n"
+            "3. Press **Run**. The video is saved under `video/fal`."
+        ),
+        "portrait": (
+            "FLUX.2 klein draws the host in a vertical frame. This image becomes the video's first frame. `files` "
+            "passes its fal link, its address on fal storage, on to **Animate**, so nothing is uploaded again."
+        ),
+        "portrait_description": "Draws the host.",
+        "animate": (
+            "**File: Add** gives Wan 3.0 the host as `start_image_url`, the field for the first frame. Wan starts on "
+            "the host and makes a five-second 480p video with sound. `arguments` sets `resolution` and `duration`, "
+            "because Wan's own default is 1080p. Raise `duration` for up to 30 seconds.\n\n" + RECOVER_NOTE
+        ),
+        "animate_description": "Turns the host into a video and saves it.",
+    },
+    "video-02-give-a-host-a-voice": {
+        "input": (
+            KEY_STEP + "2. Describe the host in **Host** and the product in **Product**.\n"
+            '3. In **Voice**, write any sentence after `"text":`, inside the quotation marks. The host will sound '
+            "like this clip.\n"
+            "4. In **Scene**, say what happens, and put the host's words in double quotation marks.\n"
+            "5. Press **Run**. The voice clip and the video are saved under `audio/fal` and `video/fal`."
+        ),
+        "cast": (
+            "FLUX.2 klein draws the host in a vertical frame. `files` passes the image's fal link, its address on "
+            "fal storage, on to **References**."
+        ),
+        "cast_description": "Draws the host.",
+        "packshot": "FLUX.2 klein draws the product on a plain background.",
+        "packshot_description": "Draws the product.",
+        "speak": (
+            "ElevenLabs v4 reads the sentence in **Voice** aloud. **Voice** holds the model's `arguments`, its own "
+            "settings by fal's names, and ElevenLabs takes its words as `text`. Wan copies the sound of this voice, "
+            "not its words. To use a recording of a real voice, connect **Load Audio** to the last **File: Add**'s "
+            "`file` instead."
+        ),
+        "speak_description": "Reads the voice sample aloud and saves it.",
+        "references": (
+            "Three **File: Add** nodes hand Wan its files. Each names the field, the name Wan gives that input: the "
+            "host, then the product, go to `reference_image_urls`, and the voice clip to `reference_audio_urls`. "
+            "**Scene** calls them Image 1, Image 2, and Audio 1, in this order. Chain more **File: Add** nodes for up "
+            "to 10 images and five clips."
+        ),
+        "film": (
+            "Wan 3.0 films the host with the product, five seconds at 480p in a 9:16 frame, speaking the words in "
+            "**Scene** in the voice from **Speak**. `reference_audio_urls` is a list on fal, so the one clip goes as "
+            "a list of one.\n\n" + RECOVER_NOTE
+        ),
+        "film_description": "Films the host with the product, in the host's voice, and saves the video.",
+    },
+    "video-03-make-a-talking-avatar": {
+        "input": (
+            KEY_STEP + "2. Describe the person in **Person**.\n"
+            "3. In **Line**, write what they say.\n"
+            "4. Press **Run**. The voice and the talking video are saved under `audio/fal` and `video/fal`."
+        ),
+        "face": (
+            "FLUX.2 klein draws the person facing the camera. A clear, front-facing face works best for lip sync."
+        ),
+        "face_description": "Draws the person.",
+        "speech": (
+            "MiniMax Speech 2.8 Turbo, the audio node's default model, reads **Line** aloud as its `prompt`. To "
+            "choose another voice, set `voice_setting` in `arguments`, the model's own settings by fal's names; "
+            "**Model: Info** lists them."
+        ),
+        "speech_description": "Reads the line aloud and saves it.",
+        "talk": (
+            "Two **File: Add** nodes give FlashTalk the face as `image_url` and the voice as `audio_url`. FlashTalk "
+            "moves the person's lips and face to match the voice. The video is as long as the voice clip.\n\n"
+            + RECOVER_NOTE
+        ),
+        "talk_description": "Makes the person speak the line and saves the video.",
+    },
+    "video-04-upscale-a-clip": {
+        "input": (
+            KEY_STEP + "2. Describe the shot in **Shot**.\n"
+            "3. Press **Run**. The short clip and its 1080p version are saved under `video/fal`."
+        ),
+        "clip": (
+            "LTX 2.3, the video node's default model, makes a two-second clip: `num_frames` 49 in `arguments`, at 24 "
+            "frames a second. Raise `num_frames` for a longer clip."
+        ),
+        "clip_description": "Makes the short clip and saves it.",
+        "enlarge": (
+            "**File: Add** gives SeedVR the clip as `video_url`. SeedVR enlarges it to 1080p. **Request Options** "
+            "sends this request at low priority: when other requests of yours wait for the same model on fal, they "
+            "go first. It changes nothing else.\n\n" + RECOVER_NOTE
+        ),
+        "enlarge_description": "Enlarges the clip to 1080p and saves it.",
+    },
+    "video-05-recover-a-video": {
+        "recover": (
+            "Use this after you cancel a video that fal had already started, after a run times out, or after "
+            "ComfyUI restarts while a video is being made. fal keeps working on the request, and the pack keeps a "
+            "record of it.\n\n" + KEY_STEP + "2. In `request`, choose the video. Each entry shows its request ID, its "
+            "model, and when it started, in UTC. Press R to list requests started after the page loaded.\n"
+            "3. Press **Run**. The video is saved under `video/fal`.\n\n"
+            "A request leaves the list once its video is saved. fal keeps a finished request's result for a limited "
+            "time, and the node says so when it is gone."
+        ),
     },
 }
 

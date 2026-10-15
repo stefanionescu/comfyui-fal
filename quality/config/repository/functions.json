@@ -52,11 +52,6 @@
                 "path": "src/fal/queue/operation.py",
                 "names": ["QueueOperation.validate", "CollectOperation.validate"],
                 "reason": "The run wrapper calls it through the Operation protocol."
-            },
-            {
-                "path": "src/fal/queue/records.py",
-                "names": ["list_request_labels"],
-                "reason": "Called by a node built in a later milestone."
             }
         ]
     },

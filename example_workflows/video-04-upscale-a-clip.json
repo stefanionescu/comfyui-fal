@@ -1,0 +1,960 @@
+{
+  "id": "4bb20f46-73d0-56aa-8d6d-b39f7997c029",
+  "revision": 0,
+  "last_node_id": 7,
+  "last_link_id": 3,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [
+        0,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "1. Set your key in **ComfyUI menu → Extensions → fal → fal Settings**.\n2. Describe the shot in **Shot**.\n3. Press **Run**. The short clip and its 1080p version are saved under `video/fal`."
+      ],
+      "title": "Start Here"
+    },
+    {
+      "id": 2,
+      "type": "MarkdownNote",
+      "pos": [
+        430,
+        60
+      ],
+      "size": [
+        400,
+        88
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "LTX 2.3, the video node's default model, makes a two-second clip: `num_frames` 49 in `arguments`, at 24 frames a second. Raise `num_frames` for a longer clip."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 3,
+      "type": "MarkdownNote",
+      "pos": [
+        860,
+        60
+      ],
+      "size": [
+        780,
+        88
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "**File: Add** gives SeedVR the clip as `video_url`. SeedVR enlarges it to 1080p. **Request Options** sends this request at low priority: when other requests of yours wait for the same model on fal, they go first. It changes nothing else.\n\nIf you cancel while the request still waits in fal's queue, fal drops it and bills nothing. A request fal has already started may still finish and be billed. Collect it with **video-05-recover-a-video**."
+      ],
+      "title": "Note"
+    },
+    {
+      "id": 4,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        30,
+        288
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "A paper boat drifts across a calm, sunlit pond as a light breeze ripples the water. Low camera following it."
+      ],
+      "title": "Shot"
+    },
+    {
+      "id": 5,
+      "type": "210b1c08-34c6-5364-a7e0-1e9db616783b",
+      "pos": [
+        460,
+        288
+      ],
+      "size": [
+        340,
+        88
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "shot",
+          "type": "STRING",
+          "link": 1,
+          "widget": {
+            "name": "shot"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "files",
+          "type": "FAL_FILES",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "video-preview",
+            "sourceNodeId": "102",
+            "sourcePreviewName": "video-preview"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Clip"
+    },
+    {
+      "id": 6,
+      "type": "FalRequestOptions",
+      "pos": [
+        890,
+        288
+      ],
+      "size": [
+        340,
+        178
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "queue_priority",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "queue_priority"
+          }
+        },
+        {
+          "name": "request_start_timeout",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "request_start_timeout"
+          }
+        },
+        {
+          "name": "no_retry",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "no_retry"
+          }
+        },
+        {
+          "name": "disable_fallback",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "disable_fallback"
+          }
+        },
+        {
+          "name": "expiration_duration_seconds",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "expiration_duration_seconds"
+          }
+        },
+        {
+          "name": "store_io",
+          "type": "BOOLEAN",
+          "link": null,
+          "widget": {
+            "name": "store_io"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "options",
+          "type": "FAL_OPTIONS",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FalRequestOptions"
+      },
+      "widgets_values": [
+        "low",
+        0,
+        true,
+        true,
+        0,
+        true
+      ]
+    },
+    {
+      "id": 7,
+      "type": "2f3c03db-1816-5d53-a349-ab1bdf245e82",
+      "pos": [
+        1270,
+        288
+      ],
+      "size": [
+        340,
+        58
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "files",
+          "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+          "link": 2,
+          "widget": {
+            "name": "files"
+          }
+        },
+        {
+          "name": "options",
+          "type": "FAL_OPTIONS",
+          "link": 3
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "previewExposures": [
+          {
+            "name": "video-preview",
+            "sourceNodeId": "203",
+            "sourcePreviewName": "video-preview"
+          }
+        ]
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Enlarge"
+    }
+  ],
+  "links": [
+    [
+      1,
+      4,
+      0,
+      5,
+      0,
+      "STRING"
+    ],
+    [
+      2,
+      5,
+      0,
+      7,
+      0,
+      "FAL_FILES"
+    ],
+    [
+      3,
+      6,
+      0,
+      7,
+      1,
+      "FAL_OPTIONS"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Input",
+      "bounding": [
+        0,
+        178,
+        400,
+        228
+      ],
+      "color": "#55746b",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Clip",
+      "bounding": [
+        430,
+        178,
+        400,
+        228
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Enlarge",
+      "bounding": [
+        860,
+        178,
+        780,
+        318
+      ],
+      "color": "#68688c",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5,
+      "offset": [
+        30,
+        30
+      ]
+    }
+  },
+  "version": 0.4,
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "210b1c08-34c6-5364-a7e0-1e9db616783b",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 102,
+          "lastLinkId": 3,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Clip",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            20
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1010,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "f56c7af7-918d-5ba9-a835-ed287d3872f0",
+            "name": "shot",
+            "type": "STRING",
+            "linkIds": [
+              2
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "e49698e8-da59-5036-8b37-47a17b3999d2",
+            "name": "files",
+            "type": "FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              1010,
+              140
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 101,
+            "type": "FalVideoGenerate",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 100,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": 2,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "shape": 6,
+                "links": [
+                  1
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  3
+                ]
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalVideoGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/ltx-2.3-22b/distilled/text-to-video",
+              0,
+              "",
+              "{\n  \"num_frames\": 49\n}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 102,
+            "type": "SaveVideo",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              106
+            ],
+            "flags": {},
+            "order": 101,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "link": 1
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              },
+              {
+                "name": "codec",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "codec"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveVideo"
+            },
+            "widgets_values": [
+              "video/fal/clip",
+              "auto",
+              "auto"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 101,
+            "origin_slot": 0,
+            "target_id": 102,
+            "target_slot": 0,
+            "type": "VIDEO"
+          },
+          {
+            "id": 2,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 101,
+            "target_slot": 4,
+            "type": "STRING"
+          },
+          {
+            "id": 3,
+            "origin_id": 101,
+            "origin_slot": 1,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          }
+        ],
+        "extra": {
+          "description": "Makes the short clip and saves it."
+        }
+      },
+      {
+        "id": "2f3c03db-1816-5d53-a349-ab1bdf245e82",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 203,
+          "lastLinkId": 4,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Enlarge",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -10,
+            140,
+            120,
+            40
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1390,
+            140,
+            120,
+            20
+          ]
+        },
+        "inputs": [
+          {
+            "id": "19732d2c-8824-57a7-b092-54356b83c34f",
+            "name": "files",
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+            "linkIds": [
+              3
+            ],
+            "pos": [
+              110,
+              140
+            ]
+          },
+          {
+            "id": "558ad019-46dd-5ade-8799-1354d0731d3d",
+            "name": "options",
+            "type": "FAL_OPTIONS",
+            "linkIds": [
+              4
+            ],
+            "pos": [
+              110,
+              160
+            ]
+          }
+        ],
+        "outputs": [],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 201,
+            "type": "FalFileAdd",
+            "pos": [
+              200,
+              140
+            ],
+            "size": [
+              340,
+              82
+            ],
+            "flags": {},
+            "order": 200,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": null,
+                "shape": 7
+              },
+              {
+                "name": "field",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "field"
+                }
+              },
+              {
+                "name": "file",
+                "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES",
+                "link": 3,
+                "widget": {
+                  "name": "file"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": [
+                  1
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalFileAdd"
+            },
+            "widgets_values": [
+              "video_url",
+              ""
+            ]
+          },
+          {
+            "id": 202,
+            "type": "FalVideoGenerate",
+            "pos": [
+              580,
+              140
+            ],
+            "size": [
+              340,
+              230
+            ],
+            "flags": {},
+            "order": 201,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "link": 1,
+                "shape": 7
+              },
+              {
+                "name": "options",
+                "type": "FAL_OPTIONS",
+                "link": 4,
+                "shape": 7
+              },
+              {
+                "name": "model",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "model"
+                }
+              },
+              {
+                "name": "run_number",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "run_number"
+                }
+              },
+              {
+                "name": "prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "prompt"
+                }
+              },
+              {
+                "name": "arguments",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "arguments"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "shape": 6,
+                "links": [
+                  2
+                ]
+              },
+              {
+                "name": "files",
+                "type": "FAL_FILES",
+                "links": []
+              },
+              {
+                "name": "result",
+                "type": "STRING",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "FalVideoGenerate"
+            },
+            "widgets_values": [
+              "fal-ai/seedvr/upscale/video",
+              0,
+              "",
+              "{\n  \"upscale_mode\": \"target\",\n  \"target_resolution\": \"1080p\"\n}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 203,
+            "type": "SaveVideo",
+            "pos": [
+              960,
+              140
+            ],
+            "size": [
+              340,
+              106
+            ],
+            "flags": {},
+            "order": 202,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "link": 2
+              },
+              {
+                "name": "filename_prefix",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "filename_prefix"
+                }
+              },
+              {
+                "name": "format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "format"
+                }
+              },
+              {
+                "name": "codec",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "codec"
+                }
+              }
+            ],
+            "outputs": [
+              {
+                "name": "video",
+                "type": "VIDEO",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SaveVideo"
+            },
+            "widgets_values": [
+              "video/fal/clip-1080p",
+              "auto",
+              "auto"
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 1,
+            "origin_id": 201,
+            "origin_slot": 0,
+            "target_id": 202,
+            "target_slot": 0,
+            "type": "FAL_FILES"
+          },
+          {
+            "id": 2,
+            "origin_id": 202,
+            "origin_slot": 0,
+            "target_id": 203,
+            "target_slot": 0,
+            "type": "VIDEO"
+          },
+          {
+            "id": 3,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 201,
+            "target_slot": 2,
+            "type": "STRING,IMAGE,MASK,AUDIO,VIDEO,FAL_FILES"
+          },
+          {
+            "id": 4,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 202,
+            "target_slot": 1,
+            "type": "FAL_OPTIONS"
+          }
+        ],
+        "extra": {
+          "description": "Enlarges the clip to 1080p and saves it."
+        }
+      }
+    ]
+  }
+}
