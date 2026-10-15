@@ -60,20 +60,23 @@
             },
             {
                 "path": "src/fal/transport.py",
-                "names": [
-                    "create_upload_token",
-                    "download_output",
-                    "read_status_stream",
-                    "send_cancel",
-                    "send_json",
-                    "send_upload"
-                ],
-                "reason": "Uploads and the queue operation call these from the Media and requests milestone."
+                "names": ["download_output", "read_status_stream", "send_cancel", "send_json"],
+                "reason": "The queue operation calls these from the Media and requests milestone."
             },
             {
                 "path": "src/fal/models.py",
                 "names": ["read_fal_model"],
                 "reason": "Model: Info and the paid nodes read models here; 08 removes this entry with QueueOperation."
+            },
+            {
+                "path": "src/comfy/media.py",
+                "names": ["decode_audio", "decode_images", "decode_mesh", "decode_video", "encode_local_file"],
+                "reason": "The paid node encodes its local files and decodes its outputs with these from the Media and requests milestone."
+            },
+            {
+                "path": "src/fal/outputs.py",
+                "names": ["choose_output_text", "decode_inline_file", "list_output_files"],
+                "reason": "The queue operation reads a result with these from the Media and requests milestone."
             }
         ]
     },
