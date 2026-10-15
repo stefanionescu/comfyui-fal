@@ -54,7 +54,7 @@ async def _download_request(request_id: str, node_id: str | None) -> io.NodeOutp
     requests = get_runtime().requests
     record = await asyncio.to_thread(requests.read, request_id)
     model = await _read_model(record)
-    kinds = cast("frozenset[MediaKind]", frozenset(OUTPUT_ID_KINDS.values()))
+    kinds: frozenset[MediaKind] = cast("frozenset[MediaKind]", frozenset(OUTPUT_ID_KINDS.values()))
     operation = CollectOperation(record, requests, model, kinds)
     output_ids = tuple(output.id for output in _OUTPUTS)
     return await send_request(operation, partial(build_node_outputs, output_ids=output_ids), node_id)
