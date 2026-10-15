@@ -402,22 +402,24 @@ checks all four.
 The README's and this guide's images are in `docs/images/`:
 
 - `brand/banner.svg`, `diagrams/node-map.svg`, and the four `badges/*.svg`
-  files are SVG files; edit them as text. They use fal's purple `#5718C0` as a
-  flat field, deep purple `#2B0B6A` for cards and nodes, cyan `#99EDFF` for
-  titles and wires, lime `#ADFF00` for ports and paid markers, and lilac
-  `#DAD4FF` and `#A284FF` for other text, with no gradients. Text uses
-  Helvetica Neue, falling back to Arial.
-- `brand/logo.png` is the extension's mark: one lime port wired in cyan to
-  three, on a fal purple rounded square, at 400 × 400 pixels on a transparent
+  files are SVG files; edit them as text. They follow the owner's other packs'
+  layout in fal's colors: near-black `#0D0C10`, surfaces `#19171C`, hairlines
+  `#27262B`, light text `#F5F3F8`, muted text `#A19FA4`, accent `#A284FF`, the
+  violet gradient `#C0B1FF` to `#8553FF`, and fal's lime `#ADFF00` for the
+  mark's socket and one pixel in each rail. Headings use Helvetica Neue with
+  tight spacing; labels use a monospace font in wide-spaced capitals.
+- `brand/logo.png` is the extension's mark: a heavy lowercase f in violet
+  `#A284FF` to `#762FF8`, with four pixels cut out of its stem and a lime
+  socket where the crossbar ends, at 400 × 400 pixels on a transparent
   background. Its source is `.artifacts/brand/logo.svg`, which Git ignores;
-  render it with `rsvg-convert` and compress it with `oxipng`.
-  `pyproject.toml` names `brand/logo.png` as the Registry icon.
-- The banner draws the same idea larger: one fal model node wired to the five
-  kind nodes.
-- The node map has one card for each kind of node. A lime square marks a node
-  that sends a paid request and a hollow square one that bills nothing.
+  render it with `rsvg-convert` and compress it with `oxipng`. The banner draws
+  the same mark between two rails of square pixels, and `pyproject.toml` names
+  `brand/logo.png` as the Registry icon.
+- The node map has one card for each kind of node. A violet square marks a
+  node that sends a paid request and a hollow square one that bills nothing.
 - The badges under the banner name the ComfyUI, frontend, and Python versions
-  and the license, in purple with a cyan value; update them when those change.
+  and the license, as near-black pills with a violet value; update them when
+  those change.
 - `screenshots/video-02-workflow.png` is video-02 at 100% zoom, with link
   midpoint markers off.
 - `screenshots/video-generate-node.png` is a new **Video: Generate** node, 420

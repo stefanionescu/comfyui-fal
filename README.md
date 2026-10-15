@@ -117,7 +117,7 @@ After an update, open the examples in a new tab to get the new versions.
 
 The nodes are under **fal** in the node menu, and each has a help page.
 
-![Node map: one card for each kind of node. Image: Generate, Video: Generate, Audio: Generate, Text: Generate, and 3D: Generate each run any fal model of their kind. File: Add feeds a file input of any paid node, and Request Options feeds any paid node. Request: Download collects requests left running, and Model: Info shows what a model takes. A lime square marks a node that sends a paid request, and a hollow square one that bills nothing.](docs/images/diagrams/node-map.svg)
+![Node map: one card for each kind of node. Image: Generate, Video: Generate, Audio: Generate, Text: Generate, and 3D: Generate each run any fal model of their kind. File: Add feeds a file input of any paid node, and Request Options feeds any paid node. Request: Download collects requests left running, and Model: Info shows what a model takes. A violet square marks a node that sends a paid request, and a hollow square one that bills nothing.](docs/images/diagrams/node-map.svg)
 
 | Node                                                | What it does                                                                         | Paid |
 | --------------------------------------------------- | ------------------------------------------------------------------------------------ | ---- |
