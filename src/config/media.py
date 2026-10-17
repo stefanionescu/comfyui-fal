@@ -13,13 +13,18 @@ MASK_TENSOR = {
     "FRAME_DIMENSIONS": 2,
 }
 
-# What each kind of local media is uploaded as: lossless PNG, 16-bit WAV, and MP4.
+# What each kind of local media is uploaded as: lossless WebP for images, lossless PNG for masks, 16-bit WAV, and MP4.
 ENCODED_FORMATS = {
-    "image": {"CONTENT_TYPE": "image/png", "EXTENSION": "png"},
+    "image": {"CONTENT_TYPE": "image/webp", "EXTENSION": "webp"},
     "mask": {"CONTENT_TYPE": "image/png", "EXTENSION": "png"},
     "audio": {"CONTENT_TYPE": "audio/wav", "EXTENSION": "wav"},
     "video": {"CONTENT_TYPE": "video/mp4", "EXTENSION": "mp4"},
 }
+
+# How an image is encoded as lossless WebP: the same pixels as a PNG in about a quarter to a third less, which every
+# fal model that takes images reads. Method 1 encodes in a fraction of the slowest setting's time within 2% of its size,
+# and exact keeps the colors under fully see-through pixels.
+WEBP = {"METHOD": 1, "QUALITY": 0}
 
 # The WAV container and codec PyAV writes audio with.
 WAV = {
@@ -126,4 +131,5 @@ __all__ = [
     "OUTPUT_ID_KINDS",
     "OUTPUT_KINDS",
     "WAV",
+    "WEBP",
 ]

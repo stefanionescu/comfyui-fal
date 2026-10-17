@@ -14,7 +14,7 @@ from ..types.files import EncodedFile
 from typing import TYPE_CHECKING, cast
 from comfy_api.latest import Types, InputImpl
 from ..types.errors import ErrorCode, FalError
-from ..config.media import WAV, MASK_TENSOR, IMAGE_TENSOR, MESH_FORMATS, ENCODED_FORMATS, DIGEST_CHARACTERS
+from ..config.media import WAV, WEBP, MASK_TENSOR, IMAGE_TENSOR, MESH_FORMATS, ENCODED_FORMATS, DIGEST_CHARACTERS
 from ..config.messages.media import (
     MASK_SHAPE,
     AUDIO_EMPTY,
@@ -27,6 +27,7 @@ from ..config.messages.media import (
     VIDEO_UNWRITABLE,
 )
 from comfy_api_nodes.util.conversions import (
+    tensor_to_pil,
     tensor_to_bytesio,
     bytesio_to_image_tensor,
     audio_ndarray_to_bytesio,
@@ -49,8 +50,17 @@ def _build_encoded(content: bytes, kind: Literal["image", "mask", "audio", "vide
     return EncodedFile(content, encoded["CONTENT_TYPE"], file_name, digest)
 
 
+def _encode_webp(frame: torch.Tensor) -> bytes:
+    """Encode one image as lossless WebP, at its own pixels."""
+    buffer = io.BytesIO()
+    tensor_to_pil(frame, total_pixels=None).save(
+        buffer, format="WEBP", lossless=True, exact=True, method=WEBP["METHOD"], quality=WEBP["QUALITY"]
+    )
+    return buffer.getvalue()
+
+
 def _encode_image(image: torch.Tensor) -> tuple[EncodedFile, ...]:
-    """Encode every image of a batch as its own PNG, never shrinking it; an image fal cannot read is refused."""
+    """Encode every image of a batch as its own lossless WebP, never shrinking it; one fal cannot read is refused."""
     if image.ndim != IMAGE_TENSOR["DIMENSIONS"] or image.shape[-1] not in {
         IMAGE_TENSOR["RGB_CHANNELS"],
         IMAGE_TENSOR["RGBA_CHANNELS"],
@@ -59,10 +69,7 @@ def _encode_image(image: torch.Tensor) -> tuple[EncodedFile, ...]:
     if not bool(torch.isfinite(image).all()):
         raise FalError(ErrorCode.INVALID_INPUT, IMAGE_PIXELS)
     try:
-        contents = [
-            tensor_to_bytesio(frame.unsqueeze(0).clamp(0, 1), total_pixels=None, mime_type="image/png").getvalue()
-            for frame in image
-        ]
+        contents = [_encode_webp(frame.clamp(0, 1)) for frame in image]
     except Exception:  # noqa: BLE001 -- reason: ComfyUI's helper raises unrelated exception types; one reviewed message replaces them.
         raise FalError(ErrorCode.MEDIA, IMAGE_CHANNELS) from None
     return tuple(_build_encoded(content, "image") for content in contents)
