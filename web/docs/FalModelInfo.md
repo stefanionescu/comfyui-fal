@@ -1,7 +1,7 @@
 # Model: Info
 
 Shows what any fal model takes and makes, as JSON: every input with its type,
-default, choices, and range, and every output. Use it to write a paid node's
+default, choices, range, and text length limit, and every output. Use it to write a paid node's
 `arguments` and a **File: Add**'s `field`. It reads fal's model listing, so it
 is free and needs no key.
 
@@ -44,11 +44,15 @@ For example, one input of `alibaba/wan-3.0/reference-to-video`:
     "maximum": null,
     "list": true,
     "max_items": 5,
+    "max_length": null,
     "file": true,
     "media": "audio",
     "description": "Up to 5 reference audio URLs totaling at most 15 seconds."
 }
 ```
+
+`max_length` is the longest text allowed, in characters. It is `null` when fal
+lists no text length limit.
 
 ## Use
 

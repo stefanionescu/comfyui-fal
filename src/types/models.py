@@ -27,6 +27,7 @@ class ModelField:
         minimum: fal's lower bound for a number.
         maximum: fal's upper bound for a number.
         max_items: fal's largest number of items for a list.
+        max_length: fal's longest text, in characters.
         description: fal's description as plain text.
 
     """
@@ -43,6 +44,7 @@ class ModelField:
     minimum: float | None
     maximum: float | None
     max_items: int | None
+    max_length: int | None
     description: str
 
 

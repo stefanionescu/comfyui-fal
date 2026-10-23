@@ -210,6 +210,7 @@ def _build_field(name: str, raw: Json, required: Json, components: Mapping[str, 
     else:
         default = None if field_input == "file" else schema.get("default")
     max_items = schema.get("maxItems")
+    max_length = schema.get("maxLength")
     return ModelField(
         name,
         field_input,
@@ -222,6 +223,7 @@ def _build_field(name: str, raw: Json, required: Json, components: Mapping[str, 
         _read_choices(field_input, schema, components),
         *_read_bounds(schema),
         max_items if isinstance(max_items, int) and not isinstance(max_items, bool) else None,
+        max_length if isinstance(max_length, int) and not isinstance(max_length, bool) else None,
         _describe_field(schema),
     )
 

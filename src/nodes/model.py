@@ -45,6 +45,7 @@ def _describe_input(field: ModelField) -> dict[str, Json]:
         "maximum": _format_bound(field.maximum),
         "list": field.is_list,
         "max_items": field.max_items,
+        "max_length": field.max_length,
         "file": is_file,
         "media": media,
         "description": field.description or None,
