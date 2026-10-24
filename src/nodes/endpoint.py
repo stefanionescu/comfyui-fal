@@ -13,7 +13,19 @@ from ..comfy.media import encode_local_file
 from ..state.queue import QueuedRequest
 from ..config.media import OUTPUT_ID_KINDS
 from ..comfy.runtime import get_runtime
-from ..config.inputs import LINES, TEXTS, CHOICE, SETTINGS, TOOLTIPS, RUN_NUMBER, INPUT_NAMES, NUMBER_MINIMUMS
+from ..config.inputs import (
+    LINES,
+    TEXTS,
+    CHOICE,
+    SWITCH,
+    TOOLTIPS,
+    RUN_NUMBER,
+    INPUT_NAMES,
+    TEXT_SETTINGS,
+    NUMBER_MINIMUMS,
+    NUMBER_SETTINGS,
+    SWITCH_SETTINGS,
+)
 from ..config.models import DEFAULT_MODELS
 from ..fal.arguments import parse_arguments
 from ..comfy.execution import send_request
@@ -27,32 +39,42 @@ if TYPE_CHECKING:
     from ..state.options import Options
 
 
-def _build_setting(name: str, *, start: str | float | bool) -> io.Input:
-    """Build one named setting: default sends nothing, and custom shows a value of the type the setting takes."""
-    tooltip = TOOLTIPS[name]
-    value: io.Input
-    if isinstance(start, bool):
-        value = io.Boolean.Input(CHOICE['VALUE'], default=start, tooltip=tooltip)
-    elif isinstance(start, int):
-        value = io.Int.Input(CHOICE['VALUE'], default=start, min=int(NUMBER_MINIMUMS[name]), tooltip=tooltip)
-    elif isinstance(start, float):
-        value = io.Float.Input(CHOICE['VALUE'], default=start, min=NUMBER_MINIMUMS[name], step=0.1, tooltip=tooltip)
-    else:
-        value = io.String.Input(CHOICE['VALUE'], default=start, tooltip=tooltip)
-    options = [io.DynamicCombo.Option(CHOICE['DEFAULT'], []), io.DynamicCombo.Option(CHOICE['CUSTOM'], [value])]
-    return io.DynamicCombo.Input(name, options=options, tooltip=tooltip)
+def _build_settings(kind: Kind) -> list[io.Input]:
+    """Build the named settings: a line per text setting, a dropdown per on/off setting, and a choice per number.
+
+    A number setting at default sends nothing, and custom shows its value.
+    """
+    inputs: list[io.Input] = [io.String.Input(name, default='', tooltip=TOOLTIPS[name]) for name in TEXT_SETTINGS[kind]]
+    inputs += [
+        io.Combo.Input(name, options=list(SWITCH.values()), default=SWITCH['DEFAULT'], tooltip=TOOLTIPS[name])
+        for name in SWITCH_SETTINGS[kind]
+    ]
+    for name, start in NUMBER_SETTINGS[kind].items():
+        minimum, tooltip = NUMBER_MINIMUMS[name], TOOLTIPS[name]
+        value = (
+            io.Int.Input(CHOICE['VALUE'], default=start, min=int(minimum), tooltip=tooltip)
+            if isinstance(start, int)
+            else io.Float.Input(CHOICE['VALUE'], default=start, min=minimum, step=0.1, tooltip=tooltip)
+        )
+        options = [io.DynamicCombo.Option(CHOICE['DEFAULT'], []), io.DynamicCombo.Option(CHOICE['CUSTOM'], [value])]
+        inputs.append(io.DynamicCombo.Input(name, options=options, tooltip=tooltip))
+    return inputs
 
 
 def _read_settings(kind: Kind, values: dict[str, object]) -> dict[str, Json]:
-    """Read the named settings set to custom; default, or no value from a caller that leaves it out, sends nothing."""
+    """Read the named settings the workflow sets; an empty line, default, or no value from a caller sends nothing."""
     settings: dict[str, Json] = {}
-    for name in SETTINGS[kind]:
+    for name in TEXT_SETTINGS[kind]:
+        text = values.get(name)
+        if isinstance(text, str) and text.strip():
+            settings[name] = text.strip()
+    for name in SWITCH_SETTINGS[kind]:
+        if values.get(name) in {SWITCH['ON'], SWITCH['OFF']}:
+            settings[name] = values.get(name) == SWITCH['ON']
+    for name in NUMBER_SETTINGS[kind]:
         choice = values.get(name)
-        if not isinstance(choice, dict):
-            continue
-        selected = cast('dict[str, Json]', choice)
-        if selected.get(name) == CHOICE['CUSTOM']:
-            settings[name] = selected.get(CHOICE['VALUE'])
+        if isinstance(choice, dict) and cast('dict[str, Json]', choice).get(name) == CHOICE['CUSTOM']:
+            settings[name] = cast('dict[str, Json]', choice).get(CHOICE['VALUE'])
     return settings
 
 
@@ -84,7 +106,7 @@ class EndpointNode(PaidNode):
                 INPUT_NAMES['OPTIONS'], optional=True, tooltip=TOOLTIPS['OPTIONS']
             ),
             io.String.Input(INPUT_NAMES['MODEL'], default=DEFAULT_MODELS[cls.kind], tooltip=TOOLTIPS['MODEL']),
-            *(_build_setting(name, start=start) for name, start in SETTINGS[cls.kind].items()),
+            *_build_settings(cls.kind),
             io.Int.Input(
                 INPUT_NAMES['RUN_NUMBER'],
                 default=RUN_NUMBER['DEFAULT'],

@@ -50,8 +50,8 @@ FILE_SAMPLE = (
 PROMPT_REQUIRED = 'Write a prompt. The model {model} needs one.'
 
 SETTING_UNKNOWN = (
-    'The model {model} has no field named {field}. Set {field} to default, and put the setting in arguments under the '
-    "model's own name. Model: Info lists its fields."
+    'The model {model} has no field named {field}. Empty {field} or set it to default, and put the setting in '
+    "arguments under the model's own name. Model: Info lists its fields."
 )
 
 SINGLE_VALUE = 'Connect one value to {name}, not a list.'

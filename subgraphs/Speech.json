@@ -154,7 +154,7 @@
               },
               {
                 "name": "output_format",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "output_format"
@@ -236,7 +236,7 @@
             },
             "widgets_values": [
               "fal-ai/minimax/speech-2.8-turbo",
-              "default",
+              "",
               "default",
               0,
               "",

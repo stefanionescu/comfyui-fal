@@ -11,7 +11,7 @@ every file the model made.
 | `files`         | Input audio from **File: Add**, under the model's field name, such as `audio_url`.                           |
 | `options`       | Settings from **Request Options**.                                                                           |
 | `model`         | The model's ID on fal, such as `elevenlabs/tts/eleven-v4`. The default is `fal-ai/minimax/speech-2.8-turbo`. |
-| `output_format` | `default`, or `custom` and a file type, such as `mp3`.                                                       |
+| `output_format` | A file type, such as `mp3`. Empty sends nothing.                                                             |
 | `seed`          | `default`, or `custom` and a number. The same seed repeats a result.                                         |
 | `run_number`    | Change this number to send the same request again.                                                           |
 | `voice`         | The voice, by the name or ID the model lists, for a voice model. Empty sends nothing.                        |
@@ -19,8 +19,8 @@ every file the model made.
 | `text`          | The words to speak, for a voice model. Empty sends nothing.                                                  |
 | `arguments`     | The model's other settings as JSON, under fal's names, such as `{"speed": 1.1}`.                             |
 
-Each setting at `default` sends nothing, so the model uses its own value. A setting at `custom`, and each
-text input, goes under its own name, and only a model with a field of that name takes it.
+A setting left empty or at `default` sends nothing, so the model uses its own value. A setting you set, and
+each text input, goes under its own name, and only a model with a field of that name takes it.
 
 Copy the model ID and its field names from the model's page on fal, or read
 them with **Model: Info**. Many voice models take their words as `text`, not

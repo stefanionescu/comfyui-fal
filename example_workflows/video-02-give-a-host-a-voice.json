@@ -989,7 +989,7 @@
               },
               {
                 "name": "aspect_ratio",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "aspect_ratio"
@@ -997,10 +997,18 @@
               },
               {
                 "name": "resolution",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "resolution"
+                }
+              },
+              {
+                "name": "output_format",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "output_format"
                 }
               },
               {
@@ -1009,14 +1017,6 @@
                 "link": null,
                 "widget": {
                   "name": "num_images"
-                }
-              },
-              {
-                "name": "output_format",
-                "type": "COMFY_DYNAMICCOMBO_V3",
-                "link": null,
-                "widget": {
-                  "name": "output_format"
                 }
               },
               {
@@ -1109,9 +1109,9 @@
             },
             "widgets_values": [
               "fal-ai/flux-2/klein/4b",
-              "default",
-              "default",
-              "default",
+              "",
+              "",
+              "",
               "default",
               "default",
               "default",
@@ -1286,7 +1286,7 @@
               },
               {
                 "name": "aspect_ratio",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "aspect_ratio"
@@ -1294,10 +1294,18 @@
               },
               {
                 "name": "resolution",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "resolution"
+                }
+              },
+              {
+                "name": "output_format",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "output_format"
                 }
               },
               {
@@ -1306,14 +1314,6 @@
                 "link": null,
                 "widget": {
                   "name": "num_images"
-                }
-              },
-              {
-                "name": "output_format",
-                "type": "COMFY_DYNAMICCOMBO_V3",
-                "link": null,
-                "widget": {
-                  "name": "output_format"
                 }
               },
               {
@@ -1406,9 +1406,9 @@
             },
             "widgets_values": [
               "fal-ai/flux-2/klein/4b",
-              "default",
-              "default",
-              "default",
+              "",
+              "",
+              "",
               "default",
               "default",
               "default",
@@ -1583,7 +1583,7 @@
               },
               {
                 "name": "output_format",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "output_format"
@@ -1665,7 +1665,7 @@
             },
             "widgets_values": [
               "elevenlabs/tts/eleven-v4",
-              "default",
+              "",
               "default",
               0,
               "",
@@ -1855,16 +1855,8 @@
                 }
               },
               {
-                "name": "duration",
-                "type": "COMFY_DYNAMICCOMBO_V3",
-                "link": null,
-                "widget": {
-                  "name": "duration"
-                }
-              },
-              {
                 "name": "resolution",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "resolution"
@@ -1872,7 +1864,7 @@
               },
               {
                 "name": "aspect_ratio",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "aspect_ratio"
@@ -1880,10 +1872,18 @@
               },
               {
                 "name": "generate_audio",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "COMBO",
                 "link": null,
                 "widget": {
                   "name": "generate_audio"
+                }
+              },
+              {
+                "name": "duration",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "duration"
                 }
               },
               {
@@ -1952,8 +1952,8 @@
             },
             "widgets_values": [
               "alibaba/wan-3.0/reference-to-video",
-              "default",
-              "default",
+              "",
+              "",
               "default",
               "default",
               "default",

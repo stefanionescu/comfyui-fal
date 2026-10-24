@@ -206,16 +206,8 @@
                 }
               },
               {
-                "name": "duration",
-                "type": "COMFY_DYNAMICCOMBO_V3",
-                "link": null,
-                "widget": {
-                  "name": "duration"
-                }
-              },
-              {
                 "name": "resolution",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "resolution"
@@ -223,7 +215,7 @@
               },
               {
                 "name": "aspect_ratio",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "aspect_ratio"
@@ -231,10 +223,18 @@
               },
               {
                 "name": "generate_audio",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "COMBO",
                 "link": null,
                 "widget": {
                   "name": "generate_audio"
+                }
+              },
+              {
+                "name": "duration",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "duration"
                 }
               },
               {
@@ -303,8 +303,8 @@
             },
             "widgets_values": [
               "fal-ai/seedvr/upscale/video",
-              "default",
-              "default",
+              "",
+              "",
               "default",
               "default",
               "default",

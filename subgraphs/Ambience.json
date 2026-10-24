@@ -155,7 +155,7 @@
               },
               {
                 "name": "output_format",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "output_format"
@@ -236,7 +236,7 @@
             },
             "widgets_values": [
               "fal-ai/elevenlabs/sound-effects/v2",
-              "default",
+              "",
               "default",
               0,
               "",

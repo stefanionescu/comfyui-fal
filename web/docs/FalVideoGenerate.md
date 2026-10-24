@@ -11,18 +11,18 @@ outputs the video and the fal link of every file the model made.
 | `files`           | Frames, references, video, or audio from **File: Add**, each under the model's field name, such as `start_image_url`.             |
 | `options`         | Settings from **Request Options**.                                                                                                |
 | `model`           | The model's ID on fal, such as `alibaba/wan-3.0/reference-to-video`. The default is `fal-ai/ltx-2.3-22b/distilled/text-to-video`. |
+| `resolution`      | A size, such as `1K` or `720p`, as the model writes it. Empty sends nothing.                                                      |
+| `aspect_ratio`    | A shape, such as `16:9`. Empty sends nothing.                                                                                     |
+| `generate_audio`  | `default`, `true`, or `false`: whether the video has sound.                                                                       |
 | `duration`        | `default`, or `custom` and the length in seconds.                                                                                 |
-| `resolution`      | `default`, or `custom` and a size, such as `1K` or `720p`, as the model writes it.                                                |
-| `aspect_ratio`    | `default`, or `custom` and a shape, such as `16:9`.                                                                               |
-| `generate_audio`  | `default`, or `custom` and on or off: whether the video has sound.                                                                |
 | `seed`            | `default`, or `custom` and a number. The same seed repeats a result.                                                              |
 | `run_number`      | Change this number to send the same request again.                                                                                |
 | `prompt`          | The text sent as the model's `prompt`.                                                                                            |
 | `negative_prompt` | What to leave out, for a model that takes it. Empty sends nothing.                                                                |
-| `arguments`       | The model's other settings as JSON, under fal's names, such as `{"resolution": "480p", "duration": 5}`.                           |
+| `arguments`       | The model's other settings as JSON, under fal's names, such as `{"enable_safety_checker": false}`.                                |
 
-Each setting at `default` sends nothing, so the model uses its own value. A setting at `custom`, and each
-text input, goes under its own name, and only a model with a field of that name takes it.
+A setting left empty or at `default` sends nothing, so the model uses its own value. A setting you set, and
+each text input, goes under its own name, and only a model with a field of that name takes it.
 
 Copy the model ID and its field names from the model's page on fal, or read
 them with **Model: Info**. Write each value as fal does: Kling's `duration`

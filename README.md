@@ -138,11 +138,12 @@ the model's name on fal, such as `alibaba/wan-3.0/reference-to-video`.
 [fal's model gallery](https://fal.ai/explore) shows it on each model's page,
 with the settings the model takes.
 
-![Video: Generate on the canvas: the files and options inputs; model set to alibaba/wan-3.0/reference-to-video; duration, resolution, and aspect_ratio set to custom with 5, 480p, and 9:16; generate_audio and seed at default; run_number; and a prompt about a host waving at the camera.](docs/images/screenshots/video-generate-node.png)
+![Video: Generate on the canvas: the files and options inputs; model set to alibaba/wan-3.0/reference-to-video; resolution 480p; aspect_ratio 9:16; generate_audio at default; duration set to custom with 5; seed at default; run_number; and a prompt about a host waving at the camera.](docs/images/screenshots/video-generate-node.png)
 
 Each kind node has its own inputs for the settings most models of the kind
-share, such as `aspect_ratio`, `seed`, and `num_images`. At `default`, a
-setting sends nothing, and at `custom`, it sends the value you set. Write the
+share, such as `aspect_ratio`, `seed`, and `num_images`. A text setting sends
+nothing while empty, and an on/off or number setting sends nothing at
+`default`. A number setting at `custom` sends the value you set. Write the
 model's other settings in `arguments` as JSON, under fal's names, such as
 `{"enable_safety_checker": false}`. Settings you leave out keep fal's defaults.
 **Model: Info** lists every setting a model takes; it bills nothing and needs no

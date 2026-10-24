@@ -121,12 +121,16 @@ The named settings are the fields most models of a kind share:
 
 | Node            | Named settings                                                                                                   |
 | --------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Image: Generate | `aspect_ratio`, `resolution`, `num_images`, `output_format`, `guidance_scale`, `num_inference_steps`, and `seed` |
-| Video: Generate | `duration`, `resolution`, `aspect_ratio`, `generate_audio`, and `seed`                                           |
+| Image: Generate | `aspect_ratio`, `resolution`, `output_format`, `num_images`, `guidance_scale`, `num_inference_steps`, and `seed` |
+| Video: Generate | `resolution`, `aspect_ratio`, `generate_audio`, `duration`, and `seed`                                           |
 | Audio: Generate | `output_format` and `seed`, with `voice` and `text` as text inputs                                               |
 
-Each named setting at `default` sends nothing. At `custom`, it goes under its
-own name, and only a model with a field of that name takes it. A number goes
+A text setting is one line that sends nothing while empty. An on/off setting
+is `default`, `true`, or `false`, and a number setting is `default`, or
+`custom` with a value; `default` sends nothing.
+
+A setting you set goes under its own name, and only a model with a field of
+that name takes it. A number goes
 as text to a field that takes only text, such as a duration fal lists as
 `"5"`. A model that names a setting another way, such as `image_size`, takes it
 in `arguments`.

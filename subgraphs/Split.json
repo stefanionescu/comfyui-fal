@@ -190,7 +190,7 @@
               },
               {
                 "name": "output_format",
-                "type": "COMFY_DYNAMICCOMBO_V3",
+                "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "output_format"
@@ -270,7 +270,7 @@
             },
             "widgets_values": [
               "fal-ai/demucs",
-              "default",
+              "",
               "default",
               0,
               "",
