@@ -3,39 +3,41 @@
 from __future__ import annotations
 
 import base64
-import binascii
-from ..types.files import FalFile
-from pathlib import PurePosixPath
-from urllib.parse import urlsplit
 from typing import TYPE_CHECKING, cast
+from pathlib import PurePosixPath
+import binascii
+from urllib.parse import urlsplit
+
+from ..state.files import FalFile
+from ..config.media import OUTPUT_KINDS, INLINE_PREFIX
 from ..config.units import BYTES_PER_MEGABYTE
-from ..types.errors import ErrorCode, FalError
+from ..state.errors import FalError, ErrorCode
 from ..config.messages.run import DOWNLOAD_LIMIT
 from ..config.messages.media import INLINE_UNREADABLE
-from ..config.media import OUTPUT_KINDS, INLINE_PREFIX
 
 if TYPE_CHECKING:
-    from ..types import Json
-    from ..types.files import FileKind
-    from ..types.models import FalModel
     from collections.abc import Mapping
-    from ..types.settings import Settings
+
+    from ..state import Json
+    from ..state.files import FileKind
+    from ..state.models import FalModel
+    from ..state.settings import Settings
 
 # The kind of an output file by its exact content type, by the start of it, and by its link's extension.
-_TYPE_KINDS = cast("Mapping[str, FileKind]", OUTPUT_KINDS["TYPES"])
-_PREFIX_KINDS = cast("tuple[tuple[str, FileKind], ...]", OUTPUT_KINDS["PREFIXES"])
-_EXTENSION_KINDS = cast("Mapping[str, FileKind]", OUTPUT_KINDS["EXTENSIONS"])
+_TYPE_KINDS = cast('Mapping[str, FileKind]', OUTPUT_KINDS['TYPES'])
+_PREFIX_KINDS = cast('tuple[tuple[str, FileKind], ...]', OUTPUT_KINDS['PREFIXES'])
+_EXTENSION_KINDS = cast('Mapping[str, FileKind]', OUTPUT_KINDS['EXTENSIONS'])
 # A text value that starts with one of these is a link, not the model's text.
-_LINK_PREFIXES = ("http://", "https://", INLINE_PREFIX)
+_LINK_PREFIXES = ('http://', 'https://', INLINE_PREFIX)
 
 
 def _choose_content_type(item: Mapping[str, Json], url: str) -> str | None:
-    """Take the file object's content type, or for a data URI the type it names; None when neither has one."""
-    content_type = item.get("content_type")
+    """Take the content type of the file object, or for inline data the type it names; None when neither has one."""
+    content_type = item.get('content_type')
     if isinstance(content_type, str) and content_type:
         return content_type
     if url.startswith(INLINE_PREFIX):
-        named = url.removeprefix(INLINE_PREFIX).split(",", 1)[0].split(";", 1)[0]
+        named = url.removeprefix(INLINE_PREFIX).split(',', 1)[0].split(';', 1)[0]
         return named or None
     return None
 
@@ -50,7 +52,7 @@ def _choose_kind(content_type: str | None, url: str) -> FileKind:
             if content_type.lower().startswith(prefix):
                 return kind
     extension = PurePosixPath(urlsplit(url).path).suffix.lower()
-    return _EXTENSION_KINDS.get(extension) or "other"
+    return _EXTENSION_KINDS.get(extension) or 'other'
 
 
 def _list_files(value: Json, files: list[FalFile], urls: set[str]) -> None:
@@ -61,7 +63,7 @@ def _list_files(value: Json, files: list[FalFile], urls: set[str]) -> None:
         return
     if not isinstance(value, dict):
         return
-    url = value.get("url")
+    url = value.get('url')
     if not isinstance(url, str) or not url:
         for item in value.values():
             _list_files(item, files, urls)
@@ -69,14 +71,14 @@ def _list_files(value: Json, files: list[FalFile], urls: set[str]) -> None:
     if url not in urls:
         urls.add(url)
         content_type = _choose_content_type(value, url)
-        files.append(FalFile(_choose_kind(content_type, url), url, None, "output", content_type, None))
+        files.append(FalFile(_choose_kind(content_type, url), url, None, 'output', content_type, None))
 
 
 def list_output_files(result: Mapping[str, Json]) -> tuple[FalFile, ...]:
     """List every file in a result: each object with a string url, at any depth, in fal's order.
 
-    The walk does not look inside a file object, and a link already listed is skipped, so the same file under two
-    fields is listed once. A file given as a bare link string is not listed; it stays in the result.
+    The walk does not look inside a file object, and it skips a link already listed, so the same file under two
+    fields appears once. The walk leaves out a file given as a bare link string; that file stays in the result.
     """
     files: list[FalFile] = []
     _list_files(dict(result), files, set())
@@ -86,8 +88,8 @@ def list_output_files(result: Mapping[str, Json]) -> tuple[FalFile, ...]:
 def choose_output_text(result: Mapping[str, Json], model: FalModel | None) -> str | None:
     """Choose the result's text: a text model's own text field, else the first top-level non-empty string.
 
-    A text model's field is read even when it is empty, so a result that reports its own error has no text. For any
-    other model, a string that echoes one of its inputs, or that is a link, is skipped.
+    The function reads the field of a text model even when it is empty, so a result that reports its own error has no
+    text. For any other model, the function skips a string that echoes one of its inputs or that is a link.
     """
     if model is not None and model.text_field is not None:
         value = result.get(model.text_field)
@@ -105,9 +107,9 @@ def choose_output_text(result: Mapping[str, Json], model: FalModel | None) -> st
 
 
 def decode_inline_file(url: str, settings: Settings) -> bytes:
-    """Read a base64 data URI fal returned in place of a link, within the maximum download size."""
-    header, separator, text = url.partition(",")
-    if not separator or not header.endswith(";base64"):
+    """Read the base64 data that fal returned inline in place of a link, within the maximum download size."""
+    header, separator, text = url.partition(',')
+    if not separator or not header.endswith(';base64'):
         raise FalError(ErrorCode.MEDIA, INLINE_UNREADABLE)
     maximum = settings.max_download_megabytes
     if len(text) * 3 // 4 > maximum * BYTES_PER_MEGABYTE:
@@ -118,4 +120,4 @@ def decode_inline_file(url: str, settings: Settings) -> bytes:
         raise FalError(ErrorCode.MEDIA, INLINE_UNREADABLE) from None
 
 
-__all__ = ["choose_output_text", "decode_inline_file", "list_output_files"]
+__all__ = ['choose_output_text', 'decode_inline_file', 'list_output_files']

@@ -1,11 +1,11 @@
 """Create the shared stores when ComfyUI loads the extension."""
 
 from ..fal.uploads import UploadStore
-from ..config.storage import REQUEST_FILES
-from ..fal.queue.records import RequestStore
-from ..types.errors import ErrorCode, FalError
-from ..settings.store import ConfigurationStore
+from ..state.errors import FalError, ErrorCode
 from ..storage.files import choose_state_directory
+from ..config.storage import REQUEST_FILES
+from ..settings.store import ConfigurationStore
+from ..fal.queue.records import RequestStore
 from ..config.messages.settings import RUNTIME_NOT_READY
 
 
@@ -19,7 +19,7 @@ class Runtime:
 
     """
 
-    __slots__ = ("configuration", "requests", "uploads")
+    __slots__ = ('configuration', 'requests', 'uploads')
 
     configuration: ConfigurationStore
     uploads: UploadStore
@@ -29,7 +29,7 @@ class Runtime:
         """Create the shared stores and place their state under one private directory."""
         self.configuration = ConfigurationStore(choose_state_directory())
         self.uploads = UploadStore()
-        self.requests = RequestStore(self.configuration.directory / REQUEST_FILES["FOLDER"])
+        self.requests = RequestStore(self.configuration.directory / REQUEST_FILES['FOLDER'])
 
 
 _runtime: Runtime | None = None
@@ -37,7 +37,7 @@ _runtime: Runtime | None = None
 
 def create_runtime() -> None:
     """Initialize once through the host's extension lifecycle, without network calls."""
-    global _runtime  # noqa: PLW0603 -- reason: ComfyUI initializes one shared runtime during loading.
+    global _runtime  # noqa: PLW0603 # reason: ComfyUI initializes one shared runtime during loading.
     if _runtime is None:
         _runtime = Runtime()
 
@@ -49,4 +49,4 @@ def get_runtime() -> Runtime:
     return _runtime
 
 
-__all__ = ["Runtime", "create_runtime", "get_runtime"]
+__all__ = ['Runtime', 'create_runtime', 'get_runtime']

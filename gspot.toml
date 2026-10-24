@@ -1,0 +1,224 @@
+#:schema ./.gspot/gspot.schema.json
+# gspot settings for this repository. Change them with gspot set, unset, add, remove, ignore, and unignore.
+
+level = "all"
+configurations = ["bash", "css", "javascript", "licenses", "markdown", "python", "typescript"]
+
+[hooks]
+enabled = true
+
+[ci]
+enabled = true
+
+[format]
+quotes = "single"
+
+[[naming.override]]
+allowed_names = ["ModelInfo"]
+reason = "The node class is named after its display name, Model: Info, as in the OpenRouter, BytePlus, KIE, and Dreamina packs; its node ID FalModelInfo is fixed once released."
+
+[[naming.override]]
+allowed_names = ["disable_fallback"]
+reason = "Request Options saves this input by its name in every workflow, and the name matches fal's x-app-fal-disable-fallback header."
+
+[spelling.allowed_words]
+embeded = "ComfyUI's Windows portable build names its Python folder python_embeded, and the install commands use that folder."
+PNG = "PNG is the image file format's name, which readers know."
+WAV = "WAV is the audio file format's name, which readers know."
+FLAC = "FLAC is the audio file format's name, which readers know."
+PCM = "PCM names the uncompressed audio encoding inside a WAV file, which readers know."
+ISO = "ISO names the date format standard, ISO 8601, which readers know."
+
+[python]
+externals = ["comfy", "comfy_api", "comfy_api_nodes", "comfy_execution", "folder_paths", "nodes", "server", "torch"]
+
+[tools.eslint]
+import_extension = "ts"
+
+[[tools.eslint.override]]
+paths = ["web/scripts/**"]
+runtime = "browser"
+
+[tools.commitlint]
+scopes = ["nodes", "frontend", "workflows", "docs", "hooks", "quality", "root", "deps"]
+
+[tools.knip]
+entry = ["web/scripts/extension.ts"]
+
+# The browser code in layers. Each rule lists exactly what its files may import, besides their own folder.
+[[import_rule]]
+name = "page"
+paths = ["web/scripts/browser.ts", "web/scripts/dom.ts", "web/scripts/host.d.ts", "web/scripts/http.ts", "web/scripts/interface.css", "web/scripts/routes.ts", "web/scripts/schema.ts", "web/scripts/text.ts"]
+can_import = []
+
+[[import_rule]]
+name = "settings-dialog"
+paths = ["web/scripts/settings/**"]
+can_import = ["page"]
+
+[[import_rule]]
+name = "extension"
+paths = ["web/scripts/extension.ts"]
+can_import = ["page", "settings-dialog"]
+
+# The Python packages in layers, the same way. config holds fixed values and imports nothing; state holds the records;
+# storage holds the private files; fal talks to fal and settings serves the settings routes, and neither imports the
+# other; comfy is the boundary with ComfyUI; nodes are the nodes; entry is the package's own __init__.py files.
+[[import_rule]]
+name = "config"
+paths = ["src/config/**"]
+can_import = []
+
+[[import_rule]]
+name = "state"
+paths = ["src/state/**"]
+can_import = ["config"]
+
+[[import_rule]]
+name = "storage"
+paths = ["src/storage/**"]
+can_import = ["config", "state"]
+
+[[import_rule]]
+name = "fal"
+paths = ["src/fal/**"]
+can_import = ["config", "state", "storage"]
+
+[[import_rule]]
+name = "settings"
+paths = ["src/settings/**"]
+can_import = ["config", "state", "storage"]
+
+[[import_rule]]
+name = "comfy"
+paths = ["src/comfy/**"]
+can_import = ["config", "state", "storage", "fal", "settings"]
+
+[[import_rule]]
+name = "nodes"
+paths = ["src/nodes/**"]
+can_import = ["config", "state", "storage", "fal", "settings", "comfy"]
+
+[[import_rule]]
+name = "entry"
+paths = ["__init__.py", "src/__init__.py"]
+can_import = ["comfy", "nodes"]
+
+# Import rules skip modules that the host provides, so import-linter checks the one rule they cannot hold: only the
+# ComfyUI boundary and the nodes import ComfyUI's modules. The contract is in pyproject.toml.
+[[command_check]]
+id = "comfy-boundary"
+command = ["uv", "run", "--no-sync", "lint-imports"]
+paths = ["src/**", "pyproject.toml"]
+stage = "commit"
+summary = "Checks that only src/comfy and src/nodes import ComfyUI's modules."
+help = "Move the import into src/comfy or src/nodes, and pass the value it gives to the other package."
+exit_codes = [1]
+output = { format = "regex", pattern = "^-\\s+(?<message>\\S+ -> \\S+) \\(l\\.(?<line>\\d+)\\)$" }
+
+# esbuild writes the shipped browser bundle from web/scripts, so the committed files must match a fresh build.
+[[command_check]]
+id = "frontend-bundle"
+command = ["bun", "run", "build"]
+paths = ["web/scripts/**", "web/extension.js", "web/extension.css", "package.json", "bun.lock"]
+outputs = ["web/extension.js", "web/extension.css"]
+stage = "commit"
+summary = "Checks that web/extension.js and web/extension.css match a fresh build of web/scripts."
+help = "Run bun run build, and commit both built files."
+
+# The help pages and the examples follow the registered nodes. Both checks export the node schemas through the ComfyUI
+# install that .mise.local.toml names, without starting ComfyUI. The export refuses a paid node whose send parameters
+# differ from its inputs.
+[[command_check]]
+id = "node-schemas"
+command = ["uv", "run", "--no-sync", "python", "-m", "scripts.nodes.check"]
+paths = ["__init__.py", "src/**", "web/docs/**", "scripts/nodes/**", "scripts/paths.py"]
+stage = "push"
+summary = "Checks that every node has a help page naming only real inputs and outputs, a fal menu, and send parameters that match its inputs."
+help = "Add or fix the help page in web/docs/<node ID>.md, the menu, or the send parameters that the message names."
+exit_codes = [1]
+output = { format = "regex", pattern = "^(?<message>.+)$" }
+
+[[command_check]]
+id = "example-workflows"
+command = ["uv", "run", "--no-sync", "python", "-m", "scripts.workflows.build", "--check"]
+paths = ["__init__.py", "src/**", "scripts/**", "README.md", "example_workflows/**", "subgraphs/**"]
+stage = "push"
+summary = "Checks that the example workflows and subgraph blueprints match their descriptions and the nodes, and that the README links each workflow."
+help = "Run mise run comfy:workflows:build, and commit the rebuilt files."
+exit_codes = [1]
+output = { format = "regex", pattern = "^(?<message>.+)$" }
+
+[[command_check]]
+id = "requirements-file"
+command = ["uv", "run", "--no-sync", "python", "-m", "scripts.dependencies", "--check"]
+paths = ["pyproject.toml", "requirements.txt", "scripts/dependencies.py"]
+stage = "push"
+summary = "Checks that requirements.txt lists the runtime dependencies of pyproject.toml."
+help = "Run uv run --no-sync python -m scripts.dependencies, and commit requirements.txt."
+exit_codes = [1]
+output = { format = "regex", pattern = "^(?<message>.+)$" }
+
+[[ignore]]
+check = "javascript/eslint"
+rule = "gspot/import-boundaries"
+paths = ["web/scripts/extension.ts", "web/scripts/http.ts", "web/scripts/text.ts"]
+reason = "ComfyUI serves ../../scripts/app.js and ../../scripts/api.js at runtime; esbuild leaves them external."
+
+[[ignore]]
+check = "javascript/eslint"
+rule = "n/file-extension-in-import"
+paths = ["web/scripts/extension.ts", "web/scripts/http.ts", "web/scripts/text.ts"]
+reason = "ComfyUI serves ../../scripts/app.js and ../../scripts/api.js at runtime; esbuild leaves them external."
+
+[[ignore]]
+check = "javascript/knip"
+rule = "unresolved"
+paths = ["web/scripts/extension.ts", "web/scripts/http.ts", "web/scripts/text.ts"]
+reason = "ComfyUI serves ../../scripts/app.js and ../../scripts/api.js at runtime; esbuild leaves them external."
+
+[[ignore]]
+check = "naming/paths"
+paths = ["web/docs/**"]
+reason = "ComfyUI reads each node's help page from web/docs/<node id>.md, so the file name must equal the registered node ID."
+
+[[ignore]]
+check = "naming/paths"
+rule = "banned-word"
+paths = ["ADVANCED.md"]
+reason = "ADVANCED.md is the advanced guide of every pack in the family, the name its readers and the README link know."
+
+[[ignore]]
+check = "prose/vale"
+rule = "write-good.E-Prime"
+reason = "E-Prime bans every form of 'to be'; rewriting every such sentence makes the docs harder to read, not plainer."
+
+[[ignore]]
+check = "python/vulture"
+names = ["on_load", "get_node_list", "comfy_entrypoint"]
+paths = ["__init__.py"]
+reason = "ComfyUI calls the extension's on_load, get_node_list, and comfy_entrypoint by name."
+
+[[ignore]]
+check = "python/vulture"
+names = ["define_schema", "execute", "validate_inputs", "fingerprint_inputs"]
+paths = ["src/nodes/**"]
+reason = "ComfyUI calls each node's define_schema, execute, validate_inputs, and fingerprint_inputs by name."
+
+[[ignore]]
+check = "structure/trivial-functions"
+names = ["on_load", "get_node_list", "comfy_entrypoint"]
+paths = ["__init__.py"]
+reason = "ComfyUI calls the extension's on_load, get_node_list, and comfy_entrypoint by name, so they cannot be inlined."
+
+[[ignore]]
+check = "structure/trivial-functions"
+names = ["define_schema", "execute", "validate_inputs", "fingerprint_inputs"]
+paths = ["src/nodes/**"]
+reason = "ComfyUI calls each node's define_schema, execute, validate_inputs, and fingerprint_inputs by name, so they cannot be inlined."
+
+[[ignore]]
+check = "structure/trivial-functions"
+names = ["__init__"]
+paths = ["src/state/errors.py"]
+reason = "FalError's constructor keeps the category beside the message that RuntimeError stores, and RetryLaterError's adds fal's wait; every raise calls one of them."

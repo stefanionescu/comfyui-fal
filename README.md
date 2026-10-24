@@ -23,7 +23,7 @@ Run any fal model in ComfyUI with your own API key.
 ## Requirements
 
 - Python 3.12 or later.
-- ComfyUI 0.37.2 or later, with frontend 1.52.7 or later in the 1.x series.
+- ComfyUI 0.37.2 or later, with frontend 1.52.7 or a later version below 2.0.
 - A fal API key.
 
 ## Install
@@ -39,7 +39,7 @@ Put the extension in `ComfyUI/custom_nodes/fal-ai`, install its
    that holds `main.py`, and put the extension in its `custom_nodes` folder.
 3. Select **Terminal** in the same panel and run:
 
-```sh
+```sh title="In the ComfyUI folder"
 pip install -r custom_nodes/fal-ai/requirements.txt
 ```
 
@@ -47,13 +47,13 @@ pip install -r custom_nodes/fal-ai/requirements.txt
 
 From the ComfyUI folder:
 
-```sh
+```sh title="In the ComfyUI folder"
 .venv/bin/python -m pip install -r custom_nodes/fal-ai/requirements.txt
 ```
 
 With uv:
 
-```sh
+```sh title="In the ComfyUI folder"
 uv pip install --python .venv/bin/python -r custom_nodes/fal-ai/requirements.txt
 ```
 
@@ -78,11 +78,11 @@ To update or remove the extension, see the
 
 ## First run
 
-1. Save your fal API key in **ComfyUI menu → Extensions → fal → fal
-   Settings**.
-2. Open **Browse Templates → fal-ai → image-01-design-a-host** and select
-   **Run**.
-3. See your host, then the same host from another angle, in **Design** and
+1. Open the ComfyUI menu, select **Extensions**, then **fal**, then **fal
+   Settings**, and save your fal API key.
+2. Open **Browse Templates**, then **fal-ai**, then
+   **image-01-design-a-host**, and select **Run**.
+3. See your host in **Design**, then the same host from another angle in
    **Turn**.
 
 To send the same request again, change `run_number`.
@@ -105,7 +105,7 @@ To send the same request again, change `run_number`.
 | [Text: Describe a Product Photo](example_workflows/text-02-describe-a-product-photo.json)         | A product description         |
 | [3D: Turn a Product into a 3D Model](example_workflows/3d-01-turn-a-product-into-a-3d-model.json) | A product description         |
 
-They are in **Browse Templates → fal-ai**. Start with each workflow's
+They are in **Browse Templates**, under **fal-ai**. Start with each workflow's
 **Start Here** note. Most steps are subgraphs. Media inputs start empty, and
 most workflows make their own inputs with fal models.
 
@@ -142,21 +142,22 @@ with the settings the model takes.
 
 Write the model's other settings in `arguments` as JSON, under fal's names,
 such as `{"resolution": "480p", "duration": 5}`. Settings you leave out keep
-fal's defaults. **Model: Info** lists every setting a model takes, for free and
-without a key. Before anything is paid, the node reads the model from fal and
-stops if fal has no such model, the model makes another kind of output, or it
-does not take a setting you sent. The [advanced guide](ADVANCED.md#models)
-lists the checks.
+fal's defaults. **Model: Info** lists every setting a model takes; it bills
+nothing and needs no key. Before fal bills anything, the node reads the model
+from fal. The node stops if fal has no such model, the model makes another
+kind of output, or the model does not take a setting you sent. The
+[advanced guide](ADVANCED.md#models) lists the checks.
 
 ## How a run works
 
-1. The node reads the model from fal and checks your inputs against it, and
-   stops before anything is paid.
+1. The node reads the model from fal and checks your inputs against it. When
+   a check fails, the node stops before fal bills anything.
 2. The node uploads your images, audio, and video to fal, sends one request
-   with your key, records it, and waits. Nothing is sent twice.
+   with your key, records it, and waits. The node sends each request only
+   once.
 3. Outputs also carry fal's link to each file, so the next node sends that
-   link instead of uploading the file again. Nodes connected to an empty
-   output are skipped.
+   link instead of uploading the file again. ComfyUI skips the nodes connected
+   to an empty output.
 
 The [advanced guide](ADVANCED.md#what-each-node-sends) lists what each node
 sends and returns.
@@ -171,18 +172,19 @@ COMFYUI_PATH = "/path/to/ComfyUI"
 COMFYUI_PYTHON = "/path/to/ComfyUI/.venv/bin/python"
 ```
 
-Install the tools, dependencies, and Git hooks, and run the full check:
+Install the tools, dependencies, gspot, and the Git hooks, and run every
+check:
 
 ```shell
 mise trust
-mise run repo:setup
-mise run repo:check
+mise run setup
+bun run --no-install gspot check
 ```
 
-Restart ComfyUI after changing Python. After changing the browser code, run
-`mise run comfy:frontend:build`; after changing a workflow description, run
-`mise run comfy:workflows:build`. The [advanced guide](ADVANCED.md#development)
-lists every task.
+The Git hooks run the checks on each commit and push. Restart ComfyUI after
+changing Python. After changing the browser code, run `bun run build`; after
+changing a workflow description, run `mise run comfy:workflows:build`. The
+[advanced guide](ADVANCED.md#development) lists every check.
 
 ## Common problems
 

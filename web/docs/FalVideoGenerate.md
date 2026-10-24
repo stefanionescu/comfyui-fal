@@ -19,8 +19,8 @@ Copy the model ID and its field names from the model's page on fal, or read
 them with **Model: Info**. Write each value as fal does: Kling's `duration`
 is the text `"5"`, Wan 3.0's is the number `5`. A setting left out takes fal's
 default, which on some models is the most expensive resolution. A field
-ending in `_urls` takes a list: one voice clip for `reference_audio_urls` is
-sent as a list of one.
+ending in `_urls` takes a list: the node sends one voice clip for
+`reference_audio_urls` as a list of one.
 
 ## Outputs
 
@@ -42,9 +42,9 @@ sent as a list of one.
 Examples: **video-01-animate-a-host**, **video-02-give-a-host-a-voice**,
 **video-03-make-a-talking-avatar**, and **video-04-upscale-a-clip**.
 
-If you cancel while the request waits in fal's queue, fal drops it. Once it
-has started, it may still finish and be billed, even if you cancel, ComfyUI
-restarts, or the **Request timeout (seconds)** passes. Collect it with
-**Request: Download**.
+If you cancel while the request waits in fal's queue, fal drops it. Once the
+request has started, it may still finish, and fal may bill it. This can happen
+even if you cancel, ComfyUI restarts, or the request timeout in **fal
+Settings** passes. Collect it with **Request: Download**.
 
 [fal video models](https://fal.ai/models?categories=text-to-video)

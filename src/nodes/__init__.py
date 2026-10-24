@@ -1,15 +1,12 @@
 """Register the extension's nodes in menu order."""
 
+from comfy_api.latest import io
+
 from .files import FileAdd
 from .model import ModelInfo
-from .mesh import MeshGenerate
-from .text import TextGenerate
-from comfy_api.latest import io
-from .audio import AudioGenerate
-from .image import ImageGenerate
-from .video import VideoGenerate
 from .options import RequestOptions
 from .download import RequestDownload
+from .generate import MeshGenerate, TextGenerate, AudioGenerate, ImageGenerate, VideoGenerate
 
 NODE_TYPES: tuple[type[io.ComfyNode], ...] = (
     ImageGenerate,
@@ -23,4 +20,4 @@ NODE_TYPES: tuple[type[io.ComfyNode], ...] = (
     ModelInfo,
 )
 
-__all__ = ["NODE_TYPES"]
+__all__ = ['NODE_TYPES']

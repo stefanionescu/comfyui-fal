@@ -1,31 +1,21 @@
-"""Define the request every node hands to the run wrapper, and the upload limit every request shares."""
+"""Define the progress report every request makes, and the upload limit every request shares."""
 
 from __future__ import annotations
 
 import math
-from typing import Protocol, TYPE_CHECKING
+from typing import TYPE_CHECKING
+
 from ..config.units import BYTES_PER_MEGABYTE
-from ..types.errors import ErrorCode, FalError
+from ..state.errors import FalError, ErrorCode
 from ..config.messages.media import UPLOAD_LIMIT
 
 if TYPE_CHECKING:
-    from ..types.files import EncodedFile
-    from ..types.settings import Settings, Configuration
-    from collections.abc import Iterable, Callable, Awaitable
+    from collections.abc import Callable, Iterable, Awaitable
+
+    from ..state.files import EncodedFile
+    from ..state.settings import Settings
 
 type Progress = Callable[[int], Awaitable[None]]
-
-
-class Operation[Result](Protocol):
-    """One fal request, validated before it is sent."""
-
-    def validate(self, settings: Settings) -> None:
-        """Refuse inputs the settings do not allow, before anything is sent."""
-        raise NotImplementedError(settings)
-
-    async def send(self, configuration: Configuration, progress: Progress | None) -> Result:
-        """Send the request, report each step reached, and return its result."""
-        raise NotImplementedError(configuration, progress)
 
 
 def validate_upload_size(files: Iterable[EncodedFile], settings: Settings) -> None:
@@ -37,4 +27,4 @@ def validate_upload_size(files: Iterable[EncodedFile], settings: Settings) -> No
             raise FalError(ErrorCode.INVALID_INPUT, UPLOAD_LIMIT.format(size=shown, maximum=maximum))
 
 
-__all__ = ["Operation", "validate_upload_size"]
+__all__ = ['validate_upload_size']

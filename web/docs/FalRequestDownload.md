@@ -30,8 +30,8 @@ the request timeout. It bills nothing.
 2. Connect the output you need, such as `video` to **Save Video**.
 3. Select **Run**.
 
-A request leaves the list once its files are downloaded, or when fal no
-longer has its result. Outputs the request did not make stop the nodes
+A request leaves the list once the node has downloaded its files, or when
+fal has deleted its result. Outputs the request did not make stop the nodes
 connected to them. Example: **video-05-recover-a-video**.
 
 [fal queue documentation](https://fal.ai/docs/documentation/model-apis/inference/queue)

@@ -1,25 +1,26 @@
-"""Read one model from fal's live listing before a request is paid, sharing reads and keeping each model.
+"""Read one model from the live fal listing before the pack pays for a request; share each read and keep each model.
 
-Each model is kept for the life of the process. The listing is free; the API key, when one is saved, only raises
-fal's rate limit.
+The process keeps each model for its whole life. The listing is free; a saved API key only raises the fal rate limit.
 """
 
 from __future__ import annotations
 
 import re
 import time
+from typing import TYPE_CHECKING
 import asyncio
 import weakref
+
 from yarl import URL
-from .schema import parse_model
-from typing import TYPE_CHECKING
-from .transport import send_lookup
 from pydantic import ValidationError
+
+from .schema import parse_model
+from .transport import send_lookup
 from ..config.fal import PLATFORM_URLS
-from ..types.models import ListingReply
-from ..config.patterns import ENDPOINT_ID_PATTERN
-from ..types.errors import ErrorCode, FalError, RetryLaterError
+from ..state.errors import FalError, ErrorCode, RetryLaterError
+from ..state.models import ListingReply
 from ..config.models import KIND_NODES, DEFAULT_MODELS, OPENAPI_EXPAND, PLATFORM_SPACING_SECONDS
+from ..config.patterns import ENDPOINT_ID_PATTERN
 from ..config.messages.models import (
     KIND_NAMES,
     MODEL_FORM,
@@ -33,13 +34,13 @@ from ..config.messages.models import (
 )
 
 if TYPE_CHECKING:
-    from ..types import Kind
-    from ..types.models import FalModel
-    from ..types.settings import Settings
-    from ..types.credentials import Credential
+    from ..state import Kind
+    from ..state.models import FalModel
+    from ..state.settings import Settings
+    from ..state.credentials import Credential
 
 _ENDPOINT_ID = re.compile(ENDPOINT_ID_PATTERN)
-# Each model is read once per ComfyUI process; an unknown ID is read again, since it may be fixed.
+# The pack reads each model once per ComfyUI process. It reads an unknown ID again, because a later read may find it.
 _MODELS: dict[str, FalModel] = {}
 # The reads in flight on each event loop, keyed by model ID, which callers asking at the same time share.
 _READS: weakref.WeakKeyDictionary[asyncio.AbstractEventLoop, dict[str, asyncio.Task[FalModel | None]]] = (
@@ -71,10 +72,10 @@ async def _wait_for_listing(error: FalError, deadline: float) -> None:
 async def _download_model(model_id: str, settings: Settings, credential: Credential | None) -> FalModel | None:
     """Read one model's listing entry and OpenAPI document; None when fal does not know the ID.
 
-    These reads are free, so a 429 is waited out and read again until the request timeout passes. Any other failure
-    stops the run, and nothing is kept.
+    These reads are free, so after a 429 the function waits and reads again until the request timeout passes. Any
+    other failure stops the run, and the function keeps nothing.
     """
-    url = str(URL(PLATFORM_URLS["MODELS"]).with_query({"endpoint_id": model_id, "expand": OPENAPI_EXPAND}))
+    url = str(URL(PLATFORM_URLS['MODELS']).with_query({'endpoint_id': model_id, 'expand': OPENAPI_EXPAND}))
     deadline = time.monotonic() + settings.request_timeout_seconds
     while True:
         try:
@@ -96,8 +97,8 @@ async def _download_model(model_id: str, settings: Settings, credential: Credent
 async def _read_listing(model_id: str, settings: Settings, credential: Credential | None) -> FalModel | None:
     """Read one model, sharing the read with every caller that asks for it at the same time.
 
-    A task belongs to its event loop, and ComfyUI runs each prompt on a new one, so the reads in flight are kept per
-    loop. A caller's cancel leaves the read running for the others.
+    A task belongs to its event loop, and ComfyUI runs each prompt on a new one, so the module keeps the reads in
+    flight per loop. A caller's cancel leaves the read running for the others.
     """
     reads = _READS.setdefault(asyncio.get_running_loop(), {})
     task = reads.get(model_id)
@@ -112,10 +113,10 @@ async def read_fal_model(
 ) -> FalModel:
     """Read one model from fal's listing, refusing an ID that cannot be one and one fal does not know.
 
-    A paid node passes its kind, and a model no node runs, or that another node runs, is refused too. Model: Info
-    passes no kind.
+    A paid node passes its kind, and the function also refuses a model that no node runs or that another node runs.
+    Model: Info passes no kind.
     """
-    example = DEFAULT_MODELS[kind or "image"]
+    example = DEFAULT_MODELS[kind or 'image']
     model_id = model_id.strip()
     if not model_id:
         raise FalError(ErrorCode.INVALID_INPUT, MODEL_EMPTY.format(example=example))
@@ -129,9 +130,9 @@ async def read_fal_model(
         reason = LEFT_OUT_REASONS[model.left_out]
         raise FalError(ErrorCode.INVALID_INPUT, MODEL_LEFT_OUT.format(model=model_id, reason=reason))
     if kind is not None and model.kind is not None and model.kind != kind:
-        names = {"made": KIND_NAMES[model.kind], "node": KIND_NODES[model.kind], "this": KIND_NODES[kind]}
+        names = {'made': KIND_NAMES[model.kind], 'node': KIND_NODES[model.kind], 'this': KIND_NODES[kind]}
         raise FalError(ErrorCode.INVALID_INPUT, MODEL_KIND.format(model=model_id, **names))
     return model
 
 
-__all__ = ["read_fal_model"]
+__all__ = ['read_fal_model']

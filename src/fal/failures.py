@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import re
-import math
 from http import HTTPStatus
+import math
 from typing import TYPE_CHECKING
+
 from pydantic import ValidationError
-from ..config.patterns import REASON_PATTERNS
-from ..types.errors import ErrorCode, FalError, RetryLaterError
+
 from ..config.fal import DASHBOARD_URLS, REASON_ENDINGS, MAX_REASON_CHARACTERS
-from ..types.replies import ErrorReply, RefusalItem, RefusalReply, PlatformErrorReply
+from ..state.errors import FalError, ErrorCode, RetryLaterError
+from ..state.replies import ErrorReply, RefusalItem, RefusalReply, PlatformErrorReply
+from ..config.patterns import REASON_PATTERNS
 from ..config.messages.run import (
     NO_MEDIA,
     NO_REASON,
@@ -33,42 +35,42 @@ from ..config.messages.run import (
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
-_KEY = re.compile(REASON_PATTERNS["KEY"])
-_URL = re.compile(REASON_PATTERNS["URL"])
-_FAL_URL = re.compile(REASON_PATTERNS["FAL_URL"])
-_LOCKED = re.compile(REASON_PATTERNS["LOCKED"])
+_KEY = re.compile(REASON_PATTERNS['KEY'])
+_URL = re.compile(REASON_PATTERNS['URL'])
+_FAL_URL = re.compile(REASON_PATTERNS['FAL_URL'])
+_LOCKED = re.compile(REASON_PATTERNS['LOCKED'])
 # A refusal names at most this many refused values, so a long list does not hide the message.
 _MAX_REFUSAL_ITEMS = 3
-# fal's error types, each with its category and message. Every other type of a refused input, such as
-# image_too_large, is decided by the status, and the reason names the field and fal's text.
+# The category and message of each error type that fal documents. The status decides every other type of a refused
+# input, such as image_too_large, and the reason names the field and the text that fal sent.
 _FAILURE_TYPES: dict[str, tuple[ErrorCode, str]] = {
-    "content_policy_violation": (ErrorCode.REFUSED, INPUT_REFUSED),
-    "no_media_generated": (ErrorCode.INVALID_INPUT, NO_MEDIA),
-    "file_download_error": (ErrorCode.INVALID_INPUT, FILE_UNREADABLE),
-    "image_load_error": (ErrorCode.INVALID_INPUT, FILE_UNREADABLE),
-    "bad_request": (ErrorCode.INVALID_INPUT, REQUEST_REJECTED),
-    "validation_error": (ErrorCode.INVALID_INPUT, REQUEST_REJECTED),
-    "not_found": (ErrorCode.UNAVAILABLE, ENDPOINT_NOT_FOUND),
-    "rate_limited": (ErrorCode.RATE_LIMITED, RATE_LIMITED),
-    "client_disconnected": (ErrorCode.UNAVAILABLE, REQUEST_CANCELLED),
-    "client_cancelled": (ErrorCode.UNAVAILABLE, REQUEST_CANCELLED),
-    "request_timeout": (ErrorCode.TIMEOUT, MODEL_TIMEOUT),
-    "startup_timeout": (ErrorCode.TIMEOUT, MODEL_TIMEOUT),
-    "generation_timeout": (ErrorCode.TIMEOUT, MODEL_TIMEOUT),
-    "runner_scheduling_failure": (ErrorCode.TRANSPORT, SERVER_BUSY),
-    "runner_connection_timeout": (ErrorCode.TRANSPORT, SERVER_BUSY),
-    "runner_connection_refused": (ErrorCode.TRANSPORT, SERVER_BUSY),
-    "runner_connection_error": (ErrorCode.TRANSPORT, SERVER_BUSY),
-    "runner_disconnected": (ErrorCode.TRANSPORT, SERVER_BUSY),
-    "runner_incomplete_response": (ErrorCode.TRANSPORT, SERVER_BUSY),
-    "downstream_service_unavailable": (ErrorCode.TRANSPORT, SERVER_BUSY),
-    "internal_server_error": (ErrorCode.TRANSPORT, SERVER_FAILED),
-    "internal_error": (ErrorCode.TRANSPORT, SERVER_FAILED),
-    "runner_server_error": (ErrorCode.TRANSPORT, SERVER_FAILED),
-    "downstream_service_error": (ErrorCode.TRANSPORT, SERVER_FAILED),
-    "server_error": (ErrorCode.TRANSPORT, SERVER_FAILED),
+    'content_policy_violation': (ErrorCode.REFUSED, INPUT_REFUSED),
+    'no_media_generated': (ErrorCode.INVALID_INPUT, NO_MEDIA),
+    'file_download_error': (ErrorCode.INVALID_INPUT, FILE_UNREADABLE),
+    'image_load_error': (ErrorCode.INVALID_INPUT, FILE_UNREADABLE),
+    'bad_request': (ErrorCode.INVALID_INPUT, REQUEST_REJECTED),
+    'validation_error': (ErrorCode.INVALID_INPUT, REQUEST_REJECTED),
+    'not_found': (ErrorCode.UNAVAILABLE, ENDPOINT_NOT_FOUND),
+    'rate_limited': (ErrorCode.RATE_LIMITED, RATE_LIMITED),
+    'client_disconnected': (ErrorCode.UNAVAILABLE, REQUEST_CANCELLED),
+    'client_cancelled': (ErrorCode.UNAVAILABLE, REQUEST_CANCELLED),
+    'request_timeout': (ErrorCode.TIMEOUT, MODEL_TIMEOUT),
+    'startup_timeout': (ErrorCode.TIMEOUT, MODEL_TIMEOUT),
+    'generation_timeout': (ErrorCode.TIMEOUT, MODEL_TIMEOUT),
+    'runner_scheduling_failure': (ErrorCode.TRANSPORT, SERVER_BUSY),
+    'runner_connection_timeout': (ErrorCode.TRANSPORT, SERVER_BUSY),
+    'runner_connection_refused': (ErrorCode.TRANSPORT, SERVER_BUSY),
+    'runner_connection_error': (ErrorCode.TRANSPORT, SERVER_BUSY),
+    'runner_disconnected': (ErrorCode.TRANSPORT, SERVER_BUSY),
+    'runner_incomplete_response': (ErrorCode.TRANSPORT, SERVER_BUSY),
+    'downstream_service_unavailable': (ErrorCode.TRANSPORT, SERVER_BUSY),
+    'internal_server_error': (ErrorCode.TRANSPORT, SERVER_FAILED),
+    'internal_error': (ErrorCode.TRANSPORT, SERVER_FAILED),
+    'runner_server_error': (ErrorCode.TRANSPORT, SERVER_FAILED),
+    'downstream_service_error': (ErrorCode.TRANSPORT, SERVER_FAILED),
+    'server_error': (ErrorCode.TRANSPORT, SERVER_FAILED),
 }
-# The statuses that decide a failure whose type is missing or unlisted. A 403 is decided by its reason.
+# The statuses that decide a failure whose type is missing or unlisted. For a 403, the reason decides.
 _STATUS_FAILURES: dict[int, tuple[ErrorCode, str]] = {
     401: (ErrorCode.AUTHENTICATION, KEY_REJECTED),
     404: (ErrorCode.UNAVAILABLE, ENDPOINT_NOT_FOUND),
@@ -98,26 +100,26 @@ def _choose_status_failure(status: int | None, message: str) -> tuple[ErrorCode,
 def _sanitize_reason(message: str) -> str:
     """Remove the only private details a reason can carry, then shorten it.
 
-    fal's documentation and dashboard links stay, without the scheme. Other links are removed, because file links
-    are public to whoever holds them. Key-shaped text and request IDs are removed too. The reason ends as a sentence,
-    because a message can add its next step after it.
+    Links to the fal documentation and dashboard stay, without the scheme. This step removes other links, because file
+    links are public to whoever holds them. It removes key-shaped text and request IDs too. The reason ends as a
+    sentence, because a message can add its next step after it.
     """
-    text = _URL.sub("", _FAL_URL.sub(r"\1", message))
-    text = " ".join(_KEY.sub("", text).split())
+    text = _URL.sub('', _FAL_URL.sub(r'\1', message))
+    text = ' '.join(_KEY.sub('', text).split())
     if len(text) > MAX_REASON_CHARACTERS:
-        text = text[: MAX_REASON_CHARACTERS - 1].rstrip() + "…"
+        text = text[: MAX_REASON_CHARACTERS - 1].rstrip() + '…'
     if text and not text.endswith(REASON_ENDINGS):
-        text += "."
+        text += '.'
     return text or NO_REASON
 
 
 def _describe_refusal(item: RefusalItem) -> str:
     """Name one refused value by its field, without the leading body part, and give fal's text for it."""
-    parts = item.loc[1:] if item.loc[:1] == ("body",) else item.loc
-    field = ".".join(str(part) for part in parts)
-    text = f"{field}: {item.msg}" if field else item.msg
-    if item.type == "content_policy_violation" and item.categories:
-        text += f" ({', '.join(item.categories)})"
+    parts = item.loc[1:] if item.loc[:1] == ('body',) else item.loc
+    field = '.'.join(str(part) for part in parts)
+    text = f'{field}: {item.msg}' if field else item.msg
+    if item.type == 'content_policy_violation' and item.categories:
+        text += f' ({", ".join(item.categories)})'
     return text
 
 
@@ -128,7 +130,7 @@ def _read_refusal(body: bytes) -> tuple[str | None, str] | None:
     except ValidationError:
         return None
     error_type = next((item.type for item in reply.detail if item.type in _FAILURE_TYPES), None)
-    reason = "; ".join(_describe_refusal(item) for item in reply.detail[:_MAX_REFUSAL_ITEMS])
+    reason = '; '.join(_describe_refusal(item) for item in reply.detail[:_MAX_REFUSAL_ITEMS])
     return error_type, reason
 
 
@@ -146,18 +148,18 @@ def _read_reason(body: bytes, headers: Mapping[str, str]) -> tuple[str | None, s
     except ValidationError:
         pass
     else:
-        return error.error_type or headers.get("X-Fal-Error-Type"), error.detail
+        return error.error_type or headers.get('X-Fal-Error-Type'), error.detail
     try:
         platform = PlatformErrorReply.model_validate_json(body).error
     except ValidationError:
-        return headers.get("X-Fal-Error-Type"), ""
+        return headers.get('X-Fal-Error-Type'), ''
     return platform.type, platform.message
 
 
 def _read_retry_after(headers: Mapping[str, str]) -> float | None:
     """Read the seconds a 429 asks to wait; a missing or non-numeric value gives none."""
     try:
-        seconds = float(headers.get("Retry-After", ""))
+        seconds = float(headers.get('Retry-After', ''))
     except ValueError:
         return None
     return seconds if math.isfinite(seconds) and seconds >= 0 else None
@@ -178,10 +180,10 @@ def build_failure(status: int | None, error_type: str | None, message: str) -> F
 def read_failure(status: int, body: bytes, headers: Mapping[str, str]) -> FalError:
     """Read a failed reply's error document; a body that is not one gives no type and no reason.
 
-    A start timeout the caller set is told apart by its header alone. A 429 that names how long to wait becomes a
+    The header alone identifies a start timeout that the caller set. A 429 that names how long to wait becomes a
     RetryLaterError, which only free reads wait for.
     """
-    if status == HTTPStatus.GATEWAY_TIMEOUT and headers.get("X-Fal-Request-Timeout-Type") == "user":
+    if status == HTTPStatus.GATEWAY_TIMEOUT and headers.get('X-Fal-Request-Timeout-Type') == 'user':
         return FalError(ErrorCode.TIMEOUT, START_TIMEOUT)
     error_type, reason = _read_reason(body, headers)
     failure = build_failure(status, error_type, reason)
@@ -191,4 +193,4 @@ def read_failure(status: int, body: bytes, headers: Mapping[str, str]) -> FalErr
     return RetryLaterError(failure.code, str(failure), seconds)
 
 
-__all__ = ["build_failure", "read_failure"]
+__all__ = ['build_failure', 'read_failure']

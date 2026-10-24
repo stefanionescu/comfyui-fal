@@ -1,8 +1,8 @@
 # 3D: Generate
 
 Runs any fal model that makes a 3D model, from images, a prompt, or another
-model. It outputs every 3D file the model made and the fal link of every file,
-textures and previews included.
+model. It outputs every 3D file the model made and the fal link of every file.
+The links include the textures and previews.
 
 ## Inputs
 
@@ -34,11 +34,11 @@ them with **Model: Info**. A setting left out takes fal's default.
 3. Connect `model_3d` to **Save 3D Model**, and select **Run**. A model takes
    from under a minute to several minutes.
 
-Example: **3d-01-turn-a-product-into-a-3d-model**.
+Example: `3d-01-turn-a-product-into-a-3d-model`.
 
-If you cancel while the request waits in fal's queue, fal drops it. Once it
-has started, it may still finish and be billed, even if you cancel, ComfyUI
-restarts, or the **Request timeout (seconds)** passes. Collect it with
-**Request: Download**.
+If you cancel while the request waits in fal's queue, fal drops it. Once the
+request has started, it may still finish, and fal may bill it. This can happen
+even if you cancel, ComfyUI restarts, or the request timeout in **fal
+Settings** passes. Collect it with **Request: Download**.
 
 [fal 3D models](https://fal.ai/models?categories=image-to-3d)

@@ -1,9 +1,9 @@
 # Model: Info
 
 Shows what any fal model takes and makes, as JSON: every input with its type,
-default, choices, range, and text length limit, and every output. Use it to write a paid node's
-`arguments` and a **File: Add**'s `field`. It reads fal's model listing, so it
-is free and needs no key.
+default, choices, range, and text length limit, and every output. Use it to
+write the `arguments` of a paid node and the `field` of a **File: Add** node.
+It reads fal's model listing, so it is free and needs no key.
 
 ## Inputs
 
@@ -61,7 +61,7 @@ lists no text length limit.
    from JSON** to use one key.
 
 A file input, such as `reference_audio_urls`, takes files through **File:
-Add**; every other input goes in the paid node's `arguments` under its
+Add**; every other input goes in `arguments` on the paid node, under its
 `field` name. Another extension can run the node and read `info` instead of
 copying a model's inputs; the advanced guide explains how. Example:
 **image-03-make-a-poster-series**.

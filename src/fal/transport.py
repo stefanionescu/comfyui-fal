@@ -1,25 +1,28 @@
 """Open every HTTP session the extension uses, and send the only requests that carry the fal API key.
 
-A submit is sent once and never again. A read that bills nothing fails without a charge, and its caller may read again.
+The module sends a submit once and never again. A read that bills nothing fails without a charge, and its caller may
+read again.
 """
 
 from __future__ import annotations
 
-import math
-import aiohttp
-from yarl import URL
 from http import HTTPStatus
-from dataclasses import replace
-from .streams import read_events
+import math
 from typing import TYPE_CHECKING
-from .failures import read_failure
-from pydantic import ValidationError
-from ..types.parsing import parse_json
-from ..types.replies import CancelReply
 from contextlib import asynccontextmanager
+from dataclasses import replace
+
+from yarl import URL
+import aiohttp
+from pydantic import ValidationError
+
+from .streams import read_events
+from .failures import read_failure
+from ..config.fal import KEY_HOSTS, REPLY_BYTES, STORAGE_TYPE, STORAGE_URLS, DASHBOARD_URLS
 from ..config.units import BYTES_PER_MEGABYTE
-from ..types.errors import ErrorCode, FalError
-from ..config.fal import KEY_HOSTS, REPLY_BYTES, STORAGE_URLS, STORAGE_TYPE, DASHBOARD_URLS
+from ..state.errors import FalError, ErrorCode
+from ..state.parsing import parse_json
+from ..state.replies import CancelReply
 from ..config.messages.run import (
     UPLOAD_FAILED,
     DOWNLOAD_LIMIT,
@@ -32,29 +35,30 @@ from ..config.messages.run import (
 )
 
 if TYPE_CHECKING:
-    from ..types import Json
-    from ..types.credentials import Credential
-    from ..types.replies import StorageTokenReply
     from collections.abc import Mapping, AsyncGenerator
-    from ..types.settings import Settings, Configuration
+
+    from ..state import Json
+    from ..state.replies import StorageTokenReply
+    from ..state.settings import Settings, Configuration
+    from ..state.credentials import Credential
 
 # Every JSON request and reply names its media type.
-_JSON_HEADERS = {"Accept": "application/json"}
+_JSON_HEADERS = {'Accept': 'application/json'}
 
 
 def _create_session(settings: Settings) -> aiohttp.ClientSession:
     """Open one session for one request, bounded by the request timeout.
 
-    Proxy settings from the environment and cookies are ignored, and every request refuses redirects, so neither the
-    key nor a reply can pass through another host. aiohttp sends a GET again when its connection drops, and its only
-    switch for that is private, so it is turned off here.
+    The session ignores proxy settings from the environment and cookies, and every request refuses redirects, so
+    neither the key nor a reply can pass through another host. aiohttp sends a read request again when its connection
+    drops, and its only switch for that is private, so this function turns it off.
     """
     session = aiohttp.ClientSession(
         timeout=aiohttp.ClientTimeout(total=settings.request_timeout_seconds),
         trust_env=False,
         cookie_jar=aiohttp.DummyCookieJar(),
     )
-    setattr(session, "_retry_connection", False)  # noqa: B010 -- reason: aiohttp offers no public switch for its resend.
+    setattr(session, '_retry_connection', False)  # noqa: B010 # reason: aiohttp offers no public switch for its resend.
     return session
 
 
@@ -62,8 +66,8 @@ def _build_headers(url: str | URL, credential: Credential | None, headers: Mappi
     """Add the API key only for an https address on one of fal's API hosts, whatever address a reply named."""
     result = dict(headers)
     address = URL(url)
-    if credential is not None and address.scheme == "https" and address.host in KEY_HOSTS:
-        result["Authorization"] = f"Key {credential.reveal()}"
+    if credential is not None and address.scheme == 'https' and address.host in KEY_HOSTS:
+        result['Authorization'] = f'Key {credential.value}'
     return result
 
 
@@ -71,7 +75,7 @@ async def _read_body(response: aiohttp.ClientResponse, settings: Settings) -> by
     """Read a reply or a file within the maximum download size."""
     maximum = settings.max_download_megabytes
     content = bytearray()
-    async for chunk in response.content.iter_chunked(REPLY_BYTES["CHUNK"]):
+    async for chunk in response.content.iter_chunked(REPLY_BYTES['CHUNK']):
         content.extend(chunk)
         if len(content) > maximum * BYTES_PER_MEGABYTE:
             raise FalError(ErrorCode.MEDIA, DOWNLOAD_LIMIT.format(maximum=maximum))
@@ -82,7 +86,7 @@ async def _validate_reply(response: aiohttp.ClientResponse) -> None:
     """Refuse a reply that is not a success, reading at most a short error body."""
     if response.status < HTTPStatus.MULTIPLE_CHOICES:
         return
-    body = await response.content.read(REPLY_BYTES["MAX_ERROR"])
+    body = await response.content.read(REPLY_BYTES['MAX_ERROR'])
     raise read_failure(response.status, body, response.headers)
 
 
@@ -92,7 +96,7 @@ async def _validate_paid_request(settings: Settings) -> AsyncGenerator[None]:
     try:
         yield
     except aiohttp.ClientConnectorError:
-        # The connection failed before the request was sent, so nothing was billed.
+        # The connection failed before aiohttp sent the request, so fal billed nothing.
         raise FalError(ErrorCode.TRANSPORT, FAL_UNREACHABLE) from None
     except aiohttp.ClientError:
         raise FalError(ErrorCode.UNCERTAIN, REQUEST_UNCERTAIN.format(**DASHBOARD_URLS)) from None
@@ -107,8 +111,8 @@ async def _send_free_request(
 ) -> AsyncGenerator[aiohttp.ClientResponse]:
     """Send one request that bills nothing, once, and hand over its reply.
 
-    A failure to connect or to read is reported as fal being out of reach, not as a possible charge, because the
-    request bills nothing.
+    The function reports a failure to connect or to read as fal being out of reach, not as a possible charge, because
+    the request bills nothing.
     """
     try:
         async with (
@@ -124,10 +128,10 @@ def _parse_reply(content: bytes, code: ErrorCode, message: str) -> Json:
     """Read a JSON reply whose size the download limit already bounds.
 
     The reply came with a success status. The code says what an unreadable reply means: UNCERTAIN when a paid request
-    ran and may be billed, or TRANSPORT when a request that bills nothing failed.
+    ran and fal may bill it, or TRANSPORT when a request that bills nothing failed.
     """
     try:
-        text = content.decode("utf-8")
+        text = content.decode('utf-8')
         return parse_json(text, max_bytes=len(content) + 1)
     except (UnicodeError, FalError):
         raise FalError(code, message) from None
@@ -149,25 +153,25 @@ async def send_json(
 
 
 async def send_lookup(url: str, settings: Settings, credential: Credential | None) -> Json:
-    """Send one GET that bills nothing, such as a status read or a listing page, and return its parsed JSON reply.
+    """Send one read that bills nothing, such as a status read or a listing page, and return its parsed JSON reply.
 
     The listing is free without a key, so the key is optional; it only raises fal's rate limit.
     """
     headers = _build_headers(url, credential, _JSON_HEADERS)
-    async with _send_free_request("GET", url, settings, headers) as response:
+    async with _send_free_request('GET', url, settings, headers) as response:
         await _validate_reply(response)
         content = await _read_body(response, settings)
     return _parse_reply(content, ErrorCode.TRANSPORT, REPLY_UNREADABLE)
 
 
 async def read_status_stream(url: str, configuration: Configuration, seconds: float) -> AsyncGenerator[Json]:
-    """Yield each status of fal's status stream until it closes or what is left of the wait passes.
+    """Yield each status of the fal status stream until it closes or the rest of the wait passes.
 
     The caller closes the stream once it has the status it needs, which closes the session at once.
     """
     settings = replace(configuration.settings, request_timeout_seconds=max(1, math.ceil(seconds)))
-    headers = _build_headers(url, configuration.credential, {"Accept": "text/event-stream"})
-    async with _send_free_request("GET", url, settings, headers) as response:
+    headers = _build_headers(url, configuration.credential, {'Accept': 'text/event-stream'})
+    async with _send_free_request('GET', url, settings, headers) as response:
         await _validate_reply(response)
         async for event in read_events(response, settings.max_download_megabytes * BYTES_PER_MEGABYTE):
             yield event
@@ -180,10 +184,10 @@ async def send_cancel(url: str, configuration: Configuration) -> bool:
     reply names a status and no success field, so a reply without one counts as accepted.
     """
     headers = _build_headers(url, configuration.credential, _JSON_HEADERS)
-    async with _send_free_request("PUT", url, configuration.settings, headers) as response:
+    async with _send_free_request('PUT', url, configuration.settings, headers) as response:
         if response.status >= HTTPStatus.MULTIPLE_CHOICES:
             return False
-        content = await response.content.read(REPLY_BYTES["MAX_ERROR"])
+        content = await response.content.read(REPLY_BYTES['MAX_ERROR'])
     try:
         return CancelReply.model_validate_json(content).success
     except ValidationError:
@@ -192,9 +196,9 @@ async def send_cancel(url: str, configuration: Configuration) -> bool:
 
 async def create_upload_token(configuration: Configuration) -> Json:
     """Ask fal for a storage token, the one credential an upload carries."""
-    url = URL(STORAGE_URLS["AUTHORIZE"]).with_query({"storage_type": STORAGE_TYPE})
-    headers = _build_headers(url, configuration.credential, {**_JSON_HEADERS, "Content-Type": "application/json"})
-    async with _send_free_request("POST", url, configuration.settings, headers, b"{}") as response:
+    url = URL(STORAGE_URLS['AUTHORIZE']).with_query({'storage_type': STORAGE_TYPE})
+    headers = _build_headers(url, configuration.credential, {**_JSON_HEADERS, 'Content-Type': 'application/json'})
+    async with _send_free_request('POST', url, configuration.settings, headers, b'{}') as response:
         await _validate_reply(response)
         content = await _read_body(response, configuration.settings)
     return _parse_reply(content, ErrorCode.TRANSPORT, UPLOAD_UNREADABLE)
@@ -209,11 +213,11 @@ async def send_upload(
     """
     headers = {
         **_JSON_HEADERS,
-        "Content-Type": content_type,
-        "X-Fal-File-Name": file_name,
-        "Authorization": f"{token.token_type} {token.token}",
+        'Content-Type': content_type,
+        'X-Fal-File-Name': file_name,
+        'Authorization': f'{token.token_type} {token.token}',
     }
-    async with _send_free_request("POST", STORAGE_URLS["UPLOAD"], settings, headers, content) as response:
+    async with _send_free_request('POST', STORAGE_URLS['UPLOAD'], settings, headers, content) as response:
         if response.status >= HTTPStatus.MULTIPLE_CHOICES:
             raise FalError(ErrorCode.TRANSPORT, UPLOAD_FAILED.format(status=response.status))
         reply = await _read_body(response, settings)
@@ -223,24 +227,24 @@ async def send_upload(
 async def download_output(url: str, settings: Settings) -> bytes:
     """Download one output file, once, without any credential.
 
-    The address may carry its own signature, so it is sent byte for byte. A storage host's error body is not in fal's
-    API format, so a failure names only its status. An address that is not https is not an output file, but the paid
-    request behind it ran, so its charge is uncertain.
+    The address may carry its own signature, so the function sends it byte for byte. The error body of a storage host
+    is not in the fal API format, so a failure names only its status. An address that is not https is not an output
+    file, but the paid request behind it ran, so its charge is uncertain.
     """
-    if not url.startswith("https://"):
+    if not url.startswith('https://'):
         raise FalError(ErrorCode.UNCERTAIN, REPLY_UNREADABLE)
-    async with _send_free_request("GET", URL(url, encoded=True), settings, {}) as response:
+    async with _send_free_request('GET', URL(url, encoded=True), settings, {}) as response:
         if response.status >= HTTPStatus.MULTIPLE_CHOICES:
             raise FalError(ErrorCode.TRANSPORT, OUTPUT_DOWNLOAD_FAILED.format(status=response.status))
         return await _read_body(response, settings)
 
 
 __all__ = [
-    "create_upload_token",
-    "download_output",
-    "read_status_stream",
-    "send_cancel",
-    "send_json",
-    "send_lookup",
-    "send_upload",
+    'create_upload_token',
+    'download_output',
+    'read_status_stream',
+    'send_cancel',
+    'send_json',
+    'send_lookup',
+    'send_upload',
 ]

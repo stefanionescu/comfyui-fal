@@ -35,8 +35,8 @@ left out takes fal's default.
    takes them, with any other settings, such as `voice`.
 3. To change or split audio, connect **File: Add** with the audio and the
    model's field name, such as `audio_url`, to `files`.
-4. Connect `audio` to **Save Audio (Advanced)** or **Preview Audio**, and
-   select **Run**.
+4. Connect `audio` to the `SaveAudioAdvanced` node or to **Preview Audio**,
+   and select **Run**.
 
 ComfyUI reads formats such as MP3, WAV, FLAC, and Opus, but not raw PCM,
 µ-law, or A-law. Choose one it reads in the model's `output_format`.

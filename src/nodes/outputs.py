@@ -1,17 +1,20 @@
-"""Fill a fal node's outputs from what its request made."""
+"""Fill the outputs of a fal node from what its request made."""
 
 from __future__ import annotations
 
 import json
-from comfy_api.latest import io
 from typing import TYPE_CHECKING
+
+from comfy_api.latest import io
 from comfy_execution.graph import ExecutionBlocker
+
 from ..comfy.media import decode_mesh, decode_audio, decode_video, decode_images
 
 if TYPE_CHECKING:
-    from ..types.files import FalFile
     from collections.abc import Sequence
-    from ..types.queue import RequestResult
+
+    from ..state.files import FalFile
+    from ..state.queue import RequestResult
 
 
 def _list_contents(result: RequestResult, kind: str) -> list[tuple[FalFile, bytes]]:
@@ -27,20 +30,20 @@ def build_node_outputs(result: RequestResult, output_ids: Sequence[str]) -> io.N
     An empty list, no text, and no files block the nodes connected to them; result is always filled.
     """
     values: dict[str, object] = {
-        "text": result.text,
-        "files": tuple(output.file for output in result.files),
-        "result": json.dumps(result.result, indent=2, ensure_ascii=False),
+        'text': result.text,
+        'files': tuple(output.file for output in result.files),
+        'result': json.dumps(result.result, indent=2, ensure_ascii=False),
     }
-    if {"images", "masks"} & set(output_ids):
-        images, masks = decode_images([content for _, content in _list_contents(result, "image")])
+    if {'images', 'masks'} & set(output_ids):
+        images, masks = decode_images([content for _, content in _list_contents(result, 'image')])
         values.update(images=list(images), masks=list(masks))
-    if "video" in output_ids:
-        values["video"] = [decode_video(content) for _, content in _list_contents(result, "video")]
-    if "audio" in output_ids:
-        values["audio"] = [decode_audio(content) for _, content in _list_contents(result, "audio")]
-    if "model_3d" in output_ids:
-        values["model_3d"] = [decode_mesh(content, file) for file, content in _list_contents(result, "mesh")]
+    if 'video' in output_ids:
+        values['video'] = [decode_video(content) for _, content in _list_contents(result, 'video')]
+    if 'audio' in output_ids:
+        values['audio'] = [decode_audio(content) for _, content in _list_contents(result, 'audio')]
+    if 'model_3d' in output_ids:
+        values['model_3d'] = [decode_mesh(content, file) for file, content in _list_contents(result, 'mesh')]
     return io.NodeOutput(*(values.get(output_id) or ExecutionBlocker(None) for output_id in output_ids))
 
 
-__all__ = ["build_node_outputs"]
+__all__ = ['build_node_outputs']

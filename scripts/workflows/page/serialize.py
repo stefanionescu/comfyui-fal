@@ -3,11 +3,9 @@
 from __future__ import annotations
 
 import uuid
-from typing import cast, TYPE_CHECKING
-from scripts.workflows.page.layout import place_columns
-from scripts.workflows.page.graph import Node, NAMESPACE
-from scripts.workflows.page.widgets import encode_widget_values
-from scripts.workflows.page.palette import Palette, read_slot_type
+from typing import TYPE_CHECKING, cast
+
+from scripts.workflows.page.graph import NAMESPACE, Node
 from scripts.workflows.page.sizes import measure, list_shown_slots
 from scripts.workflows.page.config import (
     PORT_GAP,
@@ -18,29 +16,33 @@ from scripts.workflows.page.config import (
     AUTOGROW_TYPE,
     SUBGRAPH_ID_STEP,
 )
+from scripts.workflows.page.layout import place_columns
+from scripts.workflows.page.palette import Palette, read_slot_type
+from scripts.workflows.page.widgets import encode_widget_values
 
 if TYPE_CHECKING:
-    from scripts.types import Item, Json, Schema
     from collections.abc import Mapping, Sequence
+
+    from scripts.types import Item, Json, Schema
     from scripts.workflows.page.graph import Subgraph
 
 
 def _encode_inputs(schema: Schema, linked: frozenset[str]) -> list[Json]:
-    """Serialize a node's inputs; a growing row shows its linked slots and one more."""
+    """Serialize the inputs of a node; a growing row shows its linked slots and one more."""
     inputs: list[Json] = []
-    for item in cast("list[Item]", schema["inputs"]):
-        if item["type"] == AUTOGROW_TYPE:
+    for item in cast('list[Item]', schema['inputs']):
+        if item['type'] == AUTOGROW_TYPE:
             slot_type = read_slot_type(item)
             inputs += [
-                {"label": slot.rsplit(".", 1)[1], "name": slot, "type": slot_type, "link": None, "shape": 7}
-                for slot in list_shown_slots(str(item["name"]), item, linked)
+                {'label': slot.rsplit('.', 1)[1], 'name': slot, 'type': slot_type, 'link': None, 'shape': 7}
+                for slot in list_shown_slots(str(item['name']), item, linked)
             ]
             continue
-        entry: Json = {"name": item["name"], "type": item["type"], "link": None}
-        if item.get("widget"):
-            entry["widget"] = {"name": item["name"]}
-        elif item.get("optional"):
-            entry["shape"] = 7
+        entry: Json = {'name': item['name'], 'type': item['type'], 'link': None}
+        if item.get('widget'):
+            entry['widget'] = {'name': item['name']}
+        elif item.get('optional'):
+            entry['shape'] = 7
         inputs.append(entry)
     return inputs
 
@@ -53,25 +55,25 @@ def _encode_node(
     is_subgraph = node.kind in palette.subgraphs
     inputs = _encode_inputs(schema, linked)
     outputs: list[Json] = [
-        {"name": item["name"], "type": item["type"], **({"shape": 6} if item.get("is_list") else {}), "links": []}
-        for item in cast("list[Item]", schema["outputs"])
+        {'name': item['name'], 'type': item['type'], **({'shape': 6} if item.get('is_list') else {}), 'links': []}
+        for item in cast('list[Item]', schema['outputs'])
     ]
     kind = palette.ids[node.kind] if is_subgraph else node.kind
     entry: Json = {
-        "id": number,
-        "type": kind,
-        "pos": [box[0], box[1]],
-        "size": [box[2], box[3]],
-        "flags": {},
-        "order": number - 1,
-        "mode": BYPASS_MODE if node.is_bypassed else 0,
-        "inputs": inputs,
-        "outputs": outputs,
-        "properties": {} if is_subgraph else {"Node name for S&R": kind},
-        "widgets_values": encode_widget_values(schema, node.values, node.kind),
+        'id': number,
+        'type': kind,
+        'pos': [box[0], box[1]],
+        'size': [box[2], box[3]],
+        'flags': {},
+        'order': number - 1,
+        'mode': BYPASS_MODE if node.is_bypassed else 0,
+        'inputs': inputs,
+        'outputs': outputs,
+        'properties': {} if is_subgraph else {'Node name for S&R': kind},
+        'widgets_values': encode_widget_values(schema, node.values, node.kind),
     }
     if node.title or is_subgraph:
-        entry["title"] = node.title or node.kind
+        entry['title'] = node.title or node.kind
     if node.is_paid:
         entry.update(PAID_COLOURS)
     return entry
@@ -79,10 +81,10 @@ def _encode_node(
 
 def _find_slot(entry: Json, side: str, name: str) -> int:
     """Find the position of a serialized input or output."""
-    sockets = cast("list[Json]", entry[side])
-    index = next((index for index, socket in enumerate(sockets) if socket["name"] == name), None)
+    sockets = cast('list[Json]', entry[side])
+    index = next((index for index, socket in enumerate(sockets) if socket['name'] == name), None)
     if index is None:
-        message = f"{entry['type']} has no {side[:-1]} named {name}."
+        message = f'{entry["type"]} has no {side[:-1]} named {name}.'
         raise KeyError(message)
     return index
 
@@ -92,22 +94,22 @@ def _encode_ports(
 ) -> list[Json]:
     """Link the exposed inputs or outputs to the inner nodes."""
     ports: list[Json] = []
-    port_node, inner_side = (-10, "inputs") if side == "inputs" else (-20, "outputs")
+    port_node, inner_side = (-10, 'inputs') if side == 'inputs' else (-20, 'outputs')
     for index, (name, socket) in enumerate(getattr(subgraph, side)):
-        key, socket_name = socket.split(".", 1)
+        key, socket_name = socket.split('.', 1)
         entry = entries[key]
         position = _find_slot(entry, inner_side, socket_name)
         number = len(records) + 1
-        inner = cast("list[Json]", entry[inner_side])[position]
-        if side == "inputs":
-            inner["link"] = number
-            record = {"origin_id": port_node, "origin_slot": index, "target_id": entry["id"], "target_slot": position}
+        inner = cast('list[Json]', entry[inner_side])[position]
+        if side == 'inputs':
+            inner['link'] = number
+            record = {'origin_id': port_node, 'origin_slot': index, 'target_id': entry['id'], 'target_slot': position}
         else:
-            cast("list[int]", inner["links"]).append(number)
-            record = {"origin_id": entry["id"], "origin_slot": position, "target_id": port_node, "target_slot": index}
-        records.append({"id": number, **record, "type": inner["type"]})
-        port_id = str(uuid.uuid5(NAMESPACE, f"{subgraph_id}.{side}.{name}"))
-        ports.append({"id": port_id, "name": name, "type": inner["type"], "linkIds": [number], "pos": [0, 0]})
+            cast('list[int]', inner['links']).append(number)
+            record = {'origin_id': entry['id'], 'origin_slot': position, 'target_id': port_node, 'target_slot': index}
+        records.append({'id': number, **record, 'type': inner['type']})
+        port_id = str(uuid.uuid5(NAMESPACE, f'{subgraph_id}.{side}.{name}'))
+        ports.append({'id': port_id, 'name': name, 'type': inner['type'], 'linkIds': [number], 'pos': [0, 0]})
     return ports
 
 
@@ -119,7 +121,7 @@ def encode_nodes(
     first_id: int = 1,
 ) -> dict[str, Json]:
     """Serialize nodes with nothing linked yet; the targets are the `node.socket` names links will fill."""
-    linked = [target.split(".", 1) for target in targets]
+    linked = [target.split('.', 1) for target in targets]
     entries = {
         node.key: _encode_node(
             node,
@@ -131,7 +133,7 @@ def encode_nodes(
         for number, node in enumerate(nodes, first_id)
     }
     if len(entries) != len(nodes):
-        message = "Give every node its own key."
+        message = 'Give every node its own key.'
         raise ValueError(message)
     return entries
 
@@ -141,22 +143,22 @@ def encode_links(entries: Mapping[str, Json], links: tuple[tuple[str, str], ...]
     records: list[Json] = []
     for number, (start, end) in enumerate(links, 1):
         # The node key comes first; the rest is the socket's full name, which can name a slot of a growing row.
-        source_key, output = start.split(".", 1)
-        target_key, input_name = end.split(".", 1)
+        source_key, output = start.split('.', 1)
+        target_key, input_name = end.split('.', 1)
         origin, target = entries[source_key], entries[target_key]
-        origin_slot = _find_slot(origin, "outputs", output)
-        target_slot = _find_slot(target, "inputs", input_name)
-        cast("list[int]", cast("list[Json]", origin["outputs"])[origin_slot]["links"]).append(number)
-        cast("list[Json]", target["inputs"])[target_slot]["link"] = number
-        kind = cast("list[Json]", origin["outputs"])[origin_slot]["type"]
+        origin_slot = _find_slot(origin, 'outputs', output)
+        target_slot = _find_slot(target, 'inputs', input_name)
+        cast('list[int]', cast('list[Json]', origin['outputs'])[origin_slot]['links']).append(number)
+        cast('list[Json]', target['inputs'])[target_slot]['link'] = number
+        kind = cast('list[Json]', origin['outputs'])[origin_slot]['type']
         records.append(
             {
-                "id": number,
-                "origin_id": origin["id"],
-                "origin_slot": origin_slot,
-                "target_id": target["id"],
-                "target_slot": target_slot,
-                "type": kind,
+                'id': number,
+                'origin_id': origin['id'],
+                'origin_slot': origin_slot,
+                'target_id': target['id'],
+                'target_slot': target_slot,
+                'type': kind,
             }
         )
     return records
@@ -170,7 +172,7 @@ def read_preview_exposures(subgraph: Subgraph, position: int) -> list[Json]:
     keys = [node.key for node in subgraph.nodes]
     first_id = position * SUBGRAPH_ID_STEP + 1
     return [
-        {"name": name, "sourceNodeId": str(first_id + keys.index(key)), "sourcePreviewName": name}
+        {'name': name, 'sourceNodeId': str(first_id + keys.index(key)), 'sourcePreviewName': name}
         for key, name in subgraph.previews
     ]
 
@@ -180,7 +182,7 @@ def encode_subgraph(subgraph: Subgraph, palette: Palette, position: int) -> Json
     subgraph_id = palette.ids[subgraph.name]
     # The input ports link sockets too, so the growing rows they feed show those slots.
     targets = [end for _start, end in (*subgraph.links, *subgraph.inputs)]
-    linked = [target.split(".", 1) for target in targets]
+    linked = [target.split('.', 1) for target in targets]
     sizes = {
         node.key: measure(
             node.kind,
@@ -194,42 +196,42 @@ def encode_subgraph(subgraph: Subgraph, palette: Palette, position: int) -> Json
     boxes = {key: (box.x, box.y, box.width, box.height) for key, box in placed.items()}
     entries = encode_nodes(subgraph.nodes, palette, boxes, targets, position * SUBGRAPH_ID_STEP + 1)
     records = encode_links(entries, subgraph.links)
-    inputs = _encode_ports(subgraph, subgraph_id, entries, records, "inputs")
-    outputs = _encode_ports(subgraph, subgraph_id, entries, records, "outputs")
-    right = max(box.right for box in placed.values()) + PORT_GAP
+    inputs = _encode_ports(subgraph, subgraph_id, entries, records, 'inputs')
+    outputs = _encode_ports(subgraph, subgraph_id, entries, records, 'outputs')
+    right = max(box.x + box.width for box in placed.values()) + PORT_GAP
     for index, port in enumerate(inputs):
-        port["pos"] = [INNER_ORIGIN[0] - PORT_GAP, INNER_ORIGIN[1] + 20 * index]
+        port['pos'] = [INNER_ORIGIN[0] - PORT_GAP, INNER_ORIGIN[1] + 20 * index]
     for index, port in enumerate(outputs):
-        port["pos"] = [right, INNER_ORIGIN[1] + 20 * index]
+        port['pos'] = [right, INNER_ORIGIN[1] + 20 * index]
     return {
-        "id": subgraph_id,
-        "version": 1,
-        "state": {
-            "lastGroupId": 0,
-            "lastNodeId": position * SUBGRAPH_ID_STEP + len(entries),
-            "lastLinkId": len(records),
-            "lastRerouteId": 0,
+        'id': subgraph_id,
+        'version': 1,
+        'state': {
+            'lastGroupId': 0,
+            'lastNodeId': position * SUBGRAPH_ID_STEP + len(entries),
+            'lastLinkId': len(records),
+            'lastRerouteId': 0,
         },
-        "revision": 0,
-        "config": {},
-        "name": subgraph.name,
-        "inputNode": {
-            "id": -10,
-            "bounding": [
+        'revision': 0,
+        'config': {},
+        'name': subgraph.name,
+        'inputNode': {
+            'id': -10,
+            'bounding': [
                 INNER_ORIGIN[0] - PORT_GAP - PORT_WIDTH,
                 INNER_ORIGIN[1],
                 PORT_WIDTH,
                 20 * max(1, len(inputs)),
             ],
         },
-        "outputNode": {"id": -20, "bounding": [right, INNER_ORIGIN[1], PORT_WIDTH, 20 * max(1, len(outputs))]},
-        "inputs": inputs,
-        "outputs": outputs,
-        "widgets": [],
-        "nodes": list(entries.values()),
-        "groups": [],
-        "links": records,
-        "extra": {"description": subgraph.description} if subgraph.description else {},
+        'outputNode': {'id': -20, 'bounding': [right, INNER_ORIGIN[1], PORT_WIDTH, 20 * max(1, len(outputs))]},
+        'inputs': inputs,
+        'outputs': outputs,
+        'widgets': [],
+        'nodes': list(entries.values()),
+        'groups': [],
+        'links': records,
+        'extra': {'description': subgraph.description} if subgraph.description else {},
     }
 
 
@@ -239,26 +241,26 @@ def encode_blueprint(subgraph: Subgraph, palette: Palette, category: str) -> Jso
     ComfyUI names the blueprint after its file and lists it under Subgraph Blueprints, in its category, with its
     description.
     """
-    node = Node("blueprint", subgraph.name)
+    node = Node('blueprint', subgraph.name)
     size = measure(node.kind, palette.find_schema(node), node.values, frozenset())
     entry = encode_nodes((node,), palette, {node.key: (0, 0, *size)}, [])[node.key]
     exposures = read_preview_exposures(subgraph, 1)
     if exposures:
-        cast("Json", entry["properties"])["previewExposures"] = exposures
-    definition = encode_subgraph(subgraph, palette, 1) | {"category": category, "description": subgraph.description}
+        cast('Json', entry['properties'])['previewExposures'] = exposures
+    definition = encode_subgraph(subgraph, palette, 1) | {'category': category, 'description': subgraph.description}
     return {
-        "id": str(uuid.uuid5(NAMESPACE, f"blueprint.{subgraph.name}")),
-        "revision": 0,
-        "last_node_id": 1,
-        "last_link_id": 0,
-        "nodes": [entry],
-        "links": [],
-        "groups": [],
-        "config": {},
-        "extra": {},
-        "version": 0.4,
-        "definitions": {"subgraphs": [definition]},
+        'id': str(uuid.uuid5(NAMESPACE, f'blueprint.{subgraph.name}')),
+        'revision': 0,
+        'last_node_id': 1,
+        'last_link_id': 0,
+        'nodes': [entry],
+        'links': [],
+        'groups': [],
+        'config': {},
+        'extra': {},
+        'version': 0.4,
+        'definitions': {'subgraphs': [definition]},
     }
 
 
-__all__ = ["encode_blueprint", "encode_links", "encode_nodes", "encode_subgraph", "read_preview_exposures"]
+__all__ = ['encode_blueprint', 'encode_links', 'encode_nodes', 'encode_subgraph', 'read_preview_exposures']

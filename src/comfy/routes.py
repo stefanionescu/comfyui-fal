@@ -1,11 +1,13 @@
 """Register the extension's local routes with ComfyUI."""
 
-import folder_paths
 from pathlib import Path
-from comfy.cli_args import args
+
 from server import PromptServer
+import folder_paths
+from comfy.cli_args import args
+
 from .runtime import get_runtime
-from ..types.errors import ErrorCode, FalError
+from ..state.errors import FalError, ErrorCode
 from ..settings.routes import ConfigurationRoutes
 from ..config.messages.settings import PRIVATE_STATE_LOCATION
 
@@ -30,4 +32,4 @@ def register_routes() -> None:
     ConfigurationRoutes(store, is_multi_user=args.multi_user).register(PromptServer.instance.routes)
 
 
-__all__ = ["register_routes"]
+__all__ = ['register_routes']

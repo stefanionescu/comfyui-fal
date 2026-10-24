@@ -27,7 +27,7 @@ are for a node with no Request Options.
 1. Change the options you need, and leave the rest at their defaults.
 2. Connect `options` to the `options` input of one or more paid nodes.
 
-A model's own settings go in the paid node's `arguments`, not here. With
+A model's own settings go in `arguments` on the paid node, not here. With
 `disable_fallback` off, fal may run and bill another model. With `store_io`
 off, **Request: Download** can collect a request only for a short time.
 Example: **video-04-upscale-a-clip**.

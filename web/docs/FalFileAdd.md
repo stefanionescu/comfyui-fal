@@ -1,7 +1,7 @@
 # File: Add
 
 Gives a fal model a file: a public `https://` link, images, masks, audio, or
-video from ComfyUI, or another fal node's files. You name the model's file
+video from ComfyUI, or the files of another fal node. You name the model's file
 input in `field`, exactly as fal writes it, such as `image_url`. Chain several
 of these nodes to give a model several files. It sends nothing; the fal node
 uploads local files when it runs.
@@ -29,7 +29,7 @@ uploads local files when it runs.
 
 An input whose name ends in `_urls` takes a list, in order; one that ends in
 `_url` takes exactly one file. Some models read a list by position, such as
-"the person in Image 1". Examples: **image-01-design-a-host** and
+"the person in Image 1." Examples: **image-01-design-a-host** and
 **video-02-give-a-host-a-voice**.
 
 [fal file inputs](https://fal.ai/docs/documentation/model-apis/fal-cdn)
