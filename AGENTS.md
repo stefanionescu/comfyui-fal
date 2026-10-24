@@ -70,3 +70,27 @@ Do not edit these files. Change `gspot.toml`, then run `bun run --no-install gsp
 - `ruff.toml`
 
 <!-- <<< gspot managed <<< -->
+
+## This project
+
+This repository is a ComfyUI extension that runs fal models. Its Python code in `src/` runs inside ComfyUI, and its
+browser code in `web/scripts/` ships as the built `web/extension.js` and `web/extension.css`.
+
+- After a change in `web/scripts/`, run `bun run build` and commit both built files.
+- In every node, sockets come first, then choices, numbers and toggles, and free-text fields come last. Subgraphs
+  promote their inputs in the same order.
+- A registered node ID never changes. A display label can change, but it changes no saved key. The help page of a node
+  is `web/docs/<node ID>.md`, named with the exact registered ID.
+- A boolean input that reads as a checkbox label keeps the spelling of the label. The `execute` or `send` parameter
+  that receives it keeps the same name, because ComfyUI passes each input by its name.
+- `mise run comfy:workflows:build` writes the example workflows in `example_workflows/` and the subgraphs in
+  `subgraphs/` from the descriptions in `scripts/workflows/descriptions/`. Change a description, then run it; do not
+  edit the JSON files by hand. Every node appears in at least one workflow, and the README links each workflow.
+- `requirements.txt` lists the runtime dependencies of `pyproject.toml`. After you change them, run
+  `uv run --no-sync python -m scripts.dependencies`.
+- The type checker reads the ComfyUI install that `.mise.local.toml` names in `COMFYUI_PATH` and `COMFYUI_PYTHON`.
+  `mise run deps` puts that install on the path of the project environment. The node and workflow checks run the
+  ComfyUI interpreter of that install.
+- Keep the fal key out of inputs, saved workflows, logs, and public files. It lives in the private key store of the
+  settings dialog, or in `FAL_KEY`.
+- Send no paid request to fal without the owner's approval, and state its cost first.
