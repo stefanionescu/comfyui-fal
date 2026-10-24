@@ -121,15 +121,17 @@ help = "Move the import into src/comfy or src/nodes, and pass the value it gives
 exit_codes = [1]
 output = { format = "regex", pattern = "^-\\s+(?<message>\\S+ -> \\S+) \\(l\\.(?<line>\\d+)\\)$" }
 
-# esbuild writes the shipped browser bundle from web/scripts, so the committed files must match a fresh build.
+# esbuild writes the shipped browser bundle from web/scripts, so the committed files must match a fresh build. The
+# script builds in the working tree, because a check copy holds only the staged files and misses unchanged sources.
 [[command_check]]
 id = "frontend-bundle"
-command = ["bun", "run", "build"]
-paths = ["web/scripts/**", "web/extension.js", "web/extension.css", "package.json", "bun.lock"]
-outputs = ["web/extension.js", "web/extension.css"]
+command = ["uv", "run", "--no-sync", "python", "-m", "scripts.frontend"]
+paths = ["web/scripts/**", "web/extension.js", "web/extension.css", "scripts/frontend.py", "package.json", "bun.lock"]
 stage = "commit"
 summary = "Checks that web/extension.js and web/extension.css match a fresh build of web/scripts."
 help = "Run bun run build, and commit both built files."
+exit_codes = [1]
+output = { format = "regex", pattern = "^(?<message>(Rebuild \\S+ with .+|esbuild failed\\.))$" }
 
 # The help pages and the examples follow the registered nodes. Both checks export the node schemas through the ComfyUI
 # install that .mise.local.toml names, without starting ComfyUI. The export refuses a paid node whose send parameters
