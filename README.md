@@ -138,12 +138,17 @@ the model's name on fal, such as `alibaba/wan-3.0/reference-to-video`.
 [fal's model gallery](https://fal.ai/explore) shows it on each model's page,
 with the settings the model takes.
 
-![Video: Generate on the canvas: the files and options inputs; model set to alibaba/wan-3.0/reference-to-video; run_number; prompt about a host waving at the camera; and arguments holding resolution 480p, duration 5, and aspect_ratio 9:16.](docs/images/screenshots/video-generate-node.png)
+![Video: Generate on the canvas: the files and options inputs; model set to alibaba/wan-3.0/reference-to-video; duration, resolution, and aspect_ratio set to custom with 5, 480p, and 9:16; generate_audio and seed at default; run_number; and a prompt about a host waving at the camera.](docs/images/screenshots/video-generate-node.png)
 
-Write the model's other settings in `arguments` as JSON, under fal's names,
-such as `{"resolution": "480p", "duration": 5}`. Settings you leave out keep
-fal's defaults. **Model: Info** lists every setting a model takes; it bills
-nothing and needs no key. Before fal bills anything, the node reads the model
+Each kind node has its own inputs for the settings most models of the kind
+share, such as `aspect_ratio`, `seed`, and `num_images`. At `default`, a
+setting sends nothing, and at `custom`, it sends the value you set. Write the
+model's other settings in `arguments` as JSON, under fal's names, such as
+`{"enable_safety_checker": false}`. Settings you leave out keep fal's defaults.
+**Model: Info** lists every setting a model takes; it bills nothing and needs no
+key.
+
+Before fal bills anything, the node reads the model
 from fal. The node stops if fal has no such model, the model makes another
 kind of output, or the model does not take a setting you sent. The
 [advanced guide](ADVANCED.md#models) lists the checks.

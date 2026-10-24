@@ -3,6 +3,7 @@ import { message } from '#web/text.ts';
 import { app } from '../../scripts/app.js';
 import { requestLocal } from '#web/http.ts';
 import { openSettings } from '#web/settings/dialog.ts';
+import { refreshGraph, addNodeControls } from '#web/controls.ts';
 
 app.registerExtension({
     name: 'fal',
@@ -15,6 +16,12 @@ app.registerExtension({
             stylesheets.add(link.getAttribute('href'));
         }
         if (!stylesheets.has(stylesheet.href)) document.head.append(stylesheet);
+    },
+    nodeCreated: (canvasNode) => {
+        addNodeControls(app, canvasNode);
+    },
+    afterConfigureGraph: () => {
+        refreshGraph(app);
     },
     commands: [
         {

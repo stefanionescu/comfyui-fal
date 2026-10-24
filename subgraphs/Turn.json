@@ -162,7 +162,7 @@
             ],
             "size": [
               340,
-              250
+              472
             ],
             "flags": {},
             "order": 101,
@@ -189,6 +189,62 @@
                 }
               },
               {
+                "name": "aspect_ratio",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "aspect_ratio"
+                }
+              },
+              {
+                "name": "resolution",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "resolution"
+                }
+              },
+              {
+                "name": "num_images",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "num_images"
+                }
+              },
+              {
+                "name": "output_format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "output_format"
+                }
+              },
+              {
+                "name": "guidance_scale",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "guidance_scale"
+                }
+              },
+              {
+                "name": "num_inference_steps",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "num_inference_steps"
+                }
+              },
+              {
+                "name": "seed",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "seed"
+                }
+              },
+              {
                 "name": "run_number",
                 "type": "INT",
                 "link": null,
@@ -202,6 +258,14 @@
                 "link": null,
                 "widget": {
                   "name": "prompt"
+                }
+              },
+              {
+                "name": "negative_prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "negative_prompt"
                 }
               },
               {
@@ -244,8 +308,16 @@
             },
             "widgets_values": [
               "openai/gpt-image-2.5/sunburst/edit",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
               0,
               "The same host in a three-quarter view, waving at the camera, with the same outfit, hair, and background.",
+              "",
               "{\n  \"quality\": \"high\"\n}"
             ],
             "color": "#432",

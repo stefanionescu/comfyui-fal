@@ -124,7 +124,7 @@
             ],
             "size": [
               340,
-              230
+              404
             ],
             "flags": {},
             "order": 100,
@@ -151,6 +151,46 @@
                 }
               },
               {
+                "name": "duration",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "duration"
+                }
+              },
+              {
+                "name": "resolution",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "resolution"
+                }
+              },
+              {
+                "name": "aspect_ratio",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "aspect_ratio"
+                }
+              },
+              {
+                "name": "generate_audio",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "generate_audio"
+                }
+              },
+              {
+                "name": "seed",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "seed"
+                }
+              },
+              {
                 "name": "run_number",
                 "type": "INT",
                 "link": null,
@@ -164,6 +204,14 @@
                 "link": 3,
                 "widget": {
                   "name": "prompt"
+                }
+              },
+              {
+                "name": "negative_prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "negative_prompt"
                 }
               },
               {
@@ -200,7 +248,13 @@
             },
             "widgets_values": [
               "alibaba/wan-3.0/reference-to-video",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
               0,
+              "",
               "",
               "{\n  \"resolution\": \"480p\",\n  \"duration\": 5,\n  \"aspect_ratio\": \"9:16\"\n}"
             ],
@@ -292,7 +346,7 @@
             "origin_id": -10,
             "origin_slot": 1,
             "target_id": 101,
-            "target_slot": 4,
+            "target_slot": 9,
             "type": "STRING"
           }
         ],

@@ -126,7 +126,7 @@
             ],
             "size": [
               340,
-              250
+              472
             ],
             "flags": {},
             "order": 100,
@@ -153,6 +153,62 @@
                 }
               },
               {
+                "name": "aspect_ratio",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "aspect_ratio"
+                }
+              },
+              {
+                "name": "resolution",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "resolution"
+                }
+              },
+              {
+                "name": "num_images",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "num_images"
+                }
+              },
+              {
+                "name": "output_format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "output_format"
+                }
+              },
+              {
+                "name": "guidance_scale",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "guidance_scale"
+                }
+              },
+              {
+                "name": "num_inference_steps",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "num_inference_steps"
+                }
+              },
+              {
+                "name": "seed",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "seed"
+                }
+              },
+              {
                 "name": "run_number",
                 "type": "INT",
                 "link": null,
@@ -166,6 +222,14 @@
                 "link": 2,
                 "widget": {
                   "name": "prompt"
+                }
+              },
+              {
+                "name": "negative_prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "negative_prompt"
                 }
               },
               {
@@ -210,7 +274,15 @@
             },
             "widgets_values": [
               "fal-ai/flux-2/klein/4b",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
               0,
+              "",
               "",
               "{\n  \"image_size\": \"square_hd\"\n}"
             ],
@@ -266,7 +338,7 @@
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 101,
-            "target_slot": 4,
+            "target_slot": 11,
             "type": "STRING"
           },
           {

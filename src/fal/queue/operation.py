@@ -133,7 +133,7 @@ class QueueOperation:
         """
         request = self.request
         model = await read_fal_model(request.model_id, request.kind, configuration.settings, configuration.credential)
-        values = build_arguments(model, request.prompt, request.arguments, request.files)
+        values = build_arguments(model, request.texts, request.settings, request.arguments, request.files)
         headers = build_request_headers(request.options)
         body = await self._build_body(values, configuration)
         if progress is not None:

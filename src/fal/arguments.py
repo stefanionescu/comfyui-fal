@@ -1,7 +1,8 @@
-"""Build a request input from the prompt, arguments, and files of a paid node, refusing locally what fal misreads.
+"""Build a request input from the text inputs, named settings, arguments, and files of a paid node.
 
-This module makes every refusal before the pack uploads or pays for anything. fal checks value types, choices, and
-ranges: a wrong value comes back as a 422 that names the field, and contract run 10 found such a refusal unbilled.
+This module makes every refusal before the pack uploads or pays for anything, and refuses locally what fal misreads.
+fal checks value types, choices, and ranges: a wrong value comes back as a 422 that names the field, and contract run 10
+found such a refusal unbilled.
 """
 
 from __future__ import annotations
@@ -16,17 +17,17 @@ from ..config.messages.inputs import (
     FILE_SAMPLE,
     JSON_SHAPES,
     MEDIA_NAMES,
-    PROMPT_TWICE,
+    TEXT_UNUSED,
     FILE_REQUIRED,
-    PROMPT_UNUSED,
     FIELD_NOT_FILE,
     FIELD_ONE_FILE,
     FIELD_REQUIRED,
     FIELD_TOO_MANY,
+    TEXT_NOT_TAKEN,
     ARGUMENTS_SHAPE,
     PROMPT_REQUIRED,
+    SETTING_UNKNOWN,
     ARGUMENT_UNKNOWN,
-    PROMPT_NOT_TAKEN,
     ARGUMENTS_INVALID,
     FILE_FIELD_MISSING,
     FILE_FIELD_UNKNOWN,
@@ -64,15 +65,30 @@ def _parse_arguments_text(text: str) -> dict[str, Json]:
     return value
 
 
-def _validate_prompt(model: FalModel, arguments: Mapping[str, Json]) -> None:
-    """Refuse a prompt the model has no field for, naming its text fields, or one arguments sets too."""
-    if _PROMPT in arguments:
-        raise FalError(ErrorCode.INVALID_INPUT, PROMPT_TWICE)
-    if any(field.name == _PROMPT for field in model.fields):
-        return
-    texts = [field.name for field in model.fields if field.input == 'string']
-    message = PROMPT_UNUSED.format(model=model.model_id, fields=', '.join(texts)) if texts else None
-    raise FalError(ErrorCode.INVALID_INPUT, message or PROMPT_NOT_TAKEN.format(model=model.model_id))
+def _add_text(model: FalModel, name: str, text: str, values: dict[str, Json]) -> None:
+    """Add one text input under its own name, refusing an input the model has no field for, or one arguments sets."""
+    model_id = model.model_id
+    if name in values:
+        raise FalError(ErrorCode.INVALID_INPUT, FIELD_TWICE.format(field=name, source=f'the {name} input'))
+    if not any(field.name == name for field in model.fields):
+        texts = [field.name for field in model.fields if field.input == 'string']
+        message = TEXT_UNUSED.format(model=model_id, field=name, fields=', '.join(texts)) if texts else None
+        raise FalError(ErrorCode.INVALID_INPUT, message or TEXT_NOT_TAKEN.format(model=model_id, field=name))
+    values[name] = text
+
+
+def _add_setting(field: ModelField | None, name: str, value: Json, values: dict[str, Json], model_id: str) -> None:
+    """Add one named setting under its own name, as the type the field of the model takes.
+
+    A number goes as text to a field that takes only text, such as a duration that fal lists as the text 5.
+    """
+    if field is None:
+        raise FalError(ErrorCode.INVALID_INPUT, SETTING_UNKNOWN.format(model=model_id, field=name))
+    if name in values:
+        raise FalError(ErrorCode.INVALID_INPUT, FIELD_TWICE.format(field=name, source=f'the {name} input'))
+    types = set((field.schema_type or '').split(' | '))
+    is_text_only = 'string' in types and not types & {'integer', 'number'}
+    values[name] = str(value) if is_text_only and isinstance(value, int) and not isinstance(value, bool) else value
 
 
 def _validate_count(model: FalModel, field: ModelField, count: int) -> None:
@@ -94,7 +110,7 @@ def _validate_file(model: FalModel, field: ModelField | None, file: FalFile, arg
     if field.input != 'file':
         raise FalError(ErrorCode.INVALID_INPUT, FIELD_NOT_FILE.format(**names))
     if field.name in arguments:
-        raise FalError(ErrorCode.INVALID_INPUT, FIELD_TWICE.format(**names))
+        raise FalError(ErrorCode.INVALID_INPUT, FIELD_TWICE.format(field=field.name, source='File: Add'))
     media = field.media
     # A link is fal's to check; a local file must be the field's media, and a mask field also takes an image.
     if file.url is None and media is not None and file.kind not in {media, 'image' if media == 'mask' else media}:
@@ -152,32 +168,40 @@ def _find_constants(model: FalModel, fields: Mapping[str, object]) -> dict[str, 
     return constants
 
 
-def parse_arguments(model: FalModel, prompt: str | None, arguments: str | None) -> dict[str, Json]:
-    """Make the checks that need no files: the arguments JSON, its field names, and the prompt.
+def parse_arguments(
+    model: FalModel, texts: Mapping[str, str | None], settings: Mapping[str, Json], arguments: str | None
+) -> dict[str, Json]:
+    """Make the checks that need no files: the arguments JSON, its field names, the text inputs, and the settings.
 
-    Returns the prompt first, then the arguments in the person's order. A None text is an input fed by a link, known
-    only when the node runs, so its checks wait for then.
+    A None text or arguments is an input fed by a link, known only when the node runs, so its checks wait for then.
+    Returns the arguments first, then the text inputs and the named settings.
     """
     values = _parse_arguments_text(arguments) if arguments is not None else {}
-    names = {field.name for field in model.fields}
-    unknown = next((name for name in values if name not in names), None)
+    fields = {field.name: field for field in model.fields}
+    unknown = next((name for name in values if name not in fields), None)
     if unknown is not None:
         raise FalError(ErrorCode.INVALID_INPUT, ARGUMENT_UNKNOWN.format(model=model.model_id, field=unknown))
-    fields: dict[str, Json] = {}
-    if prompt is not None and prompt.strip():
-        _validate_prompt(model, values)
-        fields[_PROMPT] = prompt
-    fields.update(values)
-    return fields
+    for name, text in texts.items():
+        if text is not None and text.strip():
+            _add_text(model, name, text, values)
+    for name, value in settings.items():
+        _add_setting(fields.get(name), name, value, values, model.model_id)
+    return values
 
 
-def build_arguments(model: FalModel, prompt: str, arguments: str, files: Sequence[FalFile]) -> dict[str, FieldValue]:
+def build_arguments(
+    model: FalModel,
+    texts: Mapping[str, str],
+    settings: Mapping[str, Json],
+    arguments: str,
+    files: Sequence[FalFile],
+) -> dict[str, FieldValue]:
     """Build the request input by fal field name, and refuse at the first problem before any upload or payment.
 
     A file field holds one file for a *_url field and a tuple for a *_urls field, as the live fal schema shapes it.
     The request therefore sends one voice clip on a list field as a list.
     """
-    fields = parse_arguments(model, prompt, arguments)
+    fields = parse_arguments(model, texts, settings, arguments)
     groups = _build_file_groups(model, files, fields)
     shapes = {field.name: field for field in model.fields if field.input == 'file'}
     values: dict[str, FieldValue] = {

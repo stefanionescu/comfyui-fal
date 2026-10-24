@@ -126,7 +126,7 @@
             ],
             "size": [
               340,
-              230
+              356
             ],
             "flags": {},
             "order": 100,
@@ -153,6 +153,22 @@
                 }
               },
               {
+                "name": "output_format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "output_format"
+                }
+              },
+              {
+                "name": "seed",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "seed"
+                }
+              },
+              {
                 "name": "run_number",
                 "type": "INT",
                 "link": null,
@@ -161,11 +177,27 @@
                 }
               },
               {
+                "name": "voice",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "voice"
+                }
+              },
+              {
                 "name": "prompt",
                 "type": "STRING",
                 "link": 2,
                 "widget": {
                   "name": "prompt"
+                }
+              },
+              {
+                "name": "text",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "text"
                 }
               },
               {
@@ -204,7 +236,11 @@
             },
             "widgets_values": [
               "fal-ai/minimax/speech-2.8-turbo",
+              "default",
+              "default",
               0,
+              "",
+              "",
               "",
               ""
             ],
@@ -279,7 +315,7 @@
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 101,
-            "target_slot": 4,
+            "target_slot": 7,
             "type": "STRING"
           },
           {

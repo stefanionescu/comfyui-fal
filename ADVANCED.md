@@ -117,8 +117,22 @@ and waits when fal asks it to read more slowly. The checks it makes are in
 [When a node stops](#when-a-node-stops); fal itself checks every value, and
 its refusal names the setting and gives the reason.
 
-`arguments` is a JSON object of the model's settings under fal's names, such
-as `{"resolution": "480p", "duration": 5}`. A value goes as written: write
+The named settings are the fields most models of a kind share:
+
+| Node            | Named settings                                                                                                   |
+| --------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Image: Generate | `aspect_ratio`, `resolution`, `num_images`, `output_format`, `guidance_scale`, `num_inference_steps`, and `seed` |
+| Video: Generate | `duration`, `resolution`, `aspect_ratio`, `generate_audio`, and `seed`                                           |
+| Audio: Generate | `output_format` and `seed`, with `voice` and `text` as text inputs                                               |
+
+Each named setting at `default` sends nothing. At `custom`, it goes under its
+own name, and only a model with a field of that name takes it. A number goes
+as text to a field that takes only text, such as a duration fal lists as
+`"5"`. A model that names a setting another way, such as `image_size`, takes it
+in `arguments`.
+
+`arguments` is a JSON object of the model's other settings under fal's names,
+such as `{"resolution": "480p", "duration": 5}`. A value goes as written: write
 `"5"` where fal lists the text `"5"`. Settings you leave out keep their
 defaults on fal. Some defaults are the most expensive choice: Wan 3.0, for
 example, defaults to 1080p. **Model: Info** lists every setting, its choices,

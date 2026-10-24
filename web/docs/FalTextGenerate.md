@@ -11,7 +11,7 @@ whole result, and the fal link of any file the model made.
 | `files`      | Audio, images, or video from **File: Add**, each under the model's field name, such as `audio_url`.                            |
 | `options`    | Settings from **Request Options**.                                                                                             |
 | `model`      | The model's ID on fal, such as `fal-ai/moondream3-preview/query`. The default is `fal-ai/elevenlabs/speech-to-text/scribe-v2`. |
-| `run_number` | Change it to send the same request again.                                                                                      |
+| `run_number` | Change this number to send the same request again.                                                                             |
 | `prompt`     | The question or instruction sent as the model's `prompt`. Leave it empty for a model without one.                              |
 | `arguments`  | The model's other settings as JSON, under fal's names, such as `{"diarize": true}`.                                            |
 

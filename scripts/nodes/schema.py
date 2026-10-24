@@ -20,7 +20,6 @@ import nodes as host
 from src.nodes import NODE_TYPES
 from src.nodes.base import PaidNode
 from src.comfy.runtime import create_runtime
-from src.config.inputs import INPUT_NAMES
 from scripts.nodes.host import HostNode
 from src.config.storage import ENVIRONMENT_VARIABLES
 
@@ -81,7 +80,8 @@ def _build_host_schema(name: str) -> dict[str, object]:
 def _build_registered_schemas() -> dict[str, dict[str, object]]:
     """Describe every registered node, refusing a mismatched schema.
 
-    A paid node receives its inputs through send, and the run number through its base class.
+    A free node takes each input as a named parameter of execute. A paid node reads its inputs by the names the config
+    lists, so it has no parameters to compare.
     """
     schemas: dict[str, dict[str, object]] = {}
     for node_type in NODE_TYPES:
@@ -89,11 +89,8 @@ def _build_registered_schemas() -> dict[str, dict[str, object]]:
         if schema.node_id in schemas:
             message = f'Register {schema.node_id} once.'
             raise ValueError(message)
-        if issubclass(node_type, PaidNode):
-            parameters = {INPUT_NAMES['RUN_NUMBER'], *inspect.signature(node_type.send).parameters}
-        else:
-            parameters = set(inspect.signature(node_type.execute).parameters)  # pyright: ignore[reportUnknownMemberType, reportUnknownArgumentType] # reason: The host leaves execute untyped.
-        if parameters != {item.id for item in schema.inputs}:
+        parameters = set(inspect.signature(node_type.execute).parameters)  # pyright: ignore[reportUnknownMemberType, reportUnknownArgumentType] # reason: The host leaves execute untyped.
+        if not issubclass(node_type, PaidNode) and parameters != {item.id for item in schema.inputs}:
             message = f'Match the execute parameters of {schema.node_id} to its inputs.'
             raise ValueError(message)
         schemas[schema.node_id] = _build_node_schema(schema)

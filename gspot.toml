@@ -48,8 +48,13 @@ entry = ["web/scripts/extension.ts"]
 # The browser code in layers. Each rule lists exactly what its files may import, besides their own folder.
 [[import_rule]]
 name = "page"
-paths = ["web/scripts/browser.ts", "web/scripts/dom.ts", "web/scripts/host.d.ts", "web/scripts/http.ts", "web/scripts/interface.css", "web/scripts/routes.ts", "web/scripts/schema.ts", "web/scripts/text.ts"]
+paths = ["web/scripts/browser.ts", "web/scripts/dom.ts", "web/scripts/host.d.ts", "web/scripts/http.ts", "web/scripts/interface.css", "web/scripts/nodes.ts", "web/scripts/routes.ts", "web/scripts/schema.ts", "web/scripts/text.ts"]
 can_import = []
+
+[[import_rule]]
+name = "controls"
+paths = ["web/scripts/controls.ts"]
+can_import = ["page"]
 
 [[import_rule]]
 name = "settings-dialog"
@@ -59,7 +64,7 @@ can_import = ["page"]
 [[import_rule]]
 name = "extension"
 paths = ["web/scripts/extension.ts"]
-can_import = ["page", "settings-dialog"]
+can_import = ["page", "settings-dialog", "controls"]
 
 # The Python packages in layers, the same way. config holds fixed values and imports nothing; state holds the records;
 # storage holds the private files; fal talks to fal and settings serves the settings routes, and neither imports the

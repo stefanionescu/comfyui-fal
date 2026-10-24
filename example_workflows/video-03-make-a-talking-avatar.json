@@ -531,7 +531,7 @@
             ],
             "size": [
               340,
-              250
+              472
             ],
             "flags": {},
             "order": 100,
@@ -558,6 +558,62 @@
                 }
               },
               {
+                "name": "aspect_ratio",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "aspect_ratio"
+                }
+              },
+              {
+                "name": "resolution",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "resolution"
+                }
+              },
+              {
+                "name": "num_images",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "num_images"
+                }
+              },
+              {
+                "name": "output_format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "output_format"
+                }
+              },
+              {
+                "name": "guidance_scale",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "guidance_scale"
+                }
+              },
+              {
+                "name": "num_inference_steps",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "num_inference_steps"
+                }
+              },
+              {
+                "name": "seed",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "seed"
+                }
+              },
+              {
                 "name": "run_number",
                 "type": "INT",
                 "link": null,
@@ -571,6 +627,14 @@
                 "link": 2,
                 "widget": {
                   "name": "prompt"
+                }
+              },
+              {
+                "name": "negative_prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "negative_prompt"
                 }
               },
               {
@@ -615,7 +679,15 @@
             },
             "widgets_values": [
               "fal-ai/flux-2/klein/4b",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
               0,
+              "",
               "",
               "{\n  \"image_size\": \"portrait_4_3\"\n}"
             ],
@@ -671,7 +743,7 @@
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 101,
-            "target_slot": 4,
+            "target_slot": 11,
             "type": "STRING"
           },
           {
@@ -756,7 +828,7 @@
             ],
             "size": [
               340,
-              230
+              356
             ],
             "flags": {},
             "order": 200,
@@ -783,6 +855,22 @@
                 }
               },
               {
+                "name": "output_format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "output_format"
+                }
+              },
+              {
+                "name": "seed",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "seed"
+                }
+              },
+              {
                 "name": "run_number",
                 "type": "INT",
                 "link": null,
@@ -791,11 +879,27 @@
                 }
               },
               {
+                "name": "voice",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "voice"
+                }
+              },
+              {
                 "name": "prompt",
                 "type": "STRING",
                 "link": 2,
                 "widget": {
                   "name": "prompt"
+                }
+              },
+              {
+                "name": "text",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "text"
                 }
               },
               {
@@ -834,7 +938,11 @@
             },
             "widgets_values": [
               "fal-ai/minimax/speech-2.8-turbo",
+              "default",
+              "default",
               0,
+              "",
+              "",
               "",
               ""
             ],
@@ -909,7 +1017,7 @@
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 201,
-            "target_slot": 4,
+            "target_slot": 7,
             "type": "STRING"
           },
           {
@@ -1103,7 +1211,7 @@
             ],
             "size": [
               340,
-              230
+              404
             ],
             "flags": {},
             "order": 302,
@@ -1130,6 +1238,46 @@
                 }
               },
               {
+                "name": "duration",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "duration"
+                }
+              },
+              {
+                "name": "resolution",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "resolution"
+                }
+              },
+              {
+                "name": "aspect_ratio",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "aspect_ratio"
+                }
+              },
+              {
+                "name": "generate_audio",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "generate_audio"
+                }
+              },
+              {
+                "name": "seed",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "seed"
+                }
+              },
+              {
                 "name": "run_number",
                 "type": "INT",
                 "link": null,
@@ -1143,6 +1291,14 @@
                 "link": null,
                 "widget": {
                   "name": "prompt"
+                }
+              },
+              {
+                "name": "negative_prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "negative_prompt"
                 }
               },
               {
@@ -1179,7 +1335,13 @@
             },
             "widgets_values": [
               "fal-ai/flashtalk",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
               0,
+              "",
               "",
               ""
             ],

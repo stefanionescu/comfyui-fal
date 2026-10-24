@@ -19,7 +19,7 @@ FIELD_REQUIRED = 'Set {field} in arguments. The model {model} needs it.'
 
 FIELD_TOO_MANY = 'The {field} field takes at most {maximum} files on {model}, and it has {count}. Remove {extra}.'
 
-FIELD_TWICE = 'The {field} field is set in arguments and by File: Add. Remove it from one of them.'
+FIELD_TWICE = 'The {field} field is set twice, in arguments and by {source}. Remove it from one of them.'
 
 FILE_EMPTY = "Connect an image, a mask, audio, a video, or a fal node's files to File: Add, or type a link into file."
 
@@ -47,18 +47,21 @@ FILE_SAMPLE = (
     'empty, fal would run its own sample file and bill it.'
 )
 
-PROMPT_NOT_TAKEN = 'The model {model} takes no text. Leave prompt empty.'
-
 PROMPT_REQUIRED = 'Write a prompt. The model {model} needs one.'
 
-PROMPT_TWICE = 'The prompt input and arguments both set prompt. Remove it from one of them.'
-
-PROMPT_UNUSED = (
-    'The model {model} takes no prompt. Leave prompt empty, and put the text in arguments under one of its text '
-    'fields: {fields}.'
+SETTING_UNKNOWN = (
+    'The model {model} has no field named {field}. Set {field} to default, and put the setting in arguments under the '
+    "model's own name. Model: Info lists its fields."
 )
 
 SINGLE_VALUE = 'Connect one value to {name}, not a list.'
+
+TEXT_NOT_TAKEN = 'The model {model} takes no {field}. Leave {field} empty.'
+
+TEXT_UNUSED = (
+    'The model {model} takes no {field}. Leave {field} empty, and put the text in arguments under one of its text '
+    'fields: {fields}.'
+)
 
 # How a refusal names the media a file field takes and the media it received.
 MEDIA_NAMES = {
@@ -99,9 +102,9 @@ __all__ = [
     'FILE_SAMPLE',
     'JSON_SHAPES',
     'MEDIA_NAMES',
-    'PROMPT_NOT_TAKEN',
     'PROMPT_REQUIRED',
-    'PROMPT_TWICE',
-    'PROMPT_UNUSED',
+    'SETTING_UNKNOWN',
     'SINGLE_VALUE',
+    'TEXT_NOT_TAKEN',
+    'TEXT_UNUSED',
 ]

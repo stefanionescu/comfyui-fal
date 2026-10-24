@@ -162,7 +162,7 @@
             ],
             "size": [
               340,
-              230
+              356
             ],
             "flags": {},
             "order": 101,
@@ -189,6 +189,22 @@
                 }
               },
               {
+                "name": "output_format",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "output_format"
+                }
+              },
+              {
+                "name": "seed",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "seed"
+                }
+              },
+              {
                 "name": "run_number",
                 "type": "INT",
                 "link": null,
@@ -197,11 +213,27 @@
                 }
               },
               {
+                "name": "voice",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "voice"
+                }
+              },
+              {
                 "name": "prompt",
                 "type": "STRING",
                 "link": null,
                 "widget": {
                   "name": "prompt"
+                }
+              },
+              {
+                "name": "text",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "text"
                 }
               },
               {
@@ -238,7 +270,11 @@
             },
             "widgets_values": [
               "fal-ai/demucs",
+              "default",
+              "default",
               0,
+              "",
+              "",
               "",
               ""
             ],

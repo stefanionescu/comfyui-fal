@@ -179,7 +179,7 @@
             ],
             "size": [
               340,
-              230
+              404
             ],
             "flags": {},
             "order": 101,
@@ -206,6 +206,46 @@
                 }
               },
               {
+                "name": "duration",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "duration"
+                }
+              },
+              {
+                "name": "resolution",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "resolution"
+                }
+              },
+              {
+                "name": "aspect_ratio",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "aspect_ratio"
+                }
+              },
+              {
+                "name": "generate_audio",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "generate_audio"
+                }
+              },
+              {
+                "name": "seed",
+                "type": "COMFY_DYNAMICCOMBO_V3",
+                "link": null,
+                "widget": {
+                  "name": "seed"
+                }
+              },
+              {
                 "name": "run_number",
                 "type": "INT",
                 "link": null,
@@ -219,6 +259,14 @@
                 "link": null,
                 "widget": {
                   "name": "prompt"
+                }
+              },
+              {
+                "name": "negative_prompt",
+                "type": "STRING",
+                "link": null,
+                "widget": {
+                  "name": "negative_prompt"
                 }
               },
               {
@@ -255,7 +303,13 @@
             },
             "widgets_values": [
               "fal-ai/seedvr/upscale/video",
+              "default",
+              "default",
+              "default",
+              "default",
+              "default",
               0,
+              "",
               "",
               "{\n  \"upscale_mode\": \"target\",\n  \"target_resolution\": \"1080p\"\n}"
             ],

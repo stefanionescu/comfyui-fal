@@ -6,19 +6,25 @@ every file the model made.
 
 ## Inputs
 
-| Input        | What it takes                                                                                                |
-| ------------ | ------------------------------------------------------------------------------------------------------------ |
-| `files`      | Input audio from **File: Add**, under the model's field name, such as `audio_url`.                           |
-| `options`    | Settings from **Request Options**.                                                                           |
-| `model`      | The model's ID on fal, such as `elevenlabs/tts/eleven-v4`. The default is `fal-ai/minimax/speech-2.8-turbo`. |
-| `run_number` | Change it to send the same request again.                                                                    |
-| `prompt`     | The text sent as the model's `prompt`. Leave it empty for a model without one.                               |
-| `arguments`  | The model's other settings as JSON, under fal's names, such as `{"text": "Hello!", "voice": "Rachel"}`.      |
+| Input           | What it takes                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------------ |
+| `files`         | Input audio from **File: Add**, under the model's field name, such as `audio_url`.                           |
+| `options`       | Settings from **Request Options**.                                                                           |
+| `model`         | The model's ID on fal, such as `elevenlabs/tts/eleven-v4`. The default is `fal-ai/minimax/speech-2.8-turbo`. |
+| `output_format` | `default`, or `custom` and a file type, such as `mp3`.                                                       |
+| `seed`          | `default`, or `custom` and a number. The same seed repeats a result.                                         |
+| `run_number`    | Change this number to send the same request again.                                                           |
+| `voice`         | The voice, by the name or ID the model lists, for a voice model. Empty sends nothing.                        |
+| `prompt`        | The text sent as the model's `prompt`. Leave it empty for a model without one.                               |
+| `text`          | The words to speak, for a voice model. Empty sends nothing.                                                  |
+| `arguments`     | The model's other settings as JSON, under fal's names, such as `{"speed": 1.1}`.                             |
+
+Each setting at `default` sends nothing, so the model uses its own value. A setting at `custom`, and each
+text input, goes under its own name, and only a model with a field of that name takes it.
 
 Copy the model ID and its field names from the model's page on fal, or read
 them with **Model: Info**. Many voice models take their words as `text`, not
-`prompt`: write them in `arguments`, such as `{"text": "Hello!"}`. A setting
-left out takes fal's default.
+`prompt`. A setting left out takes fal's default.
 
 ## Outputs
 

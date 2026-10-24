@@ -41,8 +41,9 @@ class QueuedRequest:
 
     Attributes:
         model_id: The endpoint ID as typed, stripped.
-        prompt: The prompt input.
-        arguments: The arguments input's JSON text.
+        texts: The text inputs by fal's field name, such as prompt.
+        settings: The named settings set to custom, by fal's field name.
+        arguments: The JSON text of the arguments input.
         files: The files chain, each item naming its field.
         options: Request Options, or None.
 
@@ -52,7 +53,8 @@ class QueuedRequest:
     """
 
     model_id: str
-    prompt: str
+    texts: dict[str, str]
+    settings: dict[str, Json]
     arguments: str
     files: tuple[FalFile, ...]
     options: Options | None

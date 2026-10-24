@@ -11,7 +11,7 @@ The links include the textures and previews.
 | `files`      | Images or a model from **File: Add**, each under the model's field name, such as `image_url`.                 |
 | `options`    | Settings from **Request Options**.                                                                            |
 | `model`      | The model's ID on fal, such as `fal-ai/hunyuan-3d/v3.1/rapid/image-to-3d`. The default is `fal-ai/trellis-2`. |
-| `run_number` | Change it to send the same request again.                                                                     |
+| `run_number` | Change this number to send the same request again.                                                            |
 | `prompt`     | The text sent as the model's `prompt`, for a model that makes 3D from text. Leave it empty otherwise.         |
 | `arguments`  | The model's other settings as JSON, under fal's names, such as `{"resolution": 512}`.                         |
 
