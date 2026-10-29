@@ -65,10 +65,11 @@ class PaidNode(io.ComfyNode):
     async def execute(cls, **inputs: object) -> io.NodeOutput:  # pyright: ignore[reportIncompatibleMethodOverride] # reason: ComfyUI awaits an async execute with the inputs the schema declares.
         """Drop the run number, which only defeats the cache of ComfyUI, and send.
 
-        ComfyUI sets hidden on the class it runs; a direct call from another pack has no node ID and no progress bar.
+        ComfyUI sets hidden on the class it runs. A pack that calls the node directly sets an empty hidden, so that call
+        has no node ID and no progress bar.
         """
         inputs.pop(INPUT_NAMES['RUN_NUMBER'], None)
-        node_id = cls.hidden.unique_id if cls.hidden is not None else None  # pyright: ignore[reportUnnecessaryComparison] # reason: a direct call runs the class itself, whose hidden is None.
+        node_id = cls.hidden.unique_id
         return await cls.send(node_id, **inputs)
 
 
