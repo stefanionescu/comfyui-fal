@@ -127,4 +127,6 @@ See [models and arguments](ADVANCED.md#models).
 
 See the [advanced guide](ADVANCED.md#troubleshooting) for request errors and recovery.
 
-[Advanced guide](ADVANCED.md) · [MIT license](LICENSE.md)
+## License
+
+[MIT](LICENSE.md).
