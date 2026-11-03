@@ -31,11 +31,7 @@ PORTRAIT = Subgraph(
         Node(
             'prompt',
             HostNode.FORMAT,
-            {
-                'f_string': (
-                    'Waist-up photo of a live-shopping host, vertical frame: {a} Looking at the camera, photorealistic.'
-                )
-            },
+            {'f_string': ('Waist-up photo of a presenter, vertical frame: {a} Looking at the camera, photorealistic.')},
         ),
         Node('draw', IMAGE_GENERATE, {'arguments': PORTRAIT_ARGUMENTS}, is_paid=True),
         Node('look', HostNode.PREVIEW_IMAGE),

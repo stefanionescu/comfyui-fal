@@ -31,7 +31,7 @@ DESIGN = Subgraph(
             HostNode.FORMAT,
             {
                 'f_string': (
-                    'Studio portrait of a live-shopping host: {a} Waist up, facing the camera, plain light gray '
+                    'Studio portrait of a presenter: {a} Waist up, facing the camera, plain light gray '
                     'background, soft light.'
                 )
             },
