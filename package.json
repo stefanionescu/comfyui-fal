@@ -18,5 +18,8 @@
     },
     "imports": {
         "#web/*": "./web/scripts/*"
+    },
+    "overrides": {
+        "glob": "14.0.3"
     }
 }
